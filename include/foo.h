@@ -3,7 +3,9 @@
 
 
 class foo {
+public:
     foo();
+    static void bar();
 };
 
 

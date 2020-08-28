@@ -3,6 +3,6 @@
 
 int main(){
     std::cout << "init" << std::endl;
-    foo a();
+    foo::bar();
     return 0;
 }

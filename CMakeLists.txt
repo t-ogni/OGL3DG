@@ -12,4 +12,4 @@ set(SOURCES
         src/foo.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME}-ver${PROJECT_VERSION} ${SOURCES})
