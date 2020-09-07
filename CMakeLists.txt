@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.1)
 # Project Information ---------------------------------------------------------
 project(OGL3DG VERSION 0.1)
 set(PROJ_EXE_NAME ${PROJECT_NAME}-ver${PROJECT_VERSION})
-message("Project & Version: " ${PROJECT_NAME} " " ${PROJECT_VERSION})
+message("Project & Version: " ${PROJECT_NAME} " " ${PROJECT_VERSION} )
 
 IF(CMAKE_SIZEOF_VOID_P EQUAL 8)  #64 bit
     message(STATUS "Running on 64bit platform. Proceeding...")
@@ -34,7 +34,7 @@ include_directories(include) # headers
 
 set(SOURCES
         ${PROJECT_SOURCE_DIR}/src/main.cpp
-        src/foo.cpp
+        src/Globals.cpp
 )
 
 add_executable(

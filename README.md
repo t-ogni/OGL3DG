@@ -16,7 +16,7 @@ Classes
 * [ ] controls (mouse & keyboard)
 * [ ] player object (???)
 * [ ] physics
-* [ ] world Loader
+* [ ] Obj Loader
 * [ ] 
 * [ ] 
 * [ ] 
