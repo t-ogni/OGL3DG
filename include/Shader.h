@@ -9,21 +9,17 @@
 
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-class Shader {
-private:
-    std::string getSource(const std::string& path);
-
+class Shader
+{
 public:
     GLuint Program;
-    Shader() = default;
-    Shader(const std::string& VertexPath, const std::string& FragmentPath);
+    Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
     void useProgram();
-
-    ~Shader();
 };
-
 
 #endif //OGL3DG_SHADER_H

@@ -4,13 +4,14 @@
 #include "Shader.h"
 #include "Errors.h"
 
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
 int main(){
-    if(!glfwInit()){
+    if(!glfwInit())
         return ERROR::INIT_GLFW;
-    }
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -34,7 +35,7 @@ int main(){
     }
 
 
-    Shader(R"(shaders/vertex/basic.vert)", R"(shaders/fragment/basic.frag)");
+    Shader shad("shaders\\vertex\\basic.vert", "shaders\\fragment\\basic.frag");
     float vertices[] = {
             // координаты         // цвета
             0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
@@ -68,6 +69,7 @@ int main(){
 
     while(!glfwWindowShouldClose(window)){
         processInput(window);
+        shad.useProgram();
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.4f, 0.6f, 0.6f, 1.0f);
 
