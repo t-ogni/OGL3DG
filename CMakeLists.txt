@@ -44,7 +44,6 @@ file(GLOB SOURCES
 add_executable(
         ${PROJ_EXE_NAME}
         ${SOURCES}
-        ${HEADERS}
 )
 
 target_link_libraries(

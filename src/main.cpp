@@ -1,15 +1,15 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <GL/gl.h>
-#include <cmath>
+#include "Shader.h"
+#include "Errors.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
 int main(){
     if(!glfwInit()){
-        return 0x0001;
+        return ERROR::INIT_GLFW;
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -22,7 +22,7 @@ int main(){
 
     if(window == nullptr){
         glfwTerminate();
-        return 0x0002;
+        return ERROR::INIT_GL;
     }
     std::cout << "init window" << std::endl;
 
@@ -30,74 +30,16 @@ int main(){
     if (!gladInitRes) {
         glfwDestroyWindow(window);
         glfwTerminate();
-        return 0x0003;
+        return ERROR::INIT_GLAD;
     }
 
 
-    char *vertexShaderSource = "#version 330 core\n"
-                               "layout (location = 0) in vec3 aPos;\n"
-                               "layout (location = 1) in vec3 aColor;\n"
-                               "out vec3 vertexColor;\n"
-                               "void main()\n"
-                               "{\n"
-                               "   gl_Position = vec4(aPos, 1.0);\n"
-                               "   vertexColor = aColor;\n"
-                               "}\0";
-
-    char *fragmentShaderSource = "#version 330 core\n"
-                                 "out vec4 FragColor;\n"
-                                 "in vec3 vertexColor;\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 "    FragColor = vec4(vertexColor, 1.0);\n"
-                                 "}\0";
-
-    GLint success;
-    GLchar infoLog[512];
-
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-    glCompileShader(vertexShader);
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if(!success){
-        glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-        std::cout << "err: " << infoLog << std::endl;
-        glfwTerminate();
-        return 0x0004;
-    }
-
-    GLuint fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-    glCompileShader(fragmentShader);
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if(!success){
-        glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-        std::cout << "err: " << infoLog << std::endl;
-        glfwTerminate();
-        return 0x0005;
-    }
-
-    GLuint shaderProgram;
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if(!success){
-        glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
-        std::cout << "err: " << infoLog << std::endl;
-        glfwTerminate();
-        return 0x0006;
-    }
-
-    glUseProgram(shaderProgram);
-
+    Shader(R"(shaders/vertex/basic.vert)", R"(shaders/fragment/basic.frag)");
     float vertices[] = {
             // координаты         // цвета
             0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
             -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
-            0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
+            0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 0.7f    // верхняя вершина
     };
 
     unsigned int VBO, VAO;
@@ -127,15 +69,8 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         processInput(window);
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        double timeValue = glfwGetTime();
+        glClearColor(0.4f, 0.6f, 0.6f, 1.0f);
 
-        vertices[0] = (float)sin(timeValue-90);
-        vertices[1] = (float)cos(timeValue+90);
-        vertices[6] = (float)sin(timeValue);
-        vertices[7] = (float)cos(timeValue);
-        vertices[12] = (float)sin(timeValue+90);
-        vertices[13] = (float)cos(timeValue-90);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
@@ -160,7 +95,6 @@ void processInput(GLFWwindow* window)
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // Убеждаемся, что окно просмотра соответствует новым размерам окна
-    // Обратите внимание, что высота будет значительно больше, чем указано на Retina-дисплеях
+
     glViewport(0, 0, width, height);
 }
