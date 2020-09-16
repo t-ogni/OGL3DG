@@ -6,6 +6,12 @@
 
 #include "Engine.h"
 
-Engine::Engine() {}
+Engine::Engine() {
+
+}
+int Engine::run(){
+
+    return 0;
+}
 
 Engine::~Engine() {}

@@ -6,6 +6,6 @@
 
 #include "Camera.h"
 
-Camera::Camera() {}
+Camera::Camera() : FOV(60) {}
 
 Camera::~Camera() {}

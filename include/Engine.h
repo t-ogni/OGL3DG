@@ -15,7 +15,7 @@ protected:
 
 public:
     Engine();
-
+    int run();
     ~Engine();
 };
 
