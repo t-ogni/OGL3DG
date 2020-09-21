@@ -1,4 +1,5 @@
 add_subdirectory(glad)
+add_subdirectory(glm)
 
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)

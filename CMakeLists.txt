@@ -25,6 +25,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build) #builded exe will be add
 set(PROJECT_LIB_DIR ${PROJECT_SOURCE_DIR}/lib )
 
 file( INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file( INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/common DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 
 
@@ -52,5 +53,6 @@ target_link_libraries(
         ${OPENGL_LIBRARY}
         glfw ${GLFW_LIBRARIES}
         glad
+        glm::glm
 )
 

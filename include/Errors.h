@@ -9,14 +9,17 @@
 
 namespace ERROR
 {
-    enum {
+    enum ERRORS {
+        UNKNOWN_ERROR = -1,
         INIT_GLFW = 1,
         INIT_GL,
         INIT_GLAD,
+        INIT_WINDOW,
 
+        OPEN_FILE,
         COMPILE_VERTEX,
         COMPILE_FRAGMENT,
-        COMPILE_SHADER,
+        LINK_PROGRAM_SHADER,
 
     };
 }

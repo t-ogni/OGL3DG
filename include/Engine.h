@@ -7,15 +7,23 @@
 #ifndef OGL3DG_ENGINE_H
 #define OGL3DG_ENGINE_H
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include "Console.h"
+#include "Globals.h"
 
 class Engine {
 private:
 
 protected:
-
+    EngineGlobals *globals;
 public:
+    GLFWwindow *window;
     Engine();
     int run();
+    static void resizeCallback(GLFWwindow* window, int width, int height);
+    static void InputHandler(GLFWwindow* window); // выношу в класс
+    void drawPicture();
     ~Engine();
 };
 

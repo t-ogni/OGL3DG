@@ -28,11 +28,10 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
         fShaderFile.close();
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
+    }  catch (...)  {
+        Console::error("shader cannot be opened", ERROR::OPEN_FILE);
     }
-    catch (std::ifstream::failure e)
-    {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-    }
+
     const GLchar *vShaderCode = vertexCode.c_str();
     const GLchar *fShaderCode = fragmentCode.c_str();
 
@@ -50,7 +49,9 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
     if (!success)
     {
         glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        Console::error(infoLog, ERROR::COMPILE_VERTEX);
+    } else {
+        Console::message("Vertex shader Compiled");
     }
 
 
@@ -62,7 +63,9 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
     if (!success)
     {
         glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        Console::error(infoLog, ERROR::COMPILE_FRAGMENT);
+    } else {
+        Console::message("Fragment shader Compiled");
     }
 
 
@@ -75,7 +78,9 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
     if (!success)
     {
         glGetProgramInfoLog(this->Program, 512, nullptr, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        Console::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
+    } else {
+        Console::message("Shaders linked to Program");
     }
 
     // Delete the shaders as they're linked into our program now and no longer necessery

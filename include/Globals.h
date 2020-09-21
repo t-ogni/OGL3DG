@@ -7,7 +7,8 @@ class EngineGlobals {
 
 public:
     EngineGlobals();
-    std::string windowName;
+    const char *windowName;
     int screenWidth, screenHeight;
+    int glMajor, glMinor;
 };
 #endif //OGL3DG_FOO_H

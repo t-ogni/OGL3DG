@@ -13,6 +13,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Console.h"
 
 class Shader
 {
