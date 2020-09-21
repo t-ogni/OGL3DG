@@ -17,15 +17,15 @@ ENDIF()
 
 # Configure Flags -------------------------------------------------------------
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -static-libgcc -static-libstdc++")
 
 
 # Configure Source & Binary Directories ---------------------------------------
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build) #builded exe will be added to that path
 set(PROJECT_LIB_DIR ${PROJECT_SOURCE_DIR}/lib )
 
-file( INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-file( INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/common DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/common DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 
 
@@ -47,6 +47,19 @@ add_executable(
         ${PROJ_EXE_NAME}
         ${SOURCES}
 )
+
+add_custom_command(
+        TARGET ${PROJ_EXE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+        ${EXECUTABLE_OUTPUT_PATH})
+
+add_custom_command(
+        TARGET ${PROJ_EXE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/common
+        ${EXECUTABLE_OUTPUT_PATH})
+
 
 target_link_libraries(
         ${PROJ_EXE_NAME}

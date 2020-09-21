@@ -4,8 +4,10 @@ layout (location = 1) in vec3 color;    // А позицию переменно�
 
 out vec3 ourColor; // Передаем цвет во фрагментный шейдер
 
+uniform mat4 MVP;
+
 void main()
 {
-    gl_Position = vec4(position, 1.0);
-    ourColor = color; // Устанавливаем значение цвета, полученное от вершинных данных
+    gl_Position = MVP * vec4(position, 1.0);
+    ourColor = color;
 }
