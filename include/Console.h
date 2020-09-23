@@ -18,8 +18,8 @@ namespace Console {
     inline void error(Terr text, int error = ERROR::UNKNOWN_ERROR)
     {
         //Put to error stream and output stream
-        std::cerr << "(" << error << ") Fatal error: " << text << std::endl;
-        std::cout << "(" << error << ") Fatal error: " << text << '\a' << std::endl;
+        std::cerr << "(cerr)[" << error << "] Fatal error: " << text << std::endl;
+        std::cout << "[" << error << "] Fatal error: " << text << '\a' << std::endl;
         exit(error);
     }
 
@@ -33,6 +33,10 @@ namespace Console {
         std::cout << "Info: " << text << std::endl;
     }
 
+    static void glfwError(int id, const char* description)
+    {
+        std::cout << "[" << id << "] GLFW error: " << description << std::endl;
+    }
 
 }
 

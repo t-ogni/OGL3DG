@@ -8,6 +8,7 @@
 
 
 Engine::Engine() : settings(new Settings()) {
+    glfwSetErrorCallback(&Console::glfwError);
 
     if(!glfwInit())
         Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
@@ -22,15 +23,16 @@ Engine::Engine() : settings(new Settings()) {
                               nullptr);
 
 
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, resizeCallback);
 
     if(window == nullptr) {
         glfwTerminate();
         Console::error("Window cannot be initialised", ERROR::INIT_WINDOW);
     } else {
-            Console::message("Window initialised");
+        Console::message("Window initialised");
     }
+
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, resizeCallback);
 
 
     int gladInitRes = gladLoadGL();
