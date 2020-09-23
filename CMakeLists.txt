@@ -17,7 +17,7 @@ ENDIF()
 
 # Configure Flags -------------------------------------------------------------
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -static-libgcc -static-libstdc++")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -static-libgcc -static-libstdc++ -static")
 
 
 # Configure Source & Binary Directories ---------------------------------------
@@ -63,6 +63,7 @@ add_custom_command(
 
 target_link_libraries(
         ${PROJ_EXE_NAME}
+        -static gcc stdc++ winpthread -dynamic
         ${OPENGL_LIBRARY}
         glfw ${GLFW_LIBRARIES}
         glad

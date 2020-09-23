@@ -10,6 +10,10 @@
 
 class Settings {
 public:
+    ;
+    const char *windowName;
+    int screenWidth, screenHeight;
+    int glMajor, glMinor;
     short Mouse_sensitivity;
     bool fullscreen; // todo
     bool dev_log;

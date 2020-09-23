@@ -6,7 +6,14 @@
 
 #include "Settings.h"
 
-Settings::Settings() {};
+Settings::Settings() {
+    this-> windowName = "3D game";
+    this-> screenWidth = 800;
+    this-> screenHeight = 500;
+
+    this-> glMajor = 3;
+    this-> glMinor = 3;
+}
 
 Settings::~Settings() {};
 

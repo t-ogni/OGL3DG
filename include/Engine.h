@@ -10,13 +10,16 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Console.h"
-#include "Globals.h"
+#include "Settings.h"
+#include "Object.h"
+#include "Shader.h"
+#include "Camera.h"
 
 class Engine {
 private:
 
 protected:
-    EngineGlobals *globals;
+    Settings *settings;
 public:
     GLFWwindow *window;
     Engine();
