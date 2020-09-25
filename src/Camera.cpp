@@ -10,8 +10,7 @@ Camera::Camera() : position(glm::vec3( 0, 0, -5 )) {
 
 }
 
-Camera::~Camera() {}
-
+Camera::~Camera() = default;
 glm::mat4 Camera::getMVP() {
     glm::mat4 MVP;
     direction = glm::vec3(

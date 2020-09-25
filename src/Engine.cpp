@@ -88,6 +88,7 @@ int Engine::run(){
         glClearColor(0.1f, 0.2f, 0.15f, 1.0f);
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+
         glVertexAttribPointer(
                 0,                  // Атрибут 0. Подробнее об этом будет рассказано в части, посвященной шейдерам.
                 3,                  // Размер

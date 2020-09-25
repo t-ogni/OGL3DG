@@ -25,7 +25,7 @@ public:
     Engine();
     int run();
     static void resizeCallback(GLFWwindow* window, int width, int height);
-    static void InputHandler(GLFWwindow* window); // выношу в класс
+    void InputHandler(GLFWwindow* window); // выношу в класс
     void drawPicture();
     ~Engine();
 };
