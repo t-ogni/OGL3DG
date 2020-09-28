@@ -14,7 +14,7 @@
 #include "Object.h"
 #include "Shader.h"
 #include "Camera.h"
-
+//todo need to rewrite this
 class Engine {
 private:
 
@@ -25,7 +25,7 @@ public:
     Engine();
     int run();
     static void resizeCallback(GLFWwindow* window, int width, int height);
-    void InputHandler(GLFWwindow* window); // выношу в класс
+    void InputHandler(GLFWwindow* window);
     void drawPicture();
     ~Engine();
 };
