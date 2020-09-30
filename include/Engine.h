@@ -14,11 +14,11 @@
 #include "Object.h"
 #include "Shader.h"
 #include "Camera.h"
-//todo need to rewrite this
+
 class Engine {
 private:
-
-protected:
+    int SCREEN_WIDTH;
+    int SCREEN_HEIGHT;
     Settings *settings;
 public:
     GLFWwindow *window;

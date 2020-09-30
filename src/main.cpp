@@ -6,12 +6,7 @@
 
 int main(){
     Engine engine;
-    float vertices[] = {
-            // координаты         // цвета
-            0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
-            -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
-            0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 0.7f    // верхняя вершина
-    };
-
+    Shader shad("shaders\\vertex\\basic.vert", "shaders\\fragment\\basic.frag");
+    Object cube("common\\cube.obj");
     engine.run();
 }

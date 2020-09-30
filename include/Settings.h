@@ -10,7 +10,6 @@
 
 class Settings {
 public:
-    ;
     const char *windowName;
     int screenWidth, screenHeight;
     int glMajor, glMinor;

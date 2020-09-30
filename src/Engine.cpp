@@ -51,8 +51,6 @@ Engine::Engine() : settings(new Settings()) {
 }
 
 int Engine::run(){
-    Shader shad("shaders\\vertex\\basic.vert", "shaders\\fragment\\basic.frag");
-    Object cube("common\\cube.obj");
     Camera cam;
     glm::vec3 CubeColors[cube.vertices.size()];
     for (unsigned int i = 0; i < cube.vertices.size(); ++i) {

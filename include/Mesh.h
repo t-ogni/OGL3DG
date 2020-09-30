@@ -2,22 +2,22 @@
 //|     \ |______    |    |______ |_____| |  |  |
 //|_____/.______| .  |    |______ |     | |  |  |
 // Copyright (c) 2020 Dark Shield Team. All rights reserved.
-// Created by moonlin on 029 29.09.20 at 23:58.
+// Created by moonlin on 030 30.09.20 at 13:32.
 
-#ifndef OGL3DG_WINDOW_H
-#define OGL3DG_WINDOW_H
+#ifndef OGL3DG_MESH_H
+#define OGL3DG_MESH_H
 
 
-class Window {
+class Mesh {
 private:
 
 protected:
 
 public:
-    explicit Window(char *title, int width, int height);
+    Mesh();
 
-    ~Window();
+    ~Mesh();
 };
 
 
-#endif //OGL3DG_WINDOW_H
+#endif //OGL3DG_MESH_H
