@@ -13,6 +13,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include "Console.h"
 
 class Shader
@@ -21,6 +22,12 @@ public:
     GLuint Program;
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
     void useProgram();
+
+    void uniformSet(const char *name, const bool value);
+    void uniformSet(const char *name, const int value);
+    void uniformSet(const char *name, const float value);
+    void uniformSet(const char *name, const glm::vec2 value);
+    void uniformSet(const char *name, const int x, const int y);
 };
 
 #endif //OGL3DG_SHADER_H

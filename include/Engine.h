@@ -20,6 +20,8 @@ private:
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
     Settings *settings;
+    Camera *camera;
+
 public:
     GLFWwindow *window;
     Engine();

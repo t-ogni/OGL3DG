@@ -13,6 +13,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
     std::string fragmentCode;
     std::ifstream vShaderFile;
     std::ifstream fShaderFile;
+
     // ensures ifstream objects can throw exceptions:
     vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
     fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
@@ -26,6 +27,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
         fShaderStream << fShaderFile.rdbuf();
         vShaderFile.close();
         fShaderFile.close();
+        glad_glGetUniformLocation
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
     }  catch (...)  {
@@ -92,5 +94,6 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
 void Shader::useProgram() {
     glUseProgram(this->Program);
 }
+
 
 

@@ -9,7 +9,6 @@
 
 Engine::Engine() : settings(new Settings()) {
     glfwSetErrorCallback(&Console::glfwError);
-
     if(!glfwInit())
         Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
     else
@@ -51,7 +50,6 @@ Engine::Engine() : settings(new Settings()) {
 }
 
 int Engine::run(){
-    Camera cam;
     glm::vec3 CubeColors[cube.vertices.size()];
     for (unsigned int i = 0; i < cube.vertices.size(); ++i) {
         CubeColors[i] = glm::vec3(rand() % 100 / 100.0f, rand() % 100 / 100.0f, rand() % 100 / 100.0f);

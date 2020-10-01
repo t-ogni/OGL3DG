@@ -17,20 +17,21 @@ enum GameState {
 
 class Game {
 protected:
+    friend Engine;
     GLFWwindow *Window;
+    Engine *engine;
 public:
     GameState State;
     Game();
+    virtual void Init() = 0;
 
     void Run();
-
     void Update(float deltaTime);
-
     void Render();
 
     virtual void keyPressed(int key) = 0;
-    virtual void cursorPosCallback(double x, double y) = 0;
     virtual void keyreleased(int key) = 0;
+    virtual void cursorPosCallback(double x, double y) = 0;
     ~Game();
 };
 
