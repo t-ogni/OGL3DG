@@ -23,15 +23,15 @@ protected:
 public:
     GameState State;
     Game();
-    virtual void Init() = 0;
+    virtual void Init() { };
 
-    void Run();
-    void Update(float deltaTime);
-    void Render();
+    virtual void Run() { };
+    virtual void Update(float deltaTime) { };
+    virtual void Render() { };
 
-    virtual void keyPressed(int key) = 0;
-    virtual void keyreleased(int key) = 0;
-    virtual void cursorPosCallback(double x, double y) = 0;
+    virtual void keyPressed(int key) { };
+    virtual void keyreleased(int key) { };
+    virtual void cursorPosCallback(double x, double y) { };
     ~Game();
 };
 

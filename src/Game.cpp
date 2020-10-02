@@ -9,15 +9,3 @@
 Game::Game() {}
 
 Game::~Game() {}
-
-void Game::Run() {
-
-}
-
-void Game::Update(float deltaTime) {
-
-}
-
-void Game::Render() {
-
-}

@@ -27,7 +27,6 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
         fShaderStream << fShaderFile.rdbuf();
         vShaderFile.close();
         fShaderFile.close();
-        glad_glGetUniformLocation
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
     }  catch (...)  {

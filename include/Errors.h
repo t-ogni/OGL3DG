@@ -21,6 +21,7 @@ namespace ERROR
         COMPILE_FRAGMENT,
         LINK_PROGRAM_SHADER,
 
+        CONSOLE_OUTPUT = 100,
     };
 }
 

@@ -15,9 +15,9 @@ class Camera {
 private:
     glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
     glm::vec3 cameraTarget{};
-    glm::vec3 direction{};
+    glm::vec3 directionSide{};
     glm::vec3 rightSide{};
-    glm::vec3 up{};
+    glm::vec3 upSide{};
     float FOV = 45.0f;
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
@@ -31,10 +31,12 @@ public:
     glm::mat4 getMVP();
     void changeFOV(int x);
     void changeDirection(float x, float y);
-    void forward();
-    void backward();
-    void left();
-    void right();
+    void forward(float dt);
+    void backward(float dt);
+    void left(float dt);
+    void right(float dt);
+    void up(float dt);
+    void down(float dt);
     ~Camera();
 };
 

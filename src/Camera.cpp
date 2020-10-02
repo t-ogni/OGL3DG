@@ -6,31 +6,32 @@
 
 #include "Camera.h"
 
-Camera::Camera() : position(glm::vec3( 0, 0, -5 )) {
+#include <cmath>
 
-}
-
+Camera::Camera() : position(glm::vec3( 0, 0, -5 )) { }
 Camera::~Camera() = default;
-glm::mat4 Camera::getMVP() {
+
+auto Camera::getMVP() -> glm::mat4 {
     glm::mat4 MVP;
-    direction = glm::vec3(
+    directionSide = glm::vec3(
             std::cos(verticalAngle) * std::sin(horizontalAngle),
             std::sin(verticalAngle),
             std::cos(verticalAngle) * std::cos(horizontalAngle)
     );
+
     rightSide = glm::vec3(
-            sin(horizontalAngle - 3.14f/2.0f),
+            std::sin(horizontalAngle - 3.14f/2.0f),
             0,
-            cos(horizontalAngle - 3.14f/2.0f)
+            std::cos(horizontalAngle - 3.14f/2.0f)
     );
 
-    up = glm::cross( rightSide, direction );
+    upSide = glm::cross( rightSide, directionSide );
     glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(FOV), 4.0f / 3.0f, 0.1f, 100.0f);
 
     glm::mat4 ViewMatrix = glm::lookAt(
             position,
-            position+direction,
-            up
+            position + directionSide,
+            upSide
     );
     glm::mat4 Model = glm::mat4(1.0f);
 
@@ -40,7 +41,9 @@ glm::mat4 Camera::getMVP() {
 }
 
 
-void Camera::forward(){ position += direction * speed; }
-void Camera::backward(){ position -= direction * speed; }
-void Camera::left(){ position -= rightSide * speed; }
-void Camera::right(){ position += rightSide * speed; }
+void Camera::forward(float dt){ position += directionSide * speed; }
+void Camera::backward(float dt){ position -= directionSide * speed; }
+void Camera::left(float dt){ position -= rightSide * speed; }
+void Camera::right(float dt){ position += rightSide * speed; }
+void Camera::up(float dt) { position += upSide * speed; }
+void Camera::down(float dt) { position += upSide * speed; }

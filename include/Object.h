@@ -7,11 +7,11 @@
 #ifndef OGL3DG_OBJECT_H
 #define OGL3DG_OBJECT_H
 
+#include "Console.h"
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <Console.h>
 #include <glm/glm.hpp>
 
 class Object {
