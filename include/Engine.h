@@ -9,6 +9,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Game.h"
 #include "Settings.h"
 #include "Shader.h"
 #include "Object.h"
@@ -16,14 +17,18 @@
 
 class Engine {
 private:
-    int SCREEN_WIDTH;
-    int SCREEN_HEIGHT;
+    int RESOLUTION_WIDTH;
+    int RESOLUTION_HEIGHT;
     Settings *settings;
     Camera *camera;
+    Game  *game;
+    double deltaTime = 0.0;
+    double lastTime = 0.0;
 
 public:
     GLFWwindow *window;
     Engine();
+    Engine(Game &g);
     int run();
     static void resizeCallback(GLFWwindow* window, int width, int height);
     void InputHandler(GLFWwindow* window);

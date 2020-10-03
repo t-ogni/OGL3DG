@@ -12,9 +12,9 @@ Object::Object(const char *path) {
     loadObj(path);
 }
 
-std::vector<std::string> splitStr(std::string &line, char separator = ' '){
+auto splitStr(std::string &line, char separator = ' ') -> std::vector<std::string>{
     std::vector<std::string> mas;
-    std::string buffer;      //буфферная строка
+    std::string buffer;
     for(char i : line){
         if (i != separator){
             buffer += i;
@@ -32,9 +32,9 @@ std::vector<std::string> splitStr(std::string &line, char separator = ' '){
 }
 
 
-std::vector<int> splitInt(std::string &line, char separator = ' '){
+auto splitInt(std::string &line, char separator = ' ') -> std::vector<int>{
     std::vector<int> mas;
-    std::string buffer;      //буфферная строка
+    std::string buffer;
     for(char i : line){
         if (i != separator){
             buffer += i;
@@ -114,4 +114,4 @@ void Object::loadObj(const char *path) {
 }
 
 
-Object::~Object() {}
+Object::~Object() = default;

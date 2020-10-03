@@ -7,24 +7,22 @@
 #ifndef OGL3DG_GAME_H
 #define OGL3DG_GAME_H
 
-#include "Engine.h"
+class Engine;
 
 enum GameState {
     GAME_ACTIVE,
-    GAME_MENU,
-    GAME_WIN
+    GAME_MENU
 };
 
 class Game {
 protected:
     friend Engine;
-    GLFWwindow *Window;
     Engine *engine;
 public:
     GameState State;
     Game();
     virtual void Init() { };
-
+    void setEngine(Engine *eng);
     virtual void Run() { };
     virtual void Update(float deltaTime) { };
     virtual void Render() { };

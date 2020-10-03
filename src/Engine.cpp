@@ -7,7 +7,11 @@
 #include "Engine.h"
 
 
-Engine::Engine() : settings(new Settings()) {
+Engine::Engine(Game &g) : settings(new Settings()),
+                    camera(new Camera()), game(&g){
+    RESOLUTION_HEIGHT = settings-> screenHeight;
+    RESOLUTION_WIDTH = settings-> screenWidth;
+
     glfwSetErrorCallback(&Console::glfwError);
     if(!glfwInit())
         Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
@@ -42,7 +46,7 @@ Engine::Engine() : settings(new Settings()) {
     }
 
     if(GLVersion.major >= 3) {
-        Console::message("GL Version is " );
+        Console::message("GL Version is %i.%i", GLVersion.major, GLVersion.minor);
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, this-> settings-> glMajor);
@@ -53,13 +57,15 @@ Engine::Engine() : settings(new Settings()) {
 }
 
 int Engine::run(){
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
     while(!glfwWindowShouldClose(window)){
-
-
-        glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+        double currentFrame = glfwGetTime();
+        this->deltaTime = currentFrame - lastTime;
+        this->lastTime = currentFrame;
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1f, 0.2f, 0.15f, 1.0f);
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -81,16 +87,16 @@ void Engine::InputHandler(GLFWwindow *window) {
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_W ) == GLFW_PRESS){
-        //cam.forward();
+        camera-> forward(1);
     }
     if (glfwGetKey(window, GLFW_KEY_S ) == GLFW_PRESS){
-        //cam.backward();
+        camera-> backward(1);
     }
     if (glfwGetKey(window, GLFW_KEY_D ) == GLFW_PRESS){
-        //cam.right();
+        camera-> right(1);
     }
     if (glfwGetKey(window, GLFW_KEY_A ) == GLFW_PRESS){
-        //cam.left();
+        camera-> left(1);
     }
 }
 

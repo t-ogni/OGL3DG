@@ -1,13 +1,21 @@
 #include "Game.h"
-
-#include <Windows.h>
+#include "Object.h"
 class Striker : public Game
 {
+private:
+    Object cube;
+public:
+    void Init() override
+    {
+        cube("")
+    }
 
 };
 
-int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
+
+int main()
 {
     Striker striker;
-
+    striker.Init();
+    return 0;
 }

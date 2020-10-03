@@ -5,7 +5,15 @@
 // Created by moonlin on 030 30.09.20 at 1:46.
 
 #include "Game.h"
+#include "Engine.h"
 
 Game::Game() {}
+
+// this func needed because if i include engine
+// in .h linker will stuck in infinity loop
+// or throw error
+void Game::setEngine(Engine *eng) {
+    this-> engine = eng;
+}
 
 Game::~Game() {}

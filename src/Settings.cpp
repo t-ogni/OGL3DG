@@ -8,8 +8,8 @@
 
 Settings::Settings() {
     this-> windowName = "3D game";
-    this-> screenWidth = 800;
-    this-> screenHeight = 500;
+    this-> screenWidth = 1024;
+    this-> screenHeight = 860;
 
     this-> glMajor = 3;
     this-> glMinor = 3;
