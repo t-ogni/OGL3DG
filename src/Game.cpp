@@ -7,11 +7,10 @@
 #include "Game.h"
 #include "Engine.h"
 
-Game::Game() {}
+Game::Game() {
+    Console::message("Game primary inited");
+}
 
-// this func needed because if i include engine
-// in .h linker will stuck in infinity loop
-// or throw error
 void Game::setEngine(Engine *eng) {
     this-> engine = eng;
 }

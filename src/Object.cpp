@@ -31,7 +31,6 @@ auto splitStr(std::string &line, char separator = ' ') -> std::vector<std::strin
     return mas;
 }
 
-
 auto splitInt(std::string &line, char separator = ' ') -> std::vector<int>{
     std::vector<int> mas;
     std::string buffer;

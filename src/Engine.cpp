@@ -7,11 +7,11 @@
 #include "Engine.h"
 
 
-Engine::Engine(Game &g) : settings(new Settings()),
-                    camera(new Camera()), game(&g){
+Engine::Engine(Game *g) : settings(new Settings()),
+                    camera(new Camera()), game(g){
     RESOLUTION_HEIGHT = settings-> screenHeight;
     RESOLUTION_WIDTH = settings-> screenWidth;
-
+    Console::message("game at %i (mem)", game);
     glfwSetErrorCallback(&Console::glfwError);
     if(!glfwInit())
         Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
@@ -57,14 +57,20 @@ Engine::Engine(Game &g) : settings(new Settings()),
 }
 
 int Engine::run(){
+    if(game == nullptr)
+        Console::error("game is nullptr");
+    else
+        Console::message("Engine running");
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
 
     while(!glfwWindowShouldClose(window)){
         double currentFrame = glfwGetTime();
         this->deltaTime = currentFrame - lastTime;
         this->lastTime = currentFrame;
+
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1f, 0.2f, 0.15f, 1.0f);
         glfwSwapBuffers(window);
@@ -82,23 +88,7 @@ void Engine::resizeCallback(GLFWwindow* window, int width, int height){
 
 }
 
-void Engine::InputHandler(GLFWwindow *window) {
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-    if (glfwGetKey(window, GLFW_KEY_W ) == GLFW_PRESS){
-        camera-> forward(1);
-    }
-    if (glfwGetKey(window, GLFW_KEY_S ) == GLFW_PRESS){
-        camera-> backward(1);
-    }
-    if (glfwGetKey(window, GLFW_KEY_D ) == GLFW_PRESS){
-        camera-> right(1);
-    }
-    if (glfwGetKey(window, GLFW_KEY_A ) == GLFW_PRESS){
-        camera-> left(1);
-    }
-}
+void Engine::InputHandler(GLFWwindow *window) { /* todo */ }
 
 void Engine::drawPicture() {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -112,4 +102,4 @@ Engine::~Engine() = default;
 
 
 //cos(Xdeg) = Y
-//acos(Y) = Xdeg
+//arccos(Y) = Xdeg

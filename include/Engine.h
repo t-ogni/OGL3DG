@@ -21,14 +21,13 @@ private:
     int RESOLUTION_HEIGHT;
     Settings *settings;
     Camera *camera;
-    Game  *game;
+    Game  *game = nullptr;
     double deltaTime = 0.0;
     double lastTime = 0.0;
 
 public:
     GLFWwindow *window;
-    Engine();
-    Engine(Game &g);
+    explicit Engine(Game *g);
     int run();
     static void resizeCallback(GLFWwindow* window, int width, int height);
     void InputHandler(GLFWwindow* window);

@@ -18,17 +18,23 @@ class Game {
 protected:
     friend Engine;
     Engine *engine;
+
 public:
     GameState State;
     Game();
     virtual void Init() { };
     void setEngine(Engine *eng);
-    virtual void Run() { };
-    virtual void Update(float deltaTime) { };
-    virtual void Render() { };
+    void keyPressCallback() { };
 
+
+    virtual void ProcessInput(float deltatime);
+    virtual void Update(float deltaTime) { }; // move
+    virtual void Render() { };  //draw
+
+    bool keys[1024];
     virtual void keyPressed(int key) { };
     virtual void keyreleased(int key) { };
+
     virtual void cursorPosCallback(double x, double y) { };
     ~Game();
 };
