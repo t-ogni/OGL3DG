@@ -19,7 +19,6 @@ protected:
     friend Engine;
     Engine *engine;
 
-
 public:
     GameState State;
     Game();
