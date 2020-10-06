@@ -17,24 +17,24 @@ enum GameState {
 class Game {
 protected:
     friend Engine;
-    Engine *engine;
+    Engine *engine{};
 
 
 public:
-    GameState State;
+    GameState State = GAME_MENU;
     Game();
     virtual void Init() { };
     void setEngine(Engine *eng);
     void keyPressCallback() { };
 
 
-    virtual void ProcessInput(float deltatime);
-    virtual void Update(float deltaTime) { }; // move
+    virtual void ProcessInput(double deltatime) { };
+    virtual void Update(double deltaTime) { }; // move
     virtual void Render() { };  //draw
 
-    bool keys[1024];
-    virtual void keyPressed(int key) { };
-    virtual void keyreleased(int key) { };
+    bool keys[1024]{};
+    virtual void keyPressed(int key, int mods, float dt = 1) { };
+    virtual void keyReleased(int key, int mods) { };
 
     virtual void cursorPosCallback(double x, double y) { };
     ~Game();

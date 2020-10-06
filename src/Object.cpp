@@ -6,7 +6,7 @@
 
 #include "Object.h"
 
-Object::Object() {}
+Object::Object() = default;
 
 Object::Object(const char *path) {
     loadObj(path);

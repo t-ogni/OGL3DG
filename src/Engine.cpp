@@ -7,11 +7,12 @@
 #include "Engine.h"
 
 
-Engine::Engine(Game *g) : settings(new Settings()),
+Engine::Engine(Game *g) : settings(new Settings()), //todo settings
                     camera(new Camera()), game(g){
-    RESOLUTION_HEIGHT = settings-> screenHeight;
-    RESOLUTION_WIDTH = settings-> screenWidth;
+
     Console::message("game at %i (mem)", game);
+    this-> game-> setEngine(this);
+
     glfwSetErrorCallback(&Console::glfwError);
     if(!glfwInit())
         Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
@@ -35,8 +36,20 @@ Engine::Engine(Game *g) : settings(new Settings()),
     }
 
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, resizeCallback);
+    glfwSetWindowUserPointer(this->window, this);
 
+    auto resizeCallback_lambda = [](GLFWwindow* window, int width, int height) {
+        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        e->resizeCallback(window, width, height);
+    };
+
+    glfwSetFramebufferSizeCallback(window, resizeCallback_lambda);
+
+    auto InputHandler_lambda = [](GLFWwindow* window, int key, int scancode, int action, int mode) {
+        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        e->InputHandler(window, key, scancode, action, mode);
+    };
+    glfwSetKeyCallback(window, InputHandler_lambda);
 
     int gladInitRes = gladLoadGL();
     if (!gladInitRes) {
@@ -56,7 +69,9 @@ Engine::Engine(Game *g) : settings(new Settings()),
 
 }
 
-int Engine::run(){
+auto Engine::run() -> int
+{
+
     if(game == nullptr)
         Console::error("game is nullptr");
     else
@@ -67,39 +82,44 @@ int Engine::run(){
         double currentFrame = glfwGetTime();
         this->deltaTime = currentFrame - lastTime;
         this->lastTime = currentFrame;
+        glfwPollEvents();
 
+        this-> game-> ProcessInput(deltaTime);
+        this-> game-> Update(deltaTime);
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.1f, 0.2f, 0.15f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+        this-> game-> Render();
+
         glfwSwapBuffers(window);
-        glfwPollEvents();
-        InputHandler(window);
     }
+
     glfwTerminate();
     return 0;
 }
 
 void Engine::resizeCallback(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
-    //settings-> screenHeight = height;
-    //settings-> screenWidth = width;
+    settings-> screenHeight = height;
+    settings-> screenWidth = width;
 
 }
 
-void Engine::InputHandler(GLFWwindow *window) { /* todo */ }
-
-void Engine::drawPicture() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
-
-    glfwSwapBuffers(window);
-    glfwPollEvents();
+void Engine::InputHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    switch (action) {
+        case GLFW_PRESS:
+            this-> game-> keyPressed(key, mods, deltaTime);
+            break;
+        case GLFW_RELEASE:
+            this-> game-> keyReleased(key, mods);
+            break;
+        default: break;
+    }
 }
 
 Engine::~Engine() = default;
 
-
-//cos(Xdeg) = Y
-//arccos(Y) = Xdeg

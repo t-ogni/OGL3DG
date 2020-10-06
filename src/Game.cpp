@@ -7,8 +7,10 @@
 #include "Game.h"
 #include "Engine.h"
 
-Game::Game() {
-    Console::message("Game primary inited");
+Game::Game() : keys{} {
+    for (auto &item : this-> keys)
+        item = false;
+
 }
 
 void Game::setEngine(Engine *eng) {
