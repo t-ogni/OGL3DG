@@ -20,14 +20,14 @@ class Shader
 public:
     GLuint Program;
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
-    void useProgram();
+    void useProgram() const;
 
     //todo uniforms
-    void uniformSet(const char *name, const bool value);
-    void uniformSet(const char *name, const int value);
-    void uniformSet(const char *name, const float value);
-    void uniformSet(const char *name, const glm::vec2 value);
-    void uniformSet(const char *name, const int x, const int y);
+    void uniformSet(const char *name, bool value) const;
+    void uniformSet(const char *name, int value) const;
+    void uniformSet(const char *name, float value) const;
+    void uniformSet(const char *name, glm::vec2 &value) const;
+    void uniformSet(const char *name, float x, float y) const;
 };
 
 #endif //OGL3DG_SHADER_H

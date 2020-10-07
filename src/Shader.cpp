@@ -37,13 +37,13 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
     const GLchar *fShaderCode = fragmentCode.c_str();
 
     // 2. Compile shaders
-    GLuint vertex, fragment;
-    GLint success;
+    GLuint vertex = glCreateShader(GL_VERTEX_SHADER),
+    fragment = glCreateShader(GL_FRAGMENT_SHADER);
+    GLint success = 0;
     GLchar infoLog[512];
 
 
     // Vertex Shader
-    vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vShaderCode, nullptr);
     glCompileShader(vertex);
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
@@ -57,7 +57,6 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
 
 
     // Fragment Shader
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, nullptr);
     glCompileShader(fragment);
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
@@ -90,9 +89,40 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
 
 }
 
-void Shader::useProgram() {
+void Shader::useProgram() const {
     glUseProgram(this->Program);
 }
 
+
+
+void Shader::uniformSet(const char *name, bool value) const
+{
+    this-> useProgram();
+    glUniform1i(glGetUniformLocation(this->Program, name), int(value));
+}
+
+void Shader::uniformSet(const char *name, int value) const
+{
+    this-> useProgram();
+    glUniform1i(glGetUniformLocation(this->Program, name), value);
+}
+
+void Shader::uniformSet(const char *name, float value) const
+{
+    this-> useProgram();
+    glUniform1f(glGetUniformLocation(this->Program, name), int(value));
+}
+
+void Shader::uniformSet(const char *name, glm::vec2 &value) const
+{
+    this-> useProgram();
+    glUniform2fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
+}
+
+void Shader::uniformSet(const char *name, float x, float y) const
+{
+    this-> useProgram();
+    glUniform2f(glGetUniformLocation(this->Program, name), x, y);
+}
 
 
