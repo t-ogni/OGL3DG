@@ -10,7 +10,6 @@
 Game::Game() : keys{} {
     for (auto &item : this-> keys)
         item = false;
-
 }
 
 void Game::setEngine(Engine *eng) {

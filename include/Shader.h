@@ -22,6 +22,7 @@ public:
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
     void useProgram();
 
+    //todo uniforms
     void uniformSet(const char *name, const bool value);
     void uniformSet(const char *name, const int value);
     void uniformSet(const char *name, const float value);

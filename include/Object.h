@@ -15,16 +15,15 @@
 #include <glm/glm.hpp>
 
 class Object {
-private:
-
-protected:
 public:
+    glm::vec3 Position {}, Size {}, Velocity {};
+    glm::vec3 Color {};
+    float Rotation = 0.0f;
+    bool Destroyed = false;
 
     Object();
     Object(const char *path);
-
     void loadObj(const char *path);
-
     ~Object();
 
     std::vector< glm::vec3 > vertices;

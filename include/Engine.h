@@ -7,8 +7,11 @@
 #ifndef OGL3DG_ENGINE_H
 #define OGL3DG_ENGINE_H
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+//#include <glad/glad.h>
+//#include <GLFW/glfw3.h>
+//  included from shader.h
+
+
 #include "Game.h"
 #include "Settings.h"
 #include "Shader.h"

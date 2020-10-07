@@ -112,7 +112,7 @@ void Engine::InputHandler(GLFWwindow* window, int key, int scancode, int action,
 {
     switch (action) {
         case GLFW_PRESS:
-            this-> game-> keyPressed(key, mods, deltaTime);
+            this-> game-> keyPressed(key, mods);
             break;
         case GLFW_RELEASE:
             this-> game-> keyReleased(key, mods);
