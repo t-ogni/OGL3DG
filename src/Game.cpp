@@ -16,4 +16,4 @@ void Game::setEngine(Engine *eng) {
     this-> engine = eng;
 }
 
-Game::~Game() {}
+Game::~Game() = default;
