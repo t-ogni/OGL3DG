@@ -101,21 +101,23 @@ auto Engine::run() -> int
     return 0;
 }
 
-void Engine::resizeCallback(GLFWwindow* window, int width, int height){
+void Engine::resizeCallback(GLFWwindow* windowParam, int width, int height){
     glViewport(0, 0, width, height);
     settings-> screenHeight = height;
     settings-> screenWidth = width;
 
 }
 
-void Engine::InputHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Engine::InputHandler(GLFWwindow* windowParam, int key, int scancode, int action, int mods)
 {
     switch (action) {
         case GLFW_PRESS:
             this-> game-> keyPressed(key, mods);
+            game-> keys[key] = true;
             break;
         case GLFW_RELEASE:
             this-> game-> keyReleased(key, mods);
+            game-> keys[key] = false;
             break;
         default: break;
     }

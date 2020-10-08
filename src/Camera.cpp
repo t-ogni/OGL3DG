@@ -10,7 +10,7 @@
 
 Camera::Camera() : position(glm::vec3( 0, 0, -5 )),
                    directionSide(glm::vec3(0, 0, 1)),
-                   rightSide(glm::vec3(-1, 0, 0)), // why -1?
+                   rightSide(glm::vec3(-1, 0, 0)),
                    upSide(0, 1, 0)
                    {
 
@@ -47,7 +47,7 @@ auto Camera::getMVP() -> glm::mat4 {
 }
 
 
-void Camera::forward(float dt){ position += directionSide * speed; }
+void Camera::forward(float dt){ position += directionSide * speed * dt; }
 void Camera::backward(float dt){ position -= directionSide * speed; }
 void Camera::left(float dt){ position -= rightSide * speed; }
 void Camera::right(float dt){ position += rightSide * speed; }

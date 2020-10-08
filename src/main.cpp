@@ -16,22 +16,23 @@ public:
         cube.loadObj("common/cube.obj");
     }
 
+    void ProcessInput(float dt) override{
+        if(keys[GLFW_KEY_W]) this-> engine-> camera->forward(dt);
+        if(keys[GLFW_KEY_S]) this-> engine-> camera->backward(dt);
+        if(keys[GLFW_KEY_A]) this-> engine-> camera->left(dt);
+        if(keys[GLFW_KEY_D]) this-> engine-> camera->right(dt);
+        if(keys[GLFW_KEY_Q]) this-> engine-> camera->changeDirection(-1, 0);
+        if(keys[GLFW_KEY_E]) this-> engine-> camera->changeDirection(+1, 0);
+    }
+
     void Render() override
     {
 
     }
 
-    void keyPressed(int key, int mods, float dt = 1) override
+    void keyPressed(int key, int mods) override
     {
-        switch (key) {
-            case GLFW_KEY_W: this-> engine-> camera->forward(dt);
-            case GLFW_KEY_S: this-> engine-> camera->backward(dt);
-            case GLFW_KEY_A: this-> engine-> camera->left(dt);
-            case GLFW_KEY_D: this-> engine-> camera->right(dt);
-            case GLFW_KEY_Q: this-> engine-> camera->changeDirection(-1, 0);
-            case GLFW_KEY_E: this-> engine-> camera->changeDirection(+1, 0);
-            default: break;
-        }
+
     }
 
 };

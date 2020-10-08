@@ -25,8 +25,8 @@ private:
     int RESOLUTION_HEIGHT;
     Settings *settings;
     Game  *game = nullptr;
-    double deltaTime = 0.0;
-    double lastTime = 0.0;
+    float deltaTime = 0.0;
+    float lastTime = 0.0;
 
 public:
     GLFWwindow *window;
