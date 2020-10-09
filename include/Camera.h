@@ -36,6 +36,7 @@ public:
     void right(float dt);
     void up(float dt);
     void down(float dt);
+    void setPos(glm::vec3 pos);
     ~Camera();
 };
 

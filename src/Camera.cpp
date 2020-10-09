@@ -12,9 +12,9 @@ Camera::Camera() : position(glm::vec3( 0, 0, -5 )),
                    directionSide(glm::vec3(0, 0, 1)),
                    rightSide(glm::vec3(-1, 0, 0)),
                    upSide(0, 1, 0)
-                   {
+{
 
-                   }
+}
 
 
 auto Camera::getMVP() -> glm::mat4 {
@@ -47,19 +47,18 @@ auto Camera::getMVP() -> glm::mat4 {
 }
 
 
-void Camera::forward(float dt){ position += directionSide * speed * dt; }
-void Camera::backward(float dt){ position -= directionSide * speed; }
-void Camera::left(float dt){ position -= rightSide * speed; }
-void Camera::right(float dt){ position += rightSide * speed; }
-void Camera::up(float dt) { position += upSide * speed; }
-void Camera::down(float dt) { position += upSide * speed; }
-
-void Camera::changeFOV(float x) {
-    this-> FOV += x;
-}
+void Camera::forward(float dt){ position += directionSide * dt * speed; }
+void Camera::backward(float dt){ position -= directionSide * dt * speed; }
+void Camera::left(float dt){ position -= rightSide * dt * speed; }
+void Camera::right(float dt){ position += rightSide * dt * speed; }
+void Camera::up(float dt) { position += upSide * dt * speed; }
+void Camera::down(float dt) { position += upSide * dt * speed; }
+void Camera::setPos(glm::vec3 pos) { position = pos; }
+void Camera::changeFOV(float x) { this-> FOV += x; }
 
 void Camera::changeDirection(float x, float y) {
-
+    horizontalAngle += x;
+    verticalAngle += y;
 }
 
 Camera::~Camera() = default;

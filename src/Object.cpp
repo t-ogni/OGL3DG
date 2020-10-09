@@ -6,9 +6,9 @@
 
 #include "Object.h"
 
-Object::Object() = default;
+Object::Object() : Visible(false) {}
 
-Object::Object(const char *path) {
+Object::Object(const char *path) : Visible(true) {
     loadObj(path);
 }
 
@@ -57,9 +57,9 @@ void Object::loadObj(const char *path) {
     std::vector<glm::vec3> temp_normals;
     std::ifstream objFile(path);
     if (!objFile)
-        Console::error("object cannot be opened ", ERROR::OPEN_FILE);
+        Console::warning("object in %s cannot be opened ", path);
     else
-        Console::message("Object was loaded");
+        Console::message("Object in %s was loaded", path);
 
     while (objFile) {
         std::string fileLine;
@@ -110,7 +110,21 @@ void Object::loadObj(const char *path) {
         this -> vertices.push_back(vertex);
     }
 
+    for(unsigned int uvIndex : uvIndices) {
+        glm::vec2 uv = temp_uvs[uvIndex - 1];
+        this -> uvs.push_back(uv);
+    }
+
+    for(unsigned int normalIndex : normalIndices) {
+        glm::vec3 normal = temp_normals[normalIndex - 1];
+        this -> normals.push_back(normal);
+    }
 }
 
+void Object::Draw() {
+    glm::mat4 localMatrix {
+
+    };
+}
 
 Object::~Object() = default;

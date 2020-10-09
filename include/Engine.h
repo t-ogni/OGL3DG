@@ -13,10 +13,12 @@
 // included from shader.h
 
 
+//#include "Object.h"
+// included from Game.h
+
 #include "Game.h"
 #include "Settings.h"
 #include "Shader.h"
-#include "Object.h"
 #include "Camera.h"
 
 class Engine {

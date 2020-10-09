@@ -1,19 +1,17 @@
 #include "Game.h"
-#include "Object.h"
-
 #include "Engine.h"
 
 class Striker : public Game
 {
 private:
-    Object cube;
+    Object cube{ "common/cube.obj" };
 public:
     explicit Striker(int a) : Game() {
         Console::message("MainGame inited %i", a);
     };
     void Init() override
     {
-        cube.loadObj("common/cube.obj");
+
     }
 
     void ProcessInput(float dt) override{

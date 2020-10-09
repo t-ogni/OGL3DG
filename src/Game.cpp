@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Engine.h"
 
-Game::Game() : keys{} {
+Game::Game() : ThisPlayer(), keys{} {
     for (auto &item : this-> keys)
         item = false;
 }
