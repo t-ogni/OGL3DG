@@ -38,16 +38,16 @@ Engine::Engine(Game *g) : settings(new Settings()), //todo settings
     glfwMakeContextCurrent(window);
     glfwSetWindowUserPointer(this->window, this);
 
-    auto resizeCallback_lambda = [](GLFWwindow* window, int width, int height) {
-        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(window));
-        e->resizeCallback(window, width, height);
+    auto resizeCallback_lambda = [](GLFWwindow* windowParam, int width, int height) {
+        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(windowParam));
+        e->resizeCallback(windowParam, width, height);
     };
 
     glfwSetFramebufferSizeCallback(window, resizeCallback_lambda);
 
-    auto InputHandler_lambda = [](GLFWwindow* window, int key, int scancode, int action, int mode) {
-        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(window));
-        e->InputHandler(window, key, scancode, action, mode);
+    auto InputHandler_lambda = [](GLFWwindow* windowParam, int key, int scancode, int action, int mode) {
+        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(windowParam));
+        e->InputHandler(windowParam, key, scancode, action, mode);
     };
     glfwSetKeyCallback(window, InputHandler_lambda);
 
@@ -79,7 +79,7 @@ auto Engine::run() -> int
 
 
     while(!glfwWindowShouldClose(window)){
-        double currentFrame = glfwGetTime();
+        auto currentFrame = float(glfwGetTime());
         this->deltaTime = currentFrame - lastTime;
         this->lastTime = currentFrame;
         glfwPollEvents();

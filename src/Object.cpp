@@ -8,7 +8,8 @@
 
 Object::Object() : Visible(false) {}
 
-Object::Object(const char *path) : Visible(true) {
+Object::Object(const char *path) : Visible(false){
+    Console::message("New Object (.obj at %s)", path);
     loadObj(path);
 }
 
@@ -39,13 +40,13 @@ auto splitInt(std::string &line, char separator = ' ') -> std::vector<int>{
             buffer += i;
         } else {
             if(!buffer.empty()){
-                mas.push_back(atoi(buffer.c_str()));
+                mas.push_back(int(strtol(buffer.c_str(), nullptr, 10)));
                 buffer.clear();
             }
         }
     }
     if(!buffer.empty())
-        mas.push_back(atoi(buffer.c_str()));
+        mas.push_back(int(strtol(buffer.c_str(), nullptr, 10)));
 
     return mas;
 }
@@ -119,6 +120,8 @@ void Object::loadObj(const char *path) {
         glm::vec3 normal = temp_normals[normalIndex - 1];
         this -> normals.push_back(normal);
     }
+
+    Visible = true;
 }
 
 void Object::Draw() {

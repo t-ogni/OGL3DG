@@ -4,10 +4,11 @@
 class Striker : public Game
 {
 private:
-    Object cube{ "common/cube.obj" };
+    Object cube;
+
 public:
-    explicit Striker(int a) : Game() {
-        Console::message("MainGame inited %i", a);
+    explicit Striker() : Game(), cube("common/cube.obj") {
+        Console::message("Striker game inited");
     };
     void Init() override
     {
@@ -38,7 +39,7 @@ public:
 
 auto main() -> int
 {
-    Striker MainGame(1);
+    Striker MainGame;
     Engine MainEng(&MainGame);
     return MainEng.run();
 }
