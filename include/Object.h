@@ -23,7 +23,8 @@ public:
     glm::vec3 Position {0.f, 0.f, 0.f},
                 Velocity {0.f, 0.f, 0.f},
                 Rotation {0.f, 0.f, 0.f};
-    bool Visible;
+    float alpha = 1.0f;
+    bool Visible = false;
 
 
     
@@ -34,7 +35,7 @@ public:
     void loadObj(const char *path);
     ~Object();
 
-    void Draw();
+    std::vector<glm::vec3> getVertices();
 };
 
 

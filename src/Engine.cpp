@@ -123,5 +123,9 @@ void Engine::InputHandler(GLFWwindow* windowParam, int key, int scancode, int ac
     }
 }
 
+void draw(Object obj){
+
+}
+
 Engine::~Engine() = default;
 

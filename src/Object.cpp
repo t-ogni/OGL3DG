@@ -6,7 +6,7 @@
 
 #include "Object.h"
 
-Object::Object() : Visible(false) {}
+Object::Object() = default;
 
 Object::Object(const char *path) : Visible(false){
     Console::message("New Object (.obj at %s)", path);
@@ -124,10 +124,9 @@ void Object::loadObj(const char *path) {
     Visible = true;
 }
 
-void Object::Draw() {
-    glm::mat4 localMatrix {
-
-    };
+std::vector<glm::vec3> Object::getVertices() {
+    //todo local matrix
+    return vertices;
 }
 
 Object::~Object() = default;

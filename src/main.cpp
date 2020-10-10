@@ -27,6 +27,8 @@ public:
     void Render() override
     {
 
+        //cube.draw();
+
     }
 
     void keyPressed(int key, int mods) override
