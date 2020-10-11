@@ -5,9 +5,10 @@ class Striker : public Game
 {
 private:
     Object cube;
+    Shader shader;
 
 public:
-    explicit Striker() : Game(), cube("common/cube.obj") {
+    explicit Striker() : Game(), cube("common/cube.obj"), shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag") {
         Console::message("Striker game inited");
     };
     void Init() override
@@ -15,7 +16,8 @@ public:
 
     }
 
-    void ProcessInput(float dt) override{
+    void ProcessInput(float dt) override
+    {
         if(keys[GLFW_KEY_W]) this-> engine-> camera->forward(dt);
         if(keys[GLFW_KEY_S]) this-> engine-> camera->backward(dt);
         if(keys[GLFW_KEY_A]) this-> engine-> camera->left(dt);
@@ -27,7 +29,7 @@ public:
     void Render() override
     {
 
-        //cube.draw();
+        cube.draw(shader);
 
     }
 

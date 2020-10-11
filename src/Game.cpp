@@ -7,12 +7,13 @@
 #include "Game.h"
 #include "Engine.h"
 
-Game::Game() : ThisPlayer(), keys{} {
+Game::Game() : ThisPlayer(), keys {} {
     for (auto &item : this-> keys)
         item = false;
 }
 
 void Game::setEngine(Engine *eng) {
+    Console::message("Engine setted at %i (mem)", eng);
     this-> engine = eng;
 }
 

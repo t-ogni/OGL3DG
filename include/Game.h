@@ -18,7 +18,7 @@ enum GameState {
 class Game {
 protected:
     friend Engine;
-    Engine *engine{};
+    Engine *engine = nullptr;
     Object ThisPlayer;
 
 public:

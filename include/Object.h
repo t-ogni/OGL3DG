@@ -7,18 +7,27 @@
 #ifndef OGL3DG_OBJECT_H
 #define OGL3DG_OBJECT_H
 
-#include "Console.h"
-#include <fstream>
-#include <sstream>
-#include <string>
+//#include <GLFW/glfw3.h>
+//#include <glm/glm.hpp>
+//#include <fstream>
+//#include <sstream>
+//#include <string>
+//#include "Console.h"
+// included from "Shader.h"
+
+#include "Shader.h"
 #include <vector>
-#include <glm/glm.hpp>
 
 class Object {
+private:
+    unsigned int VBO;
+
 public:
     std::vector< glm::vec3 > vertices;
     std::vector< glm::vec2 > uvs;
     std::vector< glm::vec3 > normals;
+
+    unsigned int VAO;
 
     glm::vec3 Position {0.f, 0.f, 0.f},
                 Velocity {0.f, 0.f, 0.f},
@@ -36,6 +45,9 @@ public:
     ~Object();
 
     std::vector<glm::vec3> getVertices();
+
+    void draw(Shader shader);
+    void setupVAO();
 };
 
 

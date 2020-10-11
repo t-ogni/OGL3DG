@@ -10,15 +10,16 @@
 //#include <glad/glad.h>
 //#include <GLFW/glfw3.h>
 //#include "Console.h"
-// included from shader.h
+// included from "Shader.h"
 
 
 //#include "Object.h"
-// included from Game.h
+//#include "Render.h"
+//#include "Shader.h"
+// included from "Game.h"
 
 #include "Game.h"
 #include "Settings.h"
-#include "Shader.h"
 #include "Camera.h"
 
 class Engine {

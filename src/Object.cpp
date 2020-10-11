@@ -129,4 +129,27 @@ std::vector<glm::vec3> Object::getVertices() {
     return vertices;
 }
 
+void Object::draw(Shader shader) {
+    glEnableVertexAttribArray(0);
+
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+    glDisableVertexAttribArray(0);
+}
+
+
+void Object::setupVAO()
+{
+    // create buffers/arrays
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) nullptr);
+    glBindVertexArray(0);
+}
+
 Object::~Object() = default;
