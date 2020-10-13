@@ -19,7 +19,7 @@ class Game {
 protected:
     friend Engine;
     Engine *engine = nullptr;
-    Object ThisPlayer;
+    Object *ThisPlayer;
 
 public:
     GameState State = GAME_MENU;

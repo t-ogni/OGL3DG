@@ -126,13 +126,16 @@ void Object::loadObj(const char *path) {
 }
 
 auto Object::getVertices() -> std::vector<glm::vec3> {
-    //todo local matrix
-    return vertices;
+    std::vector<glm::vec3> vert_modifed;
+    for (auto &vertex : vertices) {
+        vert_modifed.push_back(vertex * Position);
+    }
+    return vert_modifed;
 }
 
 void Object::draw(Shader shader, glm::mat4 MVP) {
-    shader.useProgram();
 
+    //shader.useProgram();
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) nullptr);
@@ -141,7 +144,7 @@ void Object::draw(Shader shader, glm::mat4 MVP) {
 }
 
 
-void Object::setupVAO()
+void Object::setupVAO(int mode)
 {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);

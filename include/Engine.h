@@ -35,7 +35,7 @@ public:
 
     explicit Engine(Game *windowParam);
     auto run() -> int;
-
+    void attachCamera(Object &obj, glm::vec3 position);
     void resizeCallback(GLFWwindow* window, int width, int height);
     void InputHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
     ~Engine();

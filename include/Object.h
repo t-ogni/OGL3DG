@@ -43,7 +43,7 @@ public:
 
     auto getVertices() -> std::vector<glm::vec3>;
     void draw(Shader shader, glm::mat4 MVP);
-    void setupVAO();
+    void setupVAO(int mode = GL_STATIC_DRAW);
 
     ~Object();
 };

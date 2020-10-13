@@ -31,7 +31,7 @@ public:
     void Render() override
     {
 
-        cube.draw(shader, engine-> camera-> getMVP());
+        cube.draw(shader, glm::mat4(1.0f));
 
     }
 

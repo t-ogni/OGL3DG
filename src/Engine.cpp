@@ -128,8 +128,13 @@ void Engine::InputHandler(GLFWwindow* windowParam, int key, int scancode, int ac
     }
 }
 
+void Engine::attachCamera(Object &obj, glm::vec3 position) {
+    // todo persecution of the Object
+};
+
+
 Engine::~Engine() {
     delete settings;
     delete camera;
-};
+}
 
