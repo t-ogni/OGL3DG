@@ -13,14 +13,13 @@ public:
     };
     void Init() override
     {
-        shader = {"shaders/vertex/basic.vert", "shaders/fragment/basic.frag"};
-        cube = { "common/cube.obj" };
+        shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
+        cube("common/cube.obj");
     }
 
     void ProcessInput(float dt) override
     {
-        if(keys[GLFW_KEY_W])
-            this-> engine-> camera->forward(dt);
+        if(keys[GLFW_KEY_W]) this-> engine-> camera->forward(dt);
         if(keys[GLFW_KEY_S]) this-> engine-> camera->backward(dt);
         if(keys[GLFW_KEY_A]) this-> engine-> camera->left(dt);
         if(keys[GLFW_KEY_D]) this-> engine-> camera->right(dt);

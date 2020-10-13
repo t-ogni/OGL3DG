@@ -18,12 +18,15 @@
 class Shader
 {
 public:
-    GLuint Program;
-    Shader() = default;
-    Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    GLuint Program = 0;
+    Shader();
+    Shader(const char *vertexPath, const char *fragmentPath);
+    void operator() (const char *vertexPath, const char *fragmentPath);
     void useProgram() const;
 
-    //todo uniforms
+    static auto loadShaders(const char *vertexPath, const char *fragmentPath) -> GLuint;
+
+
     void uniformSet(const char *name, bool value) const;
     void uniformSet(const char *name, int value) const;
     void uniformSet(const char *name, float value) const;

@@ -35,19 +35,17 @@ public:
     float alpha = 1.0f;
     bool Visible = false;
 
-
-    
     Object();
-    Object(const char *path);
-
+    explicit Object(const char *path);
 
     void loadObj(const char *path);
-    ~Object();
+    void operator() (const char *path);
 
-    std::vector<glm::vec3> getVertices();
-
+    auto getVertices() -> std::vector<glm::vec3>;
     void draw(Shader shader, glm::mat4 MVP);
     void setupVAO();
+
+    ~Object();
 };
 
 

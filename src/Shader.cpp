@@ -7,7 +7,22 @@
 
 #include "Shader.h"
 
+Shader::Shader() = default;
+
 Shader::Shader(const char *vertexPath, const char *fragmentPath){
+    Program = loadShaders(vertexPath, fragmentPath);
+}
+
+void Shader::operator()(const char *vertexPath, const char *fragmentPath) {
+    Program = loadShaders(vertexPath, fragmentPath);
+}
+
+void Shader::useProgram() const {
+    glUseProgram(this->Program);
+}
+
+
+auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GLuint {
     // 1. Retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
     std::string fragmentCode;
@@ -30,7 +45,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
     }  catch (...)  {
-        Console::error("shader cannot be opened", ERROR::OPEN_FILE);
+        Console::error("shader cannot be opened (path: v: %s or f: %s)",ERROR::OPEN_FILE, vertexPath, fragmentPath);
     }
 
     const GLchar *vShaderCode = vertexCode.c_str();
@@ -38,7 +53,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
 
     // 2. Compile shaders
     GLuint vertex = glCreateShader(GL_VERTEX_SHADER),
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
+            fragment = glCreateShader(GL_FRAGMENT_SHADER);
     GLint success = 0;
     GLchar infoLog[512];
 
@@ -70,29 +85,22 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath){
 
 
     // Shader Program
-    this->Program = glCreateProgram();
-    glAttachShader(this->Program, vertex);
-    glAttachShader(this->Program, fragment);
-    glLinkProgram(this->Program);
-    glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
+    GLuint ProgID = glCreateProgram();
+    glAttachShader(ProgID, vertex);
+    glAttachShader(ProgID, fragment);
+    glLinkProgram(ProgID);
+    glGetProgramiv(ProgID, GL_LINK_STATUS, &success);
     if (!success)
     {
-        glGetProgramInfoLog(this->Program, 512, nullptr, infoLog);
+        glGetProgramInfoLog(ProgID, 512, nullptr, infoLog);
         Console::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
-    } else {
+    } else
         Console::message("Shaders linked to Program");
-    }
 
-    // Delete the shaders as they're linked into our program now and no longer necessery
     glDeleteShader(vertex);
     glDeleteShader(fragment);
-
+    return ProgID;
 }
-
-void Shader::useProgram() const {
-    glUseProgram(this->Program);
-}
-
 
 
 void Shader::uniformSet(const char *name, bool value) const
@@ -167,6 +175,8 @@ void Shader::uniformSet(const char *name, glm::mat4 &value) const
     this-> useProgram();
     glUniformMatrix4fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
+
+
 
 
 

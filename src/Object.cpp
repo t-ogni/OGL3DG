@@ -6,12 +6,9 @@
 
 #include "Object.h"
 
-Object::Object() {
-    Console::warning("New Object (.obj was not initialised)");
-}
+Object::Object() {  }
 
 Object::Object(const char *path) : Visible(false){
-    Console::message("New Object (.obj at %s)", path);
     loadObj(path);
 }
 
@@ -59,9 +56,10 @@ void Object::loadObj(const char *path) {
     std::vector<glm::vec2> temp_uvs;
     std::vector<glm::vec3> temp_normals;
     std::ifstream objFile(path);
-    if (!objFile)
-        Console::error("Object in %s cannot be opened ", ERROR::OPEN_FILE, path);
-    else
+    if (!objFile) {
+        Console::warning("Object in %s cannot be opened ", path);
+        return;
+    } else
         Console::message("Object in %s was loaded", path);
 
     while (objFile) {
@@ -127,7 +125,7 @@ void Object::loadObj(const char *path) {
     setupVAO();
 }
 
-std::vector<glm::vec3> Object::getVertices() {
+auto Object::getVertices() -> std::vector<glm::vec3> {
     //todo local matrix
     return vertices;
 }
@@ -151,6 +149,10 @@ void Object::setupVAO()
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
+}
+
+void Object::operator()(const char *path) {
+    loadObj(path);
 }
 
 Object::~Object() = default;
