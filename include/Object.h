@@ -20,14 +20,14 @@
 
 class Object {
 private:
-    unsigned int VBO;
+    GLuint VBO = 0;
 
 public:
     std::vector< glm::vec3 > vertices;
     std::vector< glm::vec2 > uvs;
     std::vector< glm::vec3 > normals;
 
-    unsigned int VAO;
+    GLuint VAO = 0;
 
     glm::vec3 Position {0.f, 0.f, 0.f},
                 Velocity {0.f, 0.f, 0.f},
@@ -38,7 +38,7 @@ public:
 
     
     Object();
-    explicit Object(const char *path);
+    Object(const char *path);
 
 
     void loadObj(const char *path);
@@ -46,7 +46,7 @@ public:
 
     std::vector<glm::vec3> getVertices();
 
-    void draw(Shader shader);
+    void draw(Shader shader, glm::mat4 MVP);
     void setupVAO();
 };
 

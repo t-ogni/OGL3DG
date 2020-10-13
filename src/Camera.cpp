@@ -5,7 +5,7 @@
 // Created by moonlin on 006 06.09.20 at 20:50.
 
 #include "Camera.h"
-
+#include "Console.h"
 #include <cmath>
 
 Camera::Camera() : position(glm::vec3( 0, 0, -5 )),
@@ -47,7 +47,7 @@ auto Camera::getMVP() -> glm::mat4 {
 }
 
 
-void Camera::forward(float dt){ position += directionSide * dt * speed; }
+void Camera::forward(float dt){ position += directionSide * dt * speed;}
 void Camera::backward(float dt){ position -= directionSide * dt * speed; }
 void Camera::left(float dt){ position -= rightSide * dt * speed; }
 void Camera::right(float dt){ position += rightSide * dt * speed; }
@@ -60,5 +60,7 @@ void Camera::changeDirection(float x, float y) {
     horizontalAngle += x;
     verticalAngle += y;
 }
+
+void Camera::consPos() { Console::message("camPos is (%d, %d, %d)",  position.x, position.y, position.z ); }
 
 Camera::~Camera() = default;

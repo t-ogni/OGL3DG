@@ -19,6 +19,7 @@ class Shader
 {
 public:
     GLuint Program;
+    Shader() = default;
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
     void useProgram() const;
 
@@ -28,6 +29,13 @@ public:
     void uniformSet(const char *name, float value) const;
     void uniformSet(const char *name, glm::vec2 &value) const;
     void uniformSet(const char *name, float x, float y) const;
+    void uniformSet(const char *name, glm::vec3 &value) const;
+    void uniformSet(const char *name, float x, float y, float z) const;
+    void uniformSet(const char *name, glm::vec4 &value) const;
+    void uniformSet(const char *name, float x, float y, float z, float w) const;
+    void uniformSet(const char *name, glm::mat2 &value) const;
+    void uniformSet(const char *name, glm::mat3 &value) const;
+    void uniformSet(const char *name, glm::mat4 &value) const;
 };
 
 #endif //OGL3DG_SHADER_H

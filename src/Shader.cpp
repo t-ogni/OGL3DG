@@ -126,3 +126,48 @@ void Shader::uniformSet(const char *name, float x, float y) const
 }
 
 
+void Shader::uniformSet(const char *name, glm::vec3 &value) const
+{
+    this-> useProgram();
+    glUniform3fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
+}
+
+void Shader::uniformSet(const char *name, float x, float y, float z) const
+{
+    this-> useProgram();
+    glUniform3f(glGetUniformLocation(this->Program, name), x, y, z);
+}
+
+void Shader::uniformSet(const char *name, glm::vec4 &value) const
+{
+    this-> useProgram();
+    glUniform4fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
+}
+
+void Shader::uniformSet(const char *name, float x, float y, float z, float w) const
+{
+    this-> useProgram();
+    glUniform4f(glGetUniformLocation(this->Program, name), x, y, z, w);
+}
+
+void Shader::uniformSet(const char *name, glm::mat2 &value) const
+{
+    this-> useProgram();
+    glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]); // idk what doing 3rd argument (transpose)
+}
+
+void Shader::uniformSet(const char *name, glm::mat3 &value) const
+{
+    this-> useProgram();
+    glUniformMatrix3fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
+}
+
+void Shader::uniformSet(const char *name, glm::mat4 &value) const
+{
+    this-> useProgram();
+    glUniformMatrix4fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
+}
+
+
+
+

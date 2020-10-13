@@ -8,7 +8,9 @@
 
 
 Engine::Engine(Game *g) : settings(new Settings()), //todo settings
-                    camera(new Camera()), game(g){
+                            camera(new Camera()),
+                            game(g)
+{
 
     Console::message("game at %i (mem)", game);
     this-> game-> setEngine(this);
@@ -58,30 +60,33 @@ Engine::Engine(Game *g) : settings(new Settings()), //todo settings
         Console::error("GLAD cannot be initialised", ERROR::INIT_GLAD);
     }
 
-    if(GLVersion.major >= 3) {
-        Console::message("GL Version is %i.%i", GLVersion.major, GLVersion.minor);
-    }
+    if(GLVersion.major >= 3)
+        Console::message("OpenGL Version is %i.%i", GLVersion.major, GLVersion.minor);
+    else
+        Console::error("OpenGL version is under 3.0 (%i.%i)", ERROR::INIT_GL, GLVersion.major, GLVersion.minor);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, this-> settings-> glMajor);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, this-> settings-> glMinor);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
+#endif
 }
 
 auto Engine::run() -> int
 {
-
     if(game == nullptr)
         Console::error("game is nullptr");
     else
         Console::message("Engine running");
 
+    this-> game-> Init();
 
     while(!glfwWindowShouldClose(window)){
         auto currentFrame = float(glfwGetTime());
         this->deltaTime = currentFrame - lastTime;
         this->lastTime = currentFrame;
+
         glfwPollEvents();
 
         this-> game-> ProcessInput(deltaTime);
@@ -90,7 +95,7 @@ auto Engine::run() -> int
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
 
         this-> game-> Render();
 
@@ -123,9 +128,8 @@ void Engine::InputHandler(GLFWwindow* windowParam, int key, int scancode, int ac
     }
 }
 
-void draw(Object obj){
-
-}
-
-Engine::~Engine() = default;
+Engine::~Engine() {
+    delete settings;
+    delete camera;
+};
 

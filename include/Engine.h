@@ -24,8 +24,6 @@
 
 class Engine {
 private:
-    int RESOLUTION_WIDTH;
-    int RESOLUTION_HEIGHT;
     Settings *settings;
     Game  *game = nullptr;
     float deltaTime = 0.0;
@@ -36,13 +34,11 @@ public:
     Camera *camera;
 
     explicit Engine(Game *windowParam);
-    int run();
-    void draw(Object obj);
+    auto run() -> int;
+
     void resizeCallback(GLFWwindow* window, int width, int height);
     void InputHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
     ~Engine();
-
 };
-
 
 #endif //OGL3DG_ENGINE_H

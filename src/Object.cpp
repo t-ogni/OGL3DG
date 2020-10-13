@@ -6,7 +6,9 @@
 
 #include "Object.h"
 
-Object::Object() = default;
+Object::Object() {
+    Console::warning("New Object (.obj was not initialised)");
+}
 
 Object::Object(const char *path) : Visible(false){
     Console::message("New Object (.obj at %s)", path);
@@ -58,7 +60,7 @@ void Object::loadObj(const char *path) {
     std::vector<glm::vec3> temp_normals;
     std::ifstream objFile(path);
     if (!objFile)
-        Console::warning("object in %s cannot be opened ", path);
+        Console::error("Object in %s cannot be opened ", ERROR::OPEN_FILE, path);
     else
         Console::message("Object in %s was loaded", path);
 
@@ -122,6 +124,7 @@ void Object::loadObj(const char *path) {
     }
 
     Visible = true;
+    setupVAO();
 }
 
 std::vector<glm::vec3> Object::getVertices() {
@@ -129,27 +132,25 @@ std::vector<glm::vec3> Object::getVertices() {
     return vertices;
 }
 
-void Object::draw(Shader shader) {
+void Object::draw(Shader shader, glm::mat4 MVP) {
+    shader.useProgram();
+
     glEnableVertexAttribArray(0);
-
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) nullptr);
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-
     glDisableVertexAttribArray(0);
 }
 
 
 void Object::setupVAO()
 {
-    // create buffers/arrays
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
+
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) nullptr);
-    glBindVertexArray(0);
 }
 
 Object::~Object() = default;

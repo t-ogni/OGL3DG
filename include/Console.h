@@ -19,7 +19,8 @@ namespace Console {
         va_list ptr = nullptr;
         va_start(ptr, errorCode);
         std::stringstream coutOut;
-        coutOut << "[" << errorCode << "] Fatal error: " << '\a';
+        std::cout << '\a';
+        coutOut << "[" << errorCode << "] Fatal error: ";
         while (*text){
             if(*text == '%'){
                 switch(*(text+1)){
