@@ -29,7 +29,7 @@ public:
     Camera();
     auto getMVP() -> glm::mat4;
     void changeFOV(float x);
-    void changeDirection(float x, float y);
+    void changeDirection(float x, float y, float dt);
     void forward(float dt);
     void backward(float dt);
     void left(float dt);
@@ -37,7 +37,6 @@ public:
     void up(float dt);
     void down(float dt);
     void setPos(glm::vec3 pos);
-    void consPos();
     ~Camera();
 };
 

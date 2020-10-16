@@ -23,15 +23,18 @@ public:
         if(keys[GLFW_KEY_S]) this-> engine-> camera->backward(dt);
         if(keys[GLFW_KEY_A]) this-> engine-> camera->left(dt);
         if(keys[GLFW_KEY_D]) this-> engine-> camera->right(dt);
-        if(keys[GLFW_KEY_Q]) this-> engine-> camera->changeDirection(-10, 0);
-        if(keys[GLFW_KEY_E]) this-> engine-> camera->changeDirection(+10, 0);
-        if(keys[GLFW_KEY_CAPS_LOCK]) engine-> camera-> consPos();
+        if(keys[GLFW_KEY_E]) this-> engine-> camera->changeDirection(-1, 0, dt);
+        if(keys[GLFW_KEY_Q]) this-> engine-> camera->changeDirection(+1, 0, dt);
+        if(keys[GLFW_KEY_R]) this-> engine-> camera->changeDirection(0, +1, dt);
+        if(keys[GLFW_KEY_F]) this-> engine-> camera->changeDirection(0, -1, dt);
+        if(keys[GLFW_KEY_SPACE]) this-> engine-> camera-> up(dt);
+        if(keys[GLFW_KEY_LEFT_SHIFT]) this-> engine-> camera-> down(dt);
     }
 
     void Render() override
     {
 
-        cube.draw(shader, glm::mat4(1.0f));
+        cube.draw(shader, engine-> camera-> getMVP());
 
     }
 
