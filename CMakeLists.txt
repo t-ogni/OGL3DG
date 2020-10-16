@@ -48,15 +48,7 @@ add_executable(
         ${SOURCES}
 )
 
-add_custom_command(
-        TARGET ${PROJ_EXE_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${PROJECT_SOURCE_DIR}/shaders ${EXECUTABLE_OUTPUT_PATH}
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${PROJECT_SOURCE_DIR}/common ${EXECUTABLE_OUTPUT_PATH}
 
-        COMMENT "Copying dirs from '${PROJECT_SOURCE_DIR}' to '${EXECUTABLE_OUTPUT_PATH}'" VERBATIM
-)
 
 
 target_link_libraries(
@@ -68,4 +60,16 @@ target_link_libraries(
         glm::glm
 )
 
+#POST BUILD COMMANDS ----------------------------------------------------
+add_custom_command(
+        TARGET ${PROJ_EXE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${PROJECT_SOURCE_DIR}/shaders ${EXECUTABLE_OUTPUT_PATH}
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${PROJECT_SOURCE_DIR}/common ${EXECUTABLE_OUTPUT_PATH}
+
+        COMMENT "Copying dirs from '${PROJECT_SOURCE_DIR}' to '${EXECUTABLE_OUTPUT_PATH}'" VERBATIM
+)
+
 install(TARGETS ${PROJ_EXE_NAME} DESTINATION bin)
+

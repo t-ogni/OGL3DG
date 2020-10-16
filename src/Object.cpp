@@ -103,6 +103,7 @@ void Object::loadObj(const char *path) {
                 uvIndices.push_back(uv);
                 normalIndices.push_back(normal);
             }
+            // todo EBO indices
         }
     }
 
@@ -133,14 +134,12 @@ auto Object::getVertices() -> std::vector<glm::vec3> {
     return vert_modifed;
 }
 
-void Object::draw(Shader shader, glm::mat4 MVP) {
-
-    //shader.useProgram();
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) nullptr);
+void Object::draw(Shader shader, glm::mat4 MVP) const {
+    shader.useProgram();
+    shader.uniformSet("MVP", MVP);
+    glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-    glDisableVertexAttribArray(0);
+    glBindVertexArray(0);
 }
 
 
@@ -151,7 +150,13 @@ void Object::setupVAO(int mode)
 
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], mode);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) nullptr);
+    glEnableVertexAttribArray(0);
+
+    glBindVertexArray(0);
+
 }
 
 void Object::operator()(const char *path) {

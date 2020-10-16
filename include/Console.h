@@ -40,6 +40,14 @@ namespace Console {
                         coutOut << va_arg(ptr, char *);
                         break;
                     }
+                    case 'x': {
+                        coutOut << "0x" << std::hex << va_arg(ptr, int) << std::dec;
+                        break;
+                    }
+                    case 'o': {
+                        coutOut << "0x" << std::oct << va_arg(ptr, int) << std::dec;
+                        break;
+                    }
                     case '%': {
                         coutOut << '%';
                         break;
@@ -78,6 +86,12 @@ namespace Console {
                     case 's':
                         std::cout << va_arg(ptr, char*);
                         break;
+                    case 'x':
+                        std::cout << "0x" << std::hex << va_arg(ptr, int) << std::dec;
+                        break;
+                    case 'o':
+                        std::cout << "0x" << std::oct << va_arg(ptr, int) << std::dec;
+                        break;
                     case '%':
                         std::cout << '%';
                         break;
@@ -94,7 +108,6 @@ namespace Console {
         std::cout << std::endl;
         va_end(ptr);
     }
-
 
     static void message(const char *text, ...) {
         va_list ptr = nullptr;
@@ -114,6 +127,12 @@ namespace Console {
                         break;
                     case 's':
                         std::cout << va_arg(ptr, char*);
+                        break;
+                    case 'x':
+                        std::cout << "0x" << std::hex << va_arg(ptr, int) << std::dec;
+                        break;
+                    case 'o':
+                        std::cout << "0x" << std::oct << va_arg(ptr, int) << std::dec;
                         break;
                     case '%':
                         std::cout << '%';
@@ -137,6 +156,21 @@ namespace Console {
         std::cout << "[" << id << "] GLFW error: " << description << std::endl;
     }
 
+    template <class T>
+    static void showMas(T *start, T *end, const char *splitter = " - "){
+        if(start > end) {
+            warning("showMas got invalid argument (%x > %x)", start, end);
+            return;
+        }
+        for (auto begin = start; begin != end; ++begin) {
+            std::cout << *start << splitter;
+            start++;
+        }
+    }
+    template <class T>
+    static void print(T &out, const char *end = "\n"){
+        std::cout << out << end;
+    }
 }
 
 
