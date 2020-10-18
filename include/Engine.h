@@ -14,7 +14,6 @@
 
 
 //#include "Object.h"
-//#include "Render.h"
 //#include "Shader.h"
 // included from "Game.h"
 
@@ -38,6 +37,7 @@ public:
     void attachCamera(Object &obj, glm::vec3 position);
     void resizeCallback(GLFWwindow* window, int width, int height);
     void InputHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
+    void CursorMoveHandler(GLFWwindow* window, double xpos, double ypos);
     ~Engine();
 };
 

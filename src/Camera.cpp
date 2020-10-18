@@ -5,7 +5,6 @@
 // Created by moonlin on 006 06.09.20 at 20:50.
 
 #include "Camera.h"
-#include "Console.h"
 #include <cmath>
 
 Camera::Camera() : position(glm::vec3( 0, 0, -5 )),
@@ -54,9 +53,9 @@ void Camera::down(float dt) { position -= upSide * dt * speed; }
 void Camera::setPos(glm::vec3 pos) { position = pos; }
 void Camera::changeFOV(float x) { this-> FOV += x; }
 
-void Camera::changeDirection(float x, float y, float dt) {
-    horizontalAngle += x*dt;
-    verticalAngle += y*dt;
+void Camera::changeDirection(double x, double y, float dt) {
+    horizontalAngle += (float) x * dt;
+    verticalAngle += (float) y * dt;
 }
 
 Camera::~Camera() = default;

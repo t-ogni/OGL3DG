@@ -7,12 +7,9 @@
 #include "Engine.h"
 
 
-Engine::Engine(Game *g) : settings(new Settings()), //todo settings
-                            camera(new Camera()),
-                            game(g)
+Engine::Engine(Game *g) : settings(new Settings()), camera(new Camera()), game(g)
 {
 
-    Console::message("game at %i (mem)", game);
     this-> game-> setEngine(this);
 
     glfwSetErrorCallback(&Console::glfwError);
@@ -33,25 +30,31 @@ Engine::Engine(Game *g) : settings(new Settings()), //todo settings
     if(window == nullptr) {
         glfwTerminate();
         Console::error("Window cannot be initialised", ERROR::INIT_WINDOW);
-    } else {
+    } else
         Console::message("Window initialised");
-    }
 
     glfwMakeContextCurrent(window);
+
     glfwSetWindowUserPointer(this->window, this);
 
     auto resizeCallback_lambda = [](GLFWwindow* windowParam, int width, int height) {
         auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(windowParam));
-        e->resizeCallback(windowParam, width, height);
+        e-> resizeCallback(windowParam, width, height);
     };
-
-    glfwSetFramebufferSizeCallback(window, resizeCallback_lambda);
 
     auto InputHandler_lambda = [](GLFWwindow* windowParam, int key, int scancode, int action, int mode) {
         auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(windowParam));
-        e->InputHandler(windowParam, key, scancode, action, mode);
+        e-> InputHandler(windowParam, key, scancode, action, mode);
     };
+
+    auto CursorMoveHandler_lambda = [](GLFWwindow* windowParam, double xpos, double ypos) {
+        auto *e = static_cast<Engine*>(glfwGetWindowUserPointer(windowParam));
+        e-> CursorMoveHandler(windowParam, xpos, ypos);
+    };
+
+    glfwSetFramebufferSizeCallback(window, resizeCallback_lambda);
     glfwSetKeyCallback(window, InputHandler_lambda);
+    glfwSetCursorPosCallback(window, CursorMoveHandler_lambda);
 
     int gladInitRes = gladLoadGL();
     if (!gladInitRes) {
@@ -78,9 +81,9 @@ auto Engine::run() -> int
     if(game == nullptr)
         Console::error("game is nullptr");
     else
-        Console::message("Engine running");
+        Console::message("Engine started successfully");
 
-    this-> game-> Init();
+    game-> Init();
 
     while(!glfwWindowShouldClose(window)){
         auto currentFrame = float(glfwGetTime());
@@ -95,18 +98,18 @@ auto Engine::run() -> int
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
-
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         this-> game-> Render();
 
         glfwSwapBuffers(window);
     }
 
-    glfwTerminate();
+    game-> Destroy();
     return 0;
 }
 
-void Engine::resizeCallback(GLFWwindow* windowParam, int width, int height){
+void Engine::resizeCallback(GLFWwindow* windowParam, int width, int height)
+{
     glViewport(0, 0, width, height);
     settings-> screenHeight = height;
     settings-> screenWidth = width;
@@ -117,24 +120,32 @@ void Engine::InputHandler(GLFWwindow* windowParam, int key, int scancode, int ac
 {
     switch (action) {
         case GLFW_PRESS:
-            this-> game-> keyPressed(key, mods);
+            game-> keyPressed(key, mods);
             game-> keys[key] = true;
             break;
         case GLFW_RELEASE:
-            this-> game-> keyReleased(key, mods);
+            game-> keyReleased(key, mods);
             game-> keys[key] = false;
             break;
+
         default: break;
     }
+}
+
+void Engine::CursorMoveHandler(GLFWwindow* windowParam, double xpos, double ypos)
+{
+    game-> mouseMoved(xpos, ypos);
+    game-> mouseX = xpos;
+    game-> mouseY = ypos;
 }
 
 void Engine::attachCamera(Object &obj, glm::vec3 position) {
     // todo persecution of the Object
 };
 
-
 Engine::~Engine() {
-    delete settings;
+    glfwTerminate();
+    glfwDestroyWindow(window);
     delete camera;
 }
 

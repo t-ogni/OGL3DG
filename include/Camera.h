@@ -29,7 +29,7 @@ public:
     Camera();
     auto getMVP() -> glm::mat4;
     void changeFOV(float x);
-    void changeDirection(float x, float y, float dt);
+    void changeDirection(double x, double y, float dt);
     void forward(float dt);
     void backward(float dt);
     void left(float dt);

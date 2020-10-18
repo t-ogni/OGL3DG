@@ -11,8 +11,11 @@ void main()
 {
     gl_Position = MVP * vec4(position, 1.0f);
     if(color.x == color.y || color.y == color.z){
-        ourColor = vec3(1-gl_Position.x/2, 1-gl_Position.y, 1-gl_Position.z);
+        ourColor = vec3(position.x+position.y, position.y+position.z, position.z+position.x);
     } else {
         ourColor = color;
+    }
+    if(ourColor.x + ourColor.y + ourColor.z < 0.01f){
+        ourColor = vec3(1.0f, 1.0f, 1.0f);
     }
 }

@@ -6,6 +6,8 @@ class Striker : public Game
 private:
     Object cube;
     Shader shader;
+    bool mouseChanged = false;
+    double mouseChangedX = 0, mouseChangedY = 0;
 
 public:
     explicit Striker() : Game() {
@@ -23,24 +25,25 @@ public:
         if(keys[GLFW_KEY_S]) this-> engine-> camera->backward(dt);
         if(keys[GLFW_KEY_A]) this-> engine-> camera->left(dt);
         if(keys[GLFW_KEY_D]) this-> engine-> camera->right(dt);
-        if(keys[GLFW_KEY_E]) this-> engine-> camera->changeDirection(-1, 0, dt);
-        if(keys[GLFW_KEY_Q]) this-> engine-> camera->changeDirection(+1, 0, dt);
-        if(keys[GLFW_KEY_R]) this-> engine-> camera->changeDirection(0, +1, dt);
-        if(keys[GLFW_KEY_F]) this-> engine-> camera->changeDirection(0, -1, dt);
         if(keys[GLFW_KEY_SPACE]) this-> engine-> camera-> up(dt);
         if(keys[GLFW_KEY_LEFT_SHIFT]) this-> engine-> camera-> down(dt);
+
+        if(mouseChanged) {
+            engine-> camera-> changeDirection(mouseChangedX, mouseChangedY, dt);
+            mouseChanged = false;
+        }
+    }
+
+    void mouseMoved(double x, double y) override
+    {
+        mouseChanged = true;
+        mouseChangedX = (mouseX - x) / 10;
+        mouseChangedY = (mouseY - y) / 10;
     }
 
     void Render() override
     {
-
         cube.draw(shader, engine-> camera-> getMVP());
-
-    }
-
-    void keyPressed(int key, int mods) override
-    {
-
     }
 
 };

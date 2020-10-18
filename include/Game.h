@@ -20,14 +20,12 @@ protected:
     friend Engine;
     Engine *engine = nullptr;
     Object *ThisPlayer;
+    void setEngine(Engine *eng);
 
 public:
     GameState State = GAME_MENU;
     Game();
     virtual void Init() { };
-    void setEngine(Engine *eng);
-    void keyPressCallback() { };
-
 
     virtual void ProcessInput(float deltatime) { };
     virtual void Update(float deltaTime) { }; // move
@@ -37,7 +35,10 @@ public:
     virtual void keyPressed(int key, int mods) { };
     virtual void keyReleased(int key, int mods) { };
 
-    virtual void cursorPosCallback(double x, double y) { };
+    double mouseX, mouseY;
+    virtual void mouseMoved(double x, double y) { };
+
+    virtual void Destroy() { };
     ~Game();
 };
 
