@@ -55,15 +55,16 @@ void Object::loadObj(const char *path) {
     std::vector<glm::vec3> temp_vertices;
     std::vector<glm::vec2> temp_uvs;
     std::vector<glm::vec3> temp_normals;
+    bool existsNormals = false;
+
     std::ifstream objFile(path);
     if (!objFile) {
         Console::warning("Object in %s cannot be opened ", path);
         return;
     } else
         Console::message("Object in %s was loaded", path);
-
+    std::string fileLine;
     while (objFile) {
-        std::string fileLine;
         getline(objFile, fileLine);
 
         if (fileLine.rfind("v ", 0) == 0) {
@@ -82,6 +83,7 @@ void Object::loadObj(const char *path) {
             lineStream >> uv.y;
             temp_uvs.push_back(uv);
         } else if (fileLine.rfind("vn ", 0) == 0) {
+            existsNormals = true;
             fileLine.erase(fileLine.begin(), fileLine.begin()+3);
             std::istringstream lineStream(fileLine);
             glm::vec3 normal;
@@ -102,28 +104,34 @@ void Object::loadObj(const char *path) {
                 vertexIndices.push_back(vertex);
                 uvIndices.push_back(uv);
                 normalIndices.push_back(normal);
+                // todo EBO indices
             }
-            // todo EBO indices
+        } else {
+            Console::message("unknown arg %s", fileLine.c_str());
         }
+
     }
 
     for(unsigned int vertexIndex : vertexIndices) {
-        glm::vec3 vertex = temp_vertices[vertexIndex - 1]; // The OBJ index starts with 1, and c++ starts with 0
+        glm::vec3 vertex = temp_vertices[vertexIndex-1]; // The OBJ index starts with 1, and c++ starts with 0
         this -> vertices.push_back(vertex);
     }
 
     for(unsigned int uvIndex : uvIndices) {
-        glm::vec2 uv = temp_uvs[uvIndex - 1];
+        glm::vec2 uv = temp_uvs[uvIndex-1];
         this -> uvs.push_back(uv);
     }
-
-    for(unsigned int normalIndex : normalIndices) {
-        glm::vec3 normal = temp_normals[normalIndex - 1];
-        this -> normals.push_back(normal);
+    if (existsNormals){
+        for(unsigned int normalIndex : normalIndices) {
+            glm::vec3 normal = temp_normals[normalIndex-1];
+            this -> normals.push_back(normal);
+        }
     }
 
     Visible = true;
     setupVAO();
+
+    Console::message("object created");
 }
 
 auto Object::getVertices() -> std::vector<glm::vec3> {
@@ -145,6 +153,7 @@ void Object::draw(Shader shader, glm::mat4 MVP) const {
 
 void Object::setupVAO(int mode)
 {
+    Console::message("started setting UP VAO");
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 

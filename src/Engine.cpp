@@ -98,7 +98,7 @@ auto Engine::run() -> int
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
         this-> game-> Render();
 
         glfwSwapBuffers(window);
@@ -142,6 +142,7 @@ void Engine::CursorMoveHandler(GLFWwindow* windowParam, double xpos, double ypos
 void Engine::attachCamera(Object &obj, glm::vec3 position) {
     // todo persecution of the Object
 };
+
 
 Engine::~Engine() {
     glfwTerminate();
