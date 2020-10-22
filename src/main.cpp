@@ -4,7 +4,7 @@
 class Striker : public Game
 {
 private:
-    Object cube, car;
+    Object cube, deer;
     Shader shader;
     bool mouseChanged = false;
     double mouseChangedX = 0, mouseChangedY = 0;
@@ -17,7 +17,7 @@ public:
     {
         shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
         cube("common/cube.obj");
-        car("common/Deer.obj");
+        deer("common/Deer.obj");
     }
 
     void ProcessInput(float dt) override
@@ -45,7 +45,7 @@ public:
     void Render() override
     {
         //cube.draw(shader, engine-> camera-> getMVP());
-        car.draw(shader, engine-> camera-> getMVP());
+        deer.draw(shader, engine-> camera-> getMVP());
     }
 
 };
