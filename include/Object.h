@@ -23,26 +23,30 @@ private:
     GLuint VBO = 0;
 
 public:
-    std::vector< glm::vec3 > vertices;
-    std::vector< glm::vec2 > uvs;
-    std::vector< glm::vec3 > normals;
+    std::vector<glm::vec3> vertices;
+    std::vector<glm::vec2> uvs;
+    std::vector<glm::vec3> normals;
 
     GLuint VAO = 0;
 
-    glm::vec3 Position {0.f, 0.f, 0.f},
-                Velocity {0.f, 0.f, 0.f},
-                Rotation {0.f, 0.f, 0.f};
+    glm::vec3 Position{0.f, 0.f, 0.f},
+            Velocity{0.f, 0.f, 0.f},
+            Rotation{0.f, 0.f, 0.f};
     float alpha = 1.0f;
     bool Visible = false;
 
-    Object();
+    Object() = default;
+
     explicit Object(const char *path);
 
     void loadObj(const char *path);
-    void operator() (const char *path);
+
+    void operator()(const char *path);
 
     auto getVertices() -> std::vector<glm::vec3>;
+
     void draw(Shader shader, glm::mat4 MVP) const;
+
     void setupVAO(int mode = GL_STATIC_DRAW);
 
     ~Object();
