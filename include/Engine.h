@@ -18,27 +18,29 @@
 // included from "Game.h"
 
 #include "Game.h"
-#include "Settings.h"
 #include "Camera.h"
+#include "Window.h"
+#include "InputHandler.h"
 
 class Engine {
+public:
+    explicit Engine(Game *windowParam,
+                    Window *pwindow = new Window("Engine", 1000, 800));
+
+    auto run() -> int;
+
+    void attachCamera(Object &obj, glm::vec3 position);
+
+    Camera *camera = nullptr;
+
+    InputHandler *input = nullptr;
 private:
-    Settings *settings;
-    Game  *game = nullptr;
+    Window *window = nullptr;
+    Game *game = nullptr;
+
     float deltaTime = 0.0;
     float lastTime = 0.0;
 
-public:
-    GLFWwindow *window;
-    Camera *camera;
-
-    explicit Engine(Game *windowParam);
-    auto run() -> int;
-    void attachCamera(Object &obj, glm::vec3 position);
-    void resizeCallback(GLFWwindow* window, int width, int height);
-    void InputHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
-    void CursorMoveHandler(GLFWwindow* window, double xpos, double ypos);
-    ~Engine();
 };
 
 #endif //OGL3DG_ENGINE_H

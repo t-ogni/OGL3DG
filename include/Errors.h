@@ -7,8 +7,7 @@
 #ifndef OGL3DG_ERRORS_H
 #define OGL3DG_ERRORS_H
 
-namespace ERROR
-{
+namespace ERROR {
     enum ERRORS {
         UNKNOWN_ERROR = -1,
         INIT_GLFW = 1,

@@ -13,17 +13,16 @@
 #include "Errors.h"
 
 namespace Console {
-    static void error(const char *text, int errorCode = ERROR::UNKNOWN_ERROR, ...)
-    {
+    static void error(const char *text, int errorCode = ERROR::UNKNOWN_ERROR, ...) {
         //Put to error stream and output stream
         va_list ptr = nullptr;
         va_start(ptr, errorCode);
         std::stringstream coutOut;
         std::cout << '\a';
         coutOut << "[" << errorCode << "] Fatal error: ";
-        while (*text){
-            if(*text == '%'){
-                switch(*(text+1)){
+        while (*text) {
+            if (*text == '%') {
+                switch (*(text + 1)) {
                     case 'i': {
                         coutOut << va_arg(ptr, int);
                         break;
@@ -55,7 +54,7 @@ namespace Console {
                     default:
                         error("unknown console output type ([%%i, %%d, %%c, %%s] only)");
                 }
-                text+=2;
+                text += 2;
             } else {
                 coutOut << *text;
                 text++;
@@ -71,9 +70,9 @@ namespace Console {
         va_list ptr = nullptr;
         va_start(ptr, text);
         std::cout << "Warning: " << '\a';
-        while (*text){
-            if(*text == '%'){
-                switch(*(text+1)){
+        while (*text) {
+            if (*text == '%') {
+                switch (*(text + 1)) {
                     case 'i':
                         std::cout << va_arg(ptr, int);
                         break;
@@ -81,7 +80,7 @@ namespace Console {
                         std::cout << va_arg(ptr, double);
                         break;
                     case 'c':
-                        std::cout << (char)va_arg(ptr, int);
+                        std::cout << (char) va_arg(ptr, int);
                         break;
                     case 's':
                         std::cout << va_arg(ptr, char*);
@@ -99,7 +98,7 @@ namespace Console {
                     default:
                         error("unknown console output type ([%%i, %%d, %%c, %%s] only)");
                 }
-                text+=2;
+                text += 2;
             } else {
                 std::cout << *text;
                 text++;
@@ -113,9 +112,9 @@ namespace Console {
         va_list ptr = nullptr;
         va_start(ptr, text);
         std::cout << "Info: ";
-        while (*text){
-            if(*text == '%'){
-                switch(*(text+1)){
+        while (*text) {
+            if (*text == '%') {
+                switch (*(text + 1)) {
                     case 'i':
                         std::cout << va_arg(ptr, int);
                         break;
@@ -123,7 +122,7 @@ namespace Console {
                         std::cout << va_arg(ptr, double);
                         break;
                     case 'c':
-                        std::cout << (char)va_arg(ptr, int);
+                        std::cout << (char) va_arg(ptr, int);
                         break;
                     case 's':
                         std::cout << va_arg(ptr, char*);
@@ -141,7 +140,7 @@ namespace Console {
                     default:
                         error("unknown console output type ([%%i, %%d, %%c, %%s] only)");
                 }
-                text+=2;
+                text += 2;
             } else {
                 std::cout << *text;
                 text++;
@@ -151,14 +150,13 @@ namespace Console {
         va_end(ptr);
     }
 
-    static void glfwError(int id, const char* description)
-    {
+    static void glfwError(int id, const char *description) {
         std::cout << "[" << id << "] GLFW error: " << description << std::endl;
     }
 
-    template <class T>
-    static void showMas(T *start, T *end, const char *splitter = " - "){
-        if(start > end) {
+    template<class T>
+    static void showMas(T *start, T *end, const char *splitter = " - ") {
+        if (start > end) {
             warning("showMas got invalid argument (%x > %x)", start, end);
             return;
         }
@@ -167,8 +165,9 @@ namespace Console {
             start++;
         }
     }
-    template <class T>
-    static void print(T &out, const char *end = "\n"){
+
+    template<class T>
+    static void print(T &out, const char *end = "\n") {
         std::cout << out << end;
     }
 }
