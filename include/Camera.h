@@ -13,30 +13,34 @@
 
 class Camera {
 private:
-    glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
     glm::vec3 directionSide;
     glm::vec3 rightSide;
     glm::vec3 upSide;
     float FOV = 45.0f;
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
-    float speed = 2.0f;
-
 
 protected:
 
 public:
+    glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
+    float speed = 2.0f;
+
     Camera();
+
     auto getMVP() -> glm::mat4;
     void changeFOV(float x);
     void changeDirection(double x, double y, float dt);
+    void setPos(glm::vec3 pos);
+
     void forward(float dt);
     void backward(float dt);
     void left(float dt);
     void right(float dt);
     void up(float dt);
     void down(float dt);
-    void setPos(glm::vec3 pos);
+
+
     ~Camera();
 };
 
