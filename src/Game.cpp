@@ -4,17 +4,34 @@
 // Copyright (c) 2020 Dark Shield Team. All rights reserved.
 // Created by moonlin on 030 30.09.20 at 1:46.
 
-#include "Game.h"
-#include "Engine.h"
+//#include "Engine.h"
+// included from "InputHandler.h"
 
-Game::Game() : ThisPlayer(), keys {} {
-    for (auto &item : this-> keys)
-        item = false;
-}
+#include "Game.h"
+
+Game::Game() {}
 
 void Game::setEngine(Engine *eng) {
-    Console::message("Engine setted at %i (mem)", eng);
-    this-> engine = eng;
+    Console::message("Engine located at 0x%x (mem)", eng);
+    this->engine = eng;
 }
 
-Game::~Game() = default;
+void Game::ProcessInput(float deltatime) {
+
+}
+
+void Game::Update(float deltaTime) {
+
+}
+
+void Game::Render() {
+
+}
+
+void Game::Destroy() {
+
+}
+
+Game::~Game() {
+    Destroy();
+}
