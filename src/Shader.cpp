@@ -21,67 +21,46 @@ void Shader::useProgram() const {
     glUseProgram(this->Program);
 }
 
-
-auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GLuint {
-    // 1. Retrieve the vertex/fragment source code from filePath
-    std::string vertexCode;
-    std::string fragmentCode;
-    std::ifstream vShaderFile;
-    std::ifstream fShaderFile;
-
-    // ensures ifstream objects can throw exceptions:
-    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+auto loadCode(const char *path) -> std::string {
+    std::ifstream File;
+    std::stringstream Stream;
+    File.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try {
-        // Open files
-        vShaderFile.open(vertexPath);
-        fShaderFile.open(fragmentPath);
-        std::stringstream vShaderStream, fShaderStream;
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
-        vShaderFile.close();
-        fShaderFile.close();
-        vertexCode = vShaderStream.str();
-        fragmentCode = fShaderStream.str();
-    } catch (...) {
-        Console::error("shader cannot be opened (path: v: %s or f: %s)", ERROR::OPEN_FILE, vertexPath, fragmentPath);
+        File.open(path);
+        Stream << File.rdbuf();
+        File.close();
+    } catch(...) {
+        Console::error("File cannot be opened (path: %s)", ERROR::OPEN_FILE, path);
     }
+    return Stream.str();
+}
 
-    const GLchar *vShaderCode = vertexCode.c_str();
-    const GLchar *fShaderCode = fragmentCode.c_str();
-
-    // 2. Compile shaders
-    GLuint vertex = glCreateShader(GL_VERTEX_SHADER),
-            fragment = glCreateShader(GL_FRAGMENT_SHADER);
+auto compileShader(std::string s_code, int type) -> GLuint {
+    GLuint shader = glCreateShader(type);
     GLint success = 0;
     GLchar infoLog[512];
-
-
-    // Vertex Shader
-    glShaderSource(vertex, 1, &vShaderCode, nullptr);
-    glCompileShader(vertex);
-    glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+    const char *code = s_code.c_str();
+    glShaderSource(shader, 1, &code, nullptr);
+    glCompileShader(shader);
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-        Console::error(infoLog, ERROR::COMPILE_VERTEX);
+        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+        Console::error("Shader cannot be compiled: %s", ERROR::COMPILE_SHADER, infoLog);
     } else {
-        Console::message("Vertex shader Compiled");
+        Console::message("Shader compiled (type: %i)", type);
     }
+    return shader;
+}
 
 
-    // Fragment Shader
-    glShaderSource(fragment, 1, &fShaderCode, nullptr);
-    glCompileShader(fragment);
-    glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-        Console::error("Fragment shader cannot be compiled: %s", ERROR::COMPILE_FRAGMENT, infoLog);
-    } else {
-        Console::message("Fragment shader compiled");
-    }
-
+auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GLuint {
+    // Compile shaders
+    GLuint vertex = compileShader(loadCode(vertexPath), GL_VERTEX_SHADER);
+    GLuint fragment = compileShader(loadCode(fragmentPath), GL_FRAGMENT_SHADER);
 
     // Shader Program
+    GLint success = 0;
+    GLchar infoLog[512];
     GLuint ProgID = glCreateProgram();
     glAttachShader(ProgID, vertex);
     glAttachShader(ProgID, fragment);
@@ -91,7 +70,7 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
         glGetProgramInfoLog(ProgID, 512, nullptr, infoLog);
         Console::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
     } else
-        Console::message("Shaders linked to Program");
+        Console::message("Shaders linked to Program (ID: %i)", ProgID);
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);

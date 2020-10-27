@@ -16,11 +16,9 @@ namespace ERROR {
         INIT_WINDOW,
 
         OPEN_FILE,
-        COMPILE_VERTEX,
-        COMPILE_FRAGMENT,
+        COMPILE_SHADER,
         LINK_PROGRAM_SHADER,
 
-        CONSOLE_OUTPUT = 100,
     };
 }
 
