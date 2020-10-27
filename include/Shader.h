@@ -7,25 +7,29 @@
 #ifndef OGL3DG_SHADER_H
 #define OGL3DG_SHADER_H
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Console.h"
 
-class Shader
-{
-public:
+class Shader {
+private:
     GLuint Program = 0;
+
+public:
     Shader();
+
     Shader(const char *vertexPath, const char *fragmentPath);
-    void operator() (const char *vertexPath, const char *fragmentPath);
+
+    void operator()(const char *vertexPath, const char *fragmentPath);
+
     void useProgram() const;
 
-    static auto loadShaders(const char *vertexPath, const char *fragmentPath) -> GLuint;
-
+    static auto loadShaders(const char *vertexPath, const char *fragmentPath) -> unsigned int;
+    // todo: refactor shader loader
 
     void uniformSet(const char *name, bool value) const;
     void uniformSet(const char *name, int value) const;

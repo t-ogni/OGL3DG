@@ -9,7 +9,7 @@
 
 Shader::Shader() = default;
 
-Shader::Shader(const char *vertexPath, const char *fragmentPath){
+Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     Program = loadShaders(vertexPath, fragmentPath);
 }
 
@@ -30,10 +30,9 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
     std::ifstream fShaderFile;
 
     // ensures ifstream objects can throw exceptions:
-    vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-    try
-    {
+    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    try {
         // Open files
         vShaderFile.open(vertexPath);
         fShaderFile.open(fragmentPath);
@@ -44,8 +43,8 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
         fShaderFile.close();
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
-    }  catch (...)  {
-        Console::error("shader cannot be opened (path: v: %s or f: %s)",ERROR::OPEN_FILE, vertexPath, fragmentPath);
+    } catch (...) {
+        Console::error("shader cannot be opened (path: v: %s or f: %s)", ERROR::OPEN_FILE, vertexPath, fragmentPath);
     }
 
     const GLchar *vShaderCode = vertexCode.c_str();
@@ -62,8 +61,7 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
     glShaderSource(vertex, 1, &vShaderCode, nullptr);
     glCompileShader(vertex);
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
+    if (!success) {
         glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
         Console::error(infoLog, ERROR::COMPILE_VERTEX);
     } else {
@@ -75,12 +73,11 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
     glShaderSource(fragment, 1, &fShaderCode, nullptr);
     glCompileShader(fragment);
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
+    if (!success) {
         glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-        Console::error(infoLog, ERROR::COMPILE_FRAGMENT);
+        Console::error("Fragment shader cannot be compiled: %s", ERROR::COMPILE_FRAGMENT, infoLog);
     } else {
-        Console::message("Fragment shader Compiled");
+        Console::message("Fragment shader compiled");
     }
 
 
@@ -90,8 +87,7 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
     glAttachShader(ProgID, fragment);
     glLinkProgram(ProgID);
     glGetProgramiv(ProgID, GL_LINK_STATUS, &success);
-    if (!success)
-    {
+    if (!success) {
         glGetProgramInfoLog(ProgID, 512, nullptr, infoLog);
         Console::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
     } else
@@ -103,76 +99,65 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
 }
 
 
-void Shader::uniformSet(const char *name, bool value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, bool value) const {
+    this->useProgram();
     glUniform1i(glGetUniformLocation(this->Program, name), int(value));
 }
 
-void Shader::uniformSet(const char *name, int value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, int value) const {
+    this->useProgram();
     glUniform1i(glGetUniformLocation(this->Program, name), value);
 }
 
-void Shader::uniformSet(const char *name, float value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, float value) const {
+    this->useProgram();
     glUniform1f(glGetUniformLocation(this->Program, name), int(value));
 }
 
-void Shader::uniformSet(const char *name, glm::vec2 &value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, glm::vec2 &value) const {
+    this->useProgram();
     glUniform2fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
-void Shader::uniformSet(const char *name, float x, float y) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, float x, float y) const {
+    this->useProgram();
     glUniform2f(glGetUniformLocation(this->Program, name), x, y);
 }
 
 
-void Shader::uniformSet(const char *name, glm::vec3 &value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, glm::vec3 &value) const {
+    this->useProgram();
     glUniform3fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
-void Shader::uniformSet(const char *name, float x, float y, float z) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, float x, float y, float z) const {
+    this->useProgram();
     glUniform3f(glGetUniformLocation(this->Program, name), x, y, z);
 }
 
-void Shader::uniformSet(const char *name, glm::vec4 &value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, glm::vec4 &value) const {
+    this->useProgram();
     glUniform4fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
-void Shader::uniformSet(const char *name, float x, float y, float z, float w) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, float x, float y, float z, float w) const {
+    this->useProgram();
     glUniform4f(glGetUniformLocation(this->Program, name), x, y, z, w);
 }
 
-void Shader::uniformSet(const char *name, glm::mat2 &value) const
-{
-    this-> useProgram();
-    glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]); // idk what doing 3rd argument (transpose)
+void Shader::uniformSet(const char *name, glm::mat2 &value) const {
+    this->useProgram();
+    glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE,
+                       &value[0][0]); // idk what doing 3rd argument (transpose)
 }
 
-void Shader::uniformSet(const char *name, glm::mat3 &value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, glm::mat3 &value) const {
+    this->useProgram();
     glUniformMatrix3fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
 
-void Shader::uniformSet(const char *name, glm::mat4 &value) const
-{
-    this-> useProgram();
+void Shader::uniformSet(const char *name, glm::mat4 &value) const {
+    this->useProgram();
     glUniformMatrix4fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
 
