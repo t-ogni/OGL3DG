@@ -35,7 +35,7 @@ auto loadCode(const char *path) -> std::string {
     return Stream.str();
 }
 
-auto compileShader(std::string s_code, int type) -> GLuint {
+auto compileShader(const std::string& s_code, int type) -> GLuint {
     GLuint shader = glCreateShader(type);
     GLint success = 0;
     GLchar infoLog[512];

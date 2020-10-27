@@ -5,8 +5,6 @@ class Striker : public Game {
 private:
     Object cube, deer;
     Shader shader;
-    bool mouseChanged = false;
-    double mouseChangedX = 0, mouseChangedY = 0;
 
 public:
     explicit Striker() : Game() {
@@ -18,6 +16,7 @@ public:
         cube("common/cube.obj");
         deer("common/Deer.obj");
         engine->camera->speed = 10.0f;
+        engine->input->setLockedCursorPosition({500, 400});
     }
 
     void ProcessInput(float dt) override {
@@ -38,7 +37,8 @@ public:
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_LEFT_CONTROL))
             this->engine->camera-> down(dt);
-
+        glm::vec2 mouseMoved = engine-> input-> getCursorPosition() - glm::vec2 {500, 400};
+        engine-> camera-> changeDirection(mouseMoved.x, mouseMoved.y, dt);
     }
 
     void Render() override {
