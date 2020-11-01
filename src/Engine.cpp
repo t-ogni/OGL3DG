@@ -18,6 +18,7 @@ auto Engine::run() -> int {
         Console::error("game is nullptr. Aborting..");
     else
         Console::message("Engine started successfully");
+    window-> init();
     input->initCallbacks(window->getWindow());
     game->Init();
 

@@ -15,8 +15,10 @@ public:
         shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
         cube("common/cube.obj");
         deer("common/Deer.obj");
-        engine->camera->speed = 10.0f;
-        engine->input->setLockedCursorPosition({500, 400});
+        engine->camera->speed = 20.0f;
+        engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
+        engine->input->setLockStatus(true);
+        engine->input->setCursorHidden(true);
     }
 
     void ProcessInput(float dt) override {
@@ -37,7 +39,11 @@ public:
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_LEFT_CONTROL))
             this->engine->camera-> down(dt);
-        glm::vec2 mouseMoved = engine-> input-> getCursorPosition() - glm::vec2 {500, 400};
+
+        if (engine->input->isKeyboardPressed(GLFW_KEY_Q))
+            engine-> camera-> setPos({0.f, 100.f, -10.f});
+
+        glm::vec2 mouseMoved = -(engine-> input-> getCursorPosition() - engine-> input-> getLockedCursorPosition()) * 0.2f;
         engine-> camera-> changeDirection(mouseMoved.x, mouseMoved.y, dt);
     }
 
@@ -51,6 +57,6 @@ public:
 
 auto main() -> int {
     Striker MainGame;
-    Engine MainEng(&MainGame);
+    Engine MainEng(&MainGame, new Window {"Ab", 1000, 900});
     return MainEng.run();
 }

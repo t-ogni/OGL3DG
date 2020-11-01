@@ -12,13 +12,11 @@
 
 void Window::resizeCallback(GLFWwindow *windowParam, int width, int height) {
     glViewport(0, 0, width, height);
-}
-
-void Window::init(const char *title, int width, int height) {
     w_width = width;
     w_height = height;
-    w_title = title;
+}
 
+void Window::init() {
     if (!glfwInit())
         Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
     else
@@ -93,12 +91,12 @@ void Window::dispose() {
 }
 
 // RETURN WINDOW WIDTH
-int Window::getWidth() const {
+int Window::getWidth() {
     return w_width;
 }
 
 // RETURN WINDOW HEIGHT
-int Window::getHeight() const {
+int Window::getHeight() {
     return w_height;
 }
 
@@ -112,7 +110,9 @@ auto Window::isCloseRequested() -> bool {
 }
 
 Window::Window(const char *title, int width, int height) {
-    init(title, width, height);
+    w_title = title;
+    w_width = width;
+    w_height = height;
 }
 
 Window::~Window() {

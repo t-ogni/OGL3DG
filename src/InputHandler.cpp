@@ -7,7 +7,8 @@
 #include "InputHandler.h"
 
 
-void InputHandler::initCallbacks(GLFWwindow *window) {
+void InputHandler::initCallbacks(GLFWwindow *windowParam){
+    window = windowParam;
     clear();
     glfwSetWindowUserPointer(window, this);
     // idk how that anonumous func works, but it works :)
@@ -48,11 +49,11 @@ void InputHandler::clear() {
         item = false;
 }
 
-void InputHandler::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+void InputHandler::key_callback(GLFWwindow *windowParam, int key, int scancode, int action, int mods) {
     KeyboardKeys[key] = action;
 }
 
-void InputHandler::mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+void InputHandler::mouse_button_callback(GLFWwindow *windowParam, int button, int action, int mods) {
     switch (action) {
         case GLFW_PRESS:
             MouseKeys[button] = true;
@@ -66,13 +67,15 @@ void InputHandler::mouse_button_callback(GLFWwindow *window, int button, int act
     }
 }
 
-void InputHandler::cursor_pos_callback(GLFWwindow *window, double xpos, double ypos) {
+void InputHandler::cursor_pos_callback(GLFWwindow *windowParam, double xpos, double ypos) {
     glm::vec2 position = glm::vec2((float) xpos, (float) ypos);
     cursorPosition = position;
-    glfwSetCursorPos(window, xpos, ypos);
+
+    if (isCursorLocked)
+        setCursorPosition(window, lockedCursorPosition);
 }
 
-void InputHandler::scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+void InputHandler::scroll_callback(GLFWwindow *windowParam, double xoffset, double yoffset) {
     scrollOffset += yoffset;
 }
 
@@ -80,9 +83,12 @@ auto InputHandler::getCursorPosition() -> glm::vec2 {
     return cursorPosition;
 }
 
-void InputHandler::setCursorPosition(GLFWwindow *window, glm::vec2 newPosition) {
-    cursorPosition = newPosition;
+void InputHandler::setCursorPosition(GLFWwindow *windowParam, glm::vec2 newPosition) {
     glfwSetCursorPos(window, newPosition.x, newPosition.y);
+}
+
+void InputHandler::setCursorHidden(bool to) {
+    glfwSetInputMode(window, GLFW_CURSOR, to ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
 }
 
 auto InputHandler::getScrollOffset() -> double {
@@ -105,6 +111,10 @@ auto InputHandler::getLockedCursorPosition() -> glm::vec2 {
     return lockedCursorPosition;
 }
 
+void InputHandler::setLockStatus(bool to) {
+    isCursorLocked = to;
+}
+
 bool InputHandler::isKeyboardPressed(int key) {
     return KeyboardKeys[key];
 }
@@ -112,3 +122,6 @@ bool InputHandler::isKeyboardPressed(int key) {
 bool InputHandler::isMousePressed(int key) {
     return MouseKeys[key];
 }
+
+
+

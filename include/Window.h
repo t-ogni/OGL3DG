@@ -11,36 +11,27 @@
 
 class Window {
 private:
-    int w_width = 0, w_height = 0;
+    int w_width = 100, w_height = 100;
     GLFWwindow *window = nullptr;
-    const char *w_title = "";
+    const char *w_title = "Window";
 
 public:
+    Window(const char *title, int width, int height);
     Window() = default;
-
     ~Window();
 
-    Window(const char *title, int width, int height);
-
-    void init(const char *title, int width, int height);
-
+    void init();
     void resizeCallback(GLFWwindow *windowParam, int width, int height);
 
     auto isCloseRequested() -> bool;
-
     static void clear();
-
     static void update();
-
     void render();
-
     void dispose();
 
     GLFWwindow *getWindow();
-
-    int getWidth() const;
-
-    int getHeight() const;
+    int getWidth();
+    int getHeight();
 
 
 };

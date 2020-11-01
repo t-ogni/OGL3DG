@@ -25,17 +25,16 @@
 class Engine {
 public:
     explicit Engine(Game *windowParam,
-                    Window *pwindow = new Window("Engine", 1000, 800));
+                    Window *pwindow = new Window);
 
     auto run() -> int;
 
     void attachCamera(Object &obj, glm::vec3 position);
 
     Camera *camera = nullptr;
-
+    Window *window = nullptr;
     InputHandler *input = nullptr;
 private:
-    Window *window = nullptr;
     Game *game = nullptr;
 
     float deltaTime = 0.0;
