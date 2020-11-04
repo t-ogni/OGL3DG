@@ -23,22 +23,22 @@ public:
 
     void ProcessInput(float dt) override {
         if (engine->input->isKeyboardPressed(GLFW_KEY_W))
-            this->engine->camera-> forward(dt);
+            engine->camera-> forward(dt);
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_S))
-            this->engine->camera-> backward(dt);
+            engine->camera-> backward(dt);
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_A))
-            this->engine->camera-> left(dt);
+            engine->camera-> left(dt);
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_D))
-            this->engine->camera-> right(dt);
+            engine->camera-> right(dt);
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_LEFT_SHIFT))
-            this->engine->camera-> up(dt);
+            engine->camera-> up(dt);
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_LEFT_CONTROL))
-            this->engine->camera-> down(dt);
+            engine->camera-> down(dt);
 
         if (engine->input->isKeyboardPressed(GLFW_KEY_Q))
             engine-> camera-> setPos({0.f, 100.f, -10.f});
