@@ -4,11 +4,11 @@ cmake_minimum_required(VERSION 3.1)
 project(PhonEngine VERSION 0.1)
 
 # Get Info About Compiler -----------------------------------------------------
-IF(CMAKE_SIZEOF_VOID_P EQUAL 8)  #64 bit
+IF (CMAKE_SIZEOF_VOID_P EQUAL 8)  #64 bit
     message(STATUS "Running on 64bit platform. Proceeding...")
-ELSE()
+ELSE ()
     message(STATUS "Running on 32bit platform. Proceeding...")
-ENDIF()
+ENDIF ()
 
 set(PROJECT_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 file(COPY ${PROJECT_SOURCE_DIR}/shaders DESTINATION ${EXECUTABLE_OUTPUT_PATH})
@@ -21,7 +21,7 @@ include_directories(include)
 file(GLOB SOURCES
         "${PROJECT_SOURCE_DIR}/include/*.h"
         "${PROJECT_SOURCE_DIR}/src/*.cpp"
-)
+        )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 

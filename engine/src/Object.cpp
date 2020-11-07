@@ -65,6 +65,7 @@ void Object::loadObj(const char *path) {
     while (objFile) {
         getline(objFile, fileLine);
 
+
         if (fileLine.rfind("v ", 0) == 0) {
             fileLine.erase(fileLine.begin(), fileLine.begin() + 2);
             std::istringstream lineStream(fileLine);
@@ -125,6 +126,14 @@ void Object::loadObj(const char *path) {
 
     Visible = true;
     setupVAO();
+}
+
+void Object::loadMtl(const char *path) {
+
+}
+
+void Object::loadTexture(const char *path) {
+
 }
 
 auto Object::getVertices() -> std::vector<glm::vec3> {

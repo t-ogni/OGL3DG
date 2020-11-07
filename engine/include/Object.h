@@ -40,7 +40,8 @@ public:
     explicit Object(const char *path);
 
     void loadObj(const char *path);
-
+    void loadMtl(const char *path);
+    void loadTexture(const char *path);
     void operator()(const char *path);
 
     auto getVertices() -> std::vector<glm::vec3>;
