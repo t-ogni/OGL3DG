@@ -7,11 +7,11 @@
 #include "InputHandler.h"
 
 
-void InputHandler::initCallbacks(GLFWwindow *windowParam){
+void InputHandler::initCallbacks(GLFWwindow *windowParam) {
     window = windowParam;
     clear();
     glfwSetWindowUserPointer(window, this);
-    // idk how that anonumous func works, but it works :)
+    // idk how that anonymous func works, but it works :)
     auto key_callback_lambda = [](GLFWwindow *windowParam, int key, int scancode, int action, int mode) {
         InputHandler *ih = static_cast<InputHandler *>(glfwGetWindowUserPointer(windowParam));
         ih->key_callback(windowParam, key, scancode, action, mode);
@@ -45,7 +45,7 @@ void InputHandler::clear() {
     for (auto &item : KeyboardKeys)
         item = false;
 
-    for (bool &item : MouseKeys)
+    for (auto &item : MouseKeys)
         item = false;
 }
 
@@ -54,17 +54,7 @@ void InputHandler::key_callback(GLFWwindow *windowParam, int key, int scancode, 
 }
 
 void InputHandler::mouse_button_callback(GLFWwindow *windowParam, int button, int action, int mods) {
-    switch (action) {
-        case GLFW_PRESS:
-            MouseKeys[button] = true;
-            break;
-        case GLFW_RELEASE:
-            MouseKeys[button] = false;
-            break;
-
-        default:
-            break;
-    }
+    MouseKeys[button] = action;
 }
 
 void InputHandler::cursor_pos_callback(GLFWwindow *windowParam, double xpos, double ypos) {
@@ -113,13 +103,16 @@ auto InputHandler::getLockedCursorPosition() -> glm::vec2 {
 
 void InputHandler::setLockStatus(bool to) {
     isCursorLocked = to;
+    if(to)
+        setCursorPosition(window, lockedCursorPosition);
+
 }
 
-bool InputHandler::isKeyboardPressed(int key) {
+char InputHandler::getKeyStatus(int key) {
     return KeyboardKeys[key];
 }
 
-bool InputHandler::isMousePressed(int key) {
+char InputHandler::getMouseStatus(int key) {
     return MouseKeys[key];
 }
 

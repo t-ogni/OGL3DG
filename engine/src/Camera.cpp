@@ -30,7 +30,7 @@ auto Camera::getMVP() -> glm::mat4 {
     );
 
     upSide = glm::cross(rightSide, directionSide);
-    glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(FOV), 4.0f / 3.0f, 0.1f, 300.0f);
+    glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(FOV), 4.0f / 3.0f, 0.1f, 30000.0f);
 
     glm::mat4 ViewMatrix = glm::lookAt(
             position,
@@ -55,13 +55,22 @@ void Camera::up(float dt) { position += upSide * dt * speed; }
 
 void Camera::down(float dt) { position -= upSide * dt * speed; }
 
-void Camera::setPos(glm::vec3 pos) { position = pos; }
+void Camera::setPosition(glm::vec3 pos) { position = pos; }
 
 void Camera::changeFOV(float x) { this->FOV += x; }
 
-void Camera::changeDirection(double x, double y, float dt) {
-    horizontalAngle += (float) x * dt;
-    verticalAngle += (float) y * dt;
+void Camera::changeDirection(float x, float y, float dt) {
+    horizontalAngle += x * dt;
+    verticalAngle += y * dt;
+
+}
+
+glm::vec2 Camera::getDirection() {
+    return glm::vec2(horizontalAngle, verticalAngle);
+}
+
+glm::vec3 Camera::getPosition() {
+    return position;
 }
 
 Camera::~Camera() = default;

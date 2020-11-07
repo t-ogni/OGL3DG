@@ -14,27 +14,33 @@
 class InputHandler {
 public:
     InputHandler() = default;
+
     void initCallbacks(GLFWwindow *window);
 
     auto getCursorPosition() -> glm::vec2;
+
     void setCursorPosition(GLFWwindow *window, glm::vec2 newPosition);
 
     void setCursorHidden(bool to);
 
     auto getScrollOffset() -> double;
+
     void setScrollOffset(float offset);
 
-    auto getLockStatus() -> bool;
+
     void setLockedCursorPosition(glm::vec2 lockedPosition);
-    auto getLockedCursorPosition() -> glm::vec2;
+
+
     void setLockStatus(bool to);
 
-    bool isKeyboardPressed(int key);
-    bool isMousePressed(int key);
+    char getKeyStatus(int key);
+    char getMouseStatus(int key);
+    auto getLockedCursorPosition() -> glm::vec2;
+    bool getLockStatus();
 
 private:
-    bool KeyboardKeys[1024]{};
-    bool MouseKeys[8]{};
+    char KeyboardKeys[GLFW_KEY_LAST + 1] {};
+    char MouseKeys[GLFW_MOUSE_BUTTON_LAST + 1] {};
     glm::vec2 cursorPosition = glm::vec2(0.0f, 0.0f);
     glm::vec2 lockedCursorPosition = glm::vec2(0.0f, 0.0f);
     bool isCursorLocked = false;

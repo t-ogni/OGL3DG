@@ -29,13 +29,13 @@ auto loadCode(const char *path) -> std::string {
         File.open(path);
         Stream << File.rdbuf();
         File.close();
-    } catch(...) {
+    } catch (...) {
         Console::error("File cannot be opened (path: %s)", ERROR::OPEN_FILE, path);
     }
     return Stream.str();
 }
 
-auto compileShader(const std::string& s_code, int type) -> GLuint {
+auto compileShader(const std::string &s_code, int type) -> GLuint {
     GLuint shader = glCreateShader(type);
     GLint success = 0;
     GLchar infoLog[512];
