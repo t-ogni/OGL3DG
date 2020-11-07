@@ -65,6 +65,7 @@ void Window::init() {
 
     Console::message("OpenGL Version is %i.%i", GLVersion.major, GLVersion.minor);
 
+    glEnable(GL_DEPTH_TEST);
 }
 
 
@@ -117,5 +118,9 @@ Window::Window(const char *title, int width, int height) {
 
 Window::~Window() {
     dispose();
+}
+
+bool Window::isActive() {
+    return glfwGetWindowAttrib(window, GLFW_FOCUSED);
 }
 

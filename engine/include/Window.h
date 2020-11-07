@@ -17,21 +17,32 @@ private:
 
 public:
     Window(const char *title, int width, int height);
+
     Window() = default;
+
     ~Window();
 
     void init();
+
     void resizeCallback(GLFWwindow *windowParam, int width, int height);
 
     auto isCloseRequested() -> bool;
+
     static void clear();
+
     static void update();
+
     void render();
+
     void dispose();
 
     GLFWwindow *getWindow();
+
     int getWidth();
+
     int getHeight();
+
+    bool isActive();
 
 
 };
