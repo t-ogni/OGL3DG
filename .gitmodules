@@ -6,4 +6,4 @@
 	url = https://github.com/g-truc/glm
 [submodule "engine/lib/soil"]
 	path = engine/lib/soil
-	url = https://github.com/burtonageo/SOIL
+	url = https://github.com/paralin/soil

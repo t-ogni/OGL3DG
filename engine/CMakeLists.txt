@@ -28,7 +28,7 @@ add_library(${PROJECT_NAME} STATIC ${SOURCES})
 target_link_libraries(${PROJECT_NAME}
         ${OPENGL_LIBRARY}
         glfw ${GLFW_LIBRARIES}
+        soil
         glad
         glm::glm
-        soil
         )
