@@ -129,27 +129,25 @@ void Object::loadObj(const char *path) {
 }
 
 void Object::loadMtl(const char *path) {
-
-}
-
-void Object::loadTexture(const char *path) {
-
+    //todo: loading
 }
 
 auto Object::getVertices() -> std::vector<glm::vec3> {
     std::vector<glm::vec3> vert_modifed;
-    for (auto &vertex : vertices) {
+    for (auto &vertex : vertices)
         vert_modifed.push_back(vertex * Position);
-    }
+
     return vert_modifed;
 }
 
-void Object::draw(Shader shader, glm::mat4 MVP) const {
-    shader.useProgram();
-    shader.uniformSet("MVP", MVP);
+void Object::draw(glm::mat4 MVP) const {
+    shader-> bind();
+    shader-> uniformSet("MVP", MVP);
+    texture->bind();
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     glBindVertexArray(0);
+    texture->unbind();
 }
 
 
@@ -171,5 +169,27 @@ void Object::setupVAO(int mode) {
 void Object::operator()(const char *path) {
     loadObj(path);
 }
+
+
+void Object::operator()(const char *path, Texture *texture1) {
+    loadObj(path);
+    setTexture(texture1);
+}
+
+void Object::operator()(const char *path, Texture *texture1, Shader *shader1) {
+    loadObj(path);
+    setTexture(texture1);
+    setShader(shader1);
+
+}
+
+void Object::setTexture(Texture *texture1) {
+    texture = texture1;
+}
+
+void Object::setShader(Shader *shader1) {
+    shader = shader1;
+}
+
 
 Object::~Object() = default;

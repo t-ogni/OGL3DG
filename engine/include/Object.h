@@ -15,12 +15,15 @@
 //#include "Console.h"
 // included from "Shader.h"
 
+#include "Texture.h"
 #include "Shader.h"
 #include <vector>
 
 class Object {
-private:
     GLuint VBO = 0;
+    Texture *texture = nullptr;
+    Shader *shader = nullptr;
+
 
 public:
     std::vector<glm::vec3> vertices;
@@ -41,12 +44,17 @@ public:
 
     void loadObj(const char *path);
     void loadMtl(const char *path);
-    void loadTexture(const char *path);
+
+    void setTexture(Texture *texture1);
+    void setShader(Shader *shader1);
+
     void operator()(const char *path);
+    void operator()(const char *path, Texture *texture1);
+    void operator()(const char *path, Texture *texture1, Shader *shader1);
 
     auto getVertices() -> std::vector<glm::vec3>;
 
-    void draw(Shader shader, glm::mat4 MVP) const;
+    void draw(glm::mat4 MVP) const;
 
     void setupVAO(int mode = GL_STATIC_DRAW);
 

@@ -14,8 +14,9 @@ public:
 
     void Init() override {
         shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
-        cube("res/cube.obj");
-        plane("res/biplane.obj");
+        cube("res/cube.obj", new Texture("res/cube.png"));
+        cube.setShader(&shader);
+        ///plane("res/biplane.obj");
         engine->camera->speed = 20.0f;
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
@@ -62,7 +63,7 @@ public:
     }
 
     void Render() override {
-        cube.draw(shader, engine->camera->getMVP());
+        cube.draw(engine->camera->getMVP());
         //deer.draw(shader, engine->camera->getMVP());
     }
 
