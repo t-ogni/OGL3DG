@@ -7,7 +7,6 @@
 
 #include "Shader.h"
 
-Shader::Shader() = default;
 
 Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     Program = loadShaders(vertexPath, fragmentPath);
@@ -17,8 +16,12 @@ void Shader::operator()(const char *vertexPath, const char *fragmentPath) {
     Program = loadShaders(vertexPath, fragmentPath);
 }
 
-void Shader::useProgram() const {
+void Shader::bind() const {
     glUseProgram(this->Program);
+}
+
+void Shader::unbind() const {
+    glUseProgram(0);
 }
 
 auto loadCode(const char *path) -> std::string {
@@ -79,66 +82,67 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
 
 
 void Shader::uniformSet(const char *name, bool value) const {
-    this->useProgram();
+    this->bind();
     glUniform1i(glGetUniformLocation(this->Program, name), int(value));
 }
 
 void Shader::uniformSet(const char *name, int value) const {
-    this->useProgram();
+    this->bind();
     glUniform1i(glGetUniformLocation(this->Program, name), value);
 }
 
 void Shader::uniformSet(const char *name, float value) const {
-    this->useProgram();
+    this->bind();
     glUniform1f(glGetUniformLocation(this->Program, name), int(value));
 }
 
 void Shader::uniformSet(const char *name, glm::vec2 &value) const {
-    this->useProgram();
+    this->bind();
     glUniform2fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
 void Shader::uniformSet(const char *name, float x, float y) const {
-    this->useProgram();
+    this->bind();
     glUniform2f(glGetUniformLocation(this->Program, name), x, y);
 }
 
 
 void Shader::uniformSet(const char *name, glm::vec3 &value) const {
-    this->useProgram();
+    this->bind();
     glUniform3fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
 void Shader::uniformSet(const char *name, float x, float y, float z) const {
-    this->useProgram();
+    this->bind();
     glUniform3f(glGetUniformLocation(this->Program, name), x, y, z);
 }
 
 void Shader::uniformSet(const char *name, glm::vec4 &value) const {
-    this->useProgram();
+    this->bind();
     glUniform4fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
 void Shader::uniformSet(const char *name, float x, float y, float z, float w) const {
-    this->useProgram();
+    this->bind();
     glUniform4f(glGetUniformLocation(this->Program, name), x, y, z, w);
 }
 
 void Shader::uniformSet(const char *name, glm::mat2 &value) const {
-    this->useProgram();
+    this->bind();
     glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE,
                        &value[0][0]); // idk what doing 3rd argument (transpose)
 }
 
 void Shader::uniformSet(const char *name, glm::mat3 &value) const {
-    this->useProgram();
+    this->bind();
     glUniformMatrix3fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
 
 void Shader::uniformSet(const char *name, glm::mat4 &value) const {
-    this->useProgram();
+    this->bind();
     glUniformMatrix4fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
+
 
 
 

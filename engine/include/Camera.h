@@ -16,9 +16,14 @@ private:
     glm::vec3 directionSide;
     glm::vec3 rightSide;
     glm::vec3 upSide;
-    float FOV = 45.0f;
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
+
+    float FOV = 45.0f;
+    float aspect = 4.0f / 3.0f;
+    float ddNear = 0.1f; // dd - drawing distance
+    float ddFar = 100.0f;
+
 
 protected:
 

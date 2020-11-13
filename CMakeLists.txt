@@ -9,9 +9,15 @@ set(PROJ_EXE_NAME "${PROJECT_NAME}.ver${PROJECT_VERSION}")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build) #builded exe will be added to that path
 file(COPY ${PROJECT_SOURCE_DIR}/res DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
+IF (CMAKE_SIZEOF_VOID_P EQUAL 8)  #64 bit
+    message(STATUS "Running on 64bit platform. Proceeding...")
+ELSE ()
+    message(STATUS "Running on 32bit platform. Proceeding...")
+ENDIF ()
+
 # build -----------------------------------------------------------------------
 add_subdirectory(engine)
-message("PhorEngine Version: ${PhorEngine_VERSION}")
+message("PhonEngine Version: ${PhonEngine_VERSION}")
 
 add_executable(
         ${PROJ_EXE_NAME}

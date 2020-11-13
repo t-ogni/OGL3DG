@@ -30,7 +30,7 @@ auto Camera::getMVP() -> glm::mat4 {
     );
 
     upSide = glm::cross(rightSide, directionSide);
-    glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(FOV), 4.0f / 3.0f, 0.1f, 30000.0f);
+    glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
 
     glm::mat4 ViewMatrix = glm::lookAt(
             position,
