@@ -12,10 +12,6 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     Program = loadShaders(vertexPath, fragmentPath);
 }
 
-void Shader::operator()(const char *vertexPath, const char *fragmentPath) {
-    Program = loadShaders(vertexPath, fragmentPath);
-}
-
 void Shader::bind() const {
     glUseProgram(this->Program);
 }

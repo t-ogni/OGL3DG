@@ -24,6 +24,7 @@ protected:
     void setEngine(Engine *eng);
 
 public:
+    const char *title;
     GameState State = GAME_MENU;
 
     Game();

@@ -22,7 +22,6 @@ private:
 public:
     Shader() = default;
     Shader(const char *vertexPath, const char *fragmentPath);
-    void operator()(const char *vertexPath, const char *fragmentPath);
 
     void bind() const;
     void unbind() const;

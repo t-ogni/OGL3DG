@@ -9,7 +9,9 @@
 
 #include "Game.h"
 
-Game::Game() {}
+Game::Game() {
+    title = "new Game";
+}
 
 void Game::setEngine(Engine *eng) {
     Console::message("Engine located at 0x%x (mem)", eng);
