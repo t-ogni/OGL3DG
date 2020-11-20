@@ -3,7 +3,8 @@
 //|_____/.______| .  |    |______ |     | |  |  |
 // Copyright (c) 2020 Dark Shield Team. All rights reserved.
 // Created by moonlin on 017 17.09.20 at 0:18.
-
+// todo: must be factored in future for output in hand-made in-app console
+// todo: create logging level (debug, info, warning, error)
 #ifndef OGL3DG_CONSOLE_H
 #define OGL3DG_CONSOLE_H
 

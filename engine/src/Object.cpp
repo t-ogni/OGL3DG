@@ -6,190 +6,79 @@
 
 #include "Object.h"
 
-Object::Object(const char *path) : Visible(false) {
-    loadObj(path);
+Object::Object(const char *path) {
+    loadFromFile(path);
+}
+Object::Object(Mesh *mesh1) {
+    meshes.push_back(mesh1);
 }
 
-auto splitStr(std::string &line, char separator = ' ') -> std::vector<std::string> {
-    std::vector<std::string> mas;
-    std::string buffer;
-    for (char i : line) {
-        if (i != separator) {
-            buffer += i;
-        } else {
-            if (!buffer.empty()) {
-                mas.push_back(buffer);
-                buffer.clear();
-            }
-        }
-    }
-    if (!buffer.empty())
-        mas.push_back(buffer);
-
-    return mas;
+void Object::addMesh(std::vector<Vertex> vertices) {
+    meshes.push_back(new Mesh(vertices));
 }
 
-auto splitInt(std::string &line, char separator = ' ') -> std::vector<int> {
-    std::vector<int> mas;
-    std::string buffer;
-    for (char i : line) {
-        if (i != separator) {
-            buffer += i;
-        } else {
-            if (!buffer.empty()) {
-                mas.push_back(int(strtol(buffer.c_str(), nullptr, 10)));
-                buffer.clear();
-            }
-        }
-    }
-    if (!buffer.empty())
-        mas.push_back(int(strtol(buffer.c_str(), nullptr, 10)));
-
-    return mas;
-}
-
-void Object::loadObj(const char *path) {
-    std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
-    std::vector<glm::vec3> temp_vertices;
-    std::vector<glm::vec2> temp_uvs;
-    std::vector<glm::vec3> temp_normals;
-    bool existsNormals = false;
-
-    std::ifstream objFile(path);
-    if (!objFile) {
-        Console::warning("Object in %s cannot be opened ", path);
-        return;
-    } else
-        Console::message("Object in %s was loaded", path);
-    std::string fileLine;
-    while (objFile) {
-        getline(objFile, fileLine);
-
-
-        if (fileLine.rfind("v ", 0) == 0) {
-            fileLine.erase(fileLine.begin(), fileLine.begin() + 2);
-            std::istringstream lineStream(fileLine);
-            glm::vec3 vertex;
-            if (!(lineStream >> vertex.x >> vertex.y >> vertex.z))
-                Console::warning("stringStream cannot read float values in obj file (v ...)");
-
-            temp_vertices.push_back(vertex);
-        } else if (fileLine.rfind("vt ", 0) == 0) {
-            fileLine.erase(fileLine.begin(), fileLine.begin() + 3);
-            std::istringstream lineStream(fileLine);
-            glm::vec2 uv;
-            lineStream >> uv.x;
-            lineStream >> uv.y;
-            temp_uvs.push_back(uv);
-        } else if (fileLine.rfind("vn ", 0) == 0) {
-            existsNormals = true;
-            fileLine.erase(fileLine.begin(), fileLine.begin() + 3);
-            std::istringstream lineStream(fileLine);
-            glm::vec3 normal;
-            lineStream >> normal.x;
-            lineStream >> normal.y;
-            lineStream >> normal.z;
-            temp_normals.push_back(normal);
-        } else if (fileLine.rfind("f ", 0) == 0) {
-            fileLine.erase(fileLine.begin(), fileLine.begin() + 2);
-            std::vector<std::string> points = splitStr(fileLine, ' ');
-
-            int iterator = 0;
-            for (auto it = points.begin(); it < points.end(); it++, iterator++) {
-                std::vector<int> point = splitInt(*it, '/');
-                int &vertex = point[0];
-                int &uv = point[1];
-                int &normal = point[2];
-                vertexIndices.push_back(vertex);
-                uvIndices.push_back(uv);
-                normalIndices.push_back(normal);
-                // todo EBO indices
-            }
-        }
-    }
-
-    for (unsigned int vertexIndex : vertexIndices) {
-        glm::vec3 vertex = temp_vertices[vertexIndex - 1]; // The OBJ index starts with 1, and c++ starts with 0
-        this->vertices.push_back(vertex);
-    }
-
-    for (unsigned int uvIndex : uvIndices) {
-        glm::vec2 uv = temp_uvs[uvIndex - 1];
-        this->uvs.push_back(uv);
-    }
-    if (existsNormals) {
-        for (unsigned int normalIndex : normalIndices) {
-            glm::vec3 normal = temp_normals[normalIndex - 1];
-            this->normals.push_back(normal);
-        }
-    }
-
-    Visible = true;
-    setupVAO();
-}
-
-void Object::loadMtl(const char *path) {
-    //todo: loading
-}
-
-auto Object::getVertices() -> std::vector<glm::vec3> {
-    std::vector<glm::vec3> vert_modifed;
-    for (auto &vertex : vertices)
-        vert_modifed.push_back(vertex * Position);
-
-    return vert_modifed;
-}
-
-void Object::draw(glm::mat4 MVP) const {
-    shader-> bind();
-    shader-> uniformSet("MVP", MVP);
-    texture->bind();
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-    glBindVertexArray(0);
-    texture->unbind();
-}
-
-
-void Object::setupVAO(int mode) {
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], mode);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void *) nullptr);
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0);
-
-}
-
-void Object::operator()(const char *path) {
-    loadObj(path);
-}
-
-
-void Object::operator()(const char *path, Texture *texture1) {
-    loadObj(path);
-    setTexture(texture1);
-}
-
-void Object::operator()(const char *path, Texture *texture1, Shader *shader1) {
-    loadObj(path);
-    setTexture(texture1);
-    setShader(shader1);
-
-}
-
-void Object::setTexture(Texture *texture1) {
-    texture = texture1;
-}
-
-void Object::setShader(Shader *shader1) {
+void Object::bindShader(Shader *shader1) {
     shader = shader1;
 }
 
+void Object::loadFromFile(const char *path) {
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec2> texCoords;
+    std::vector<glm::vec3> normals;
+
+    std::vector<Vertex> vertices;
+    std::ifstream objFile(path);
+
+    if (!objFile) {
+        Console::warning("Object file in %s cannot be opened ", path);
+        return;
+    } else
+        Console::message("Object file in %s was loaded", path);
+
+    std::string fileLine;
+    while (objFile) {
+        getline(objFile, fileLine);
+        std::istringstream lineStream(fileLine);
+        std::string oper;
+        lineStream >> oper;
+        if (oper == "v") {
+            glm::vec3 vertex;
+            lineStream >> vertex.x >> vertex.y >> vertex.z;
+
+            positions.push_back(vertex);
+
+        } else if (oper == "vt") {
+            glm::vec2 uv;
+            lineStream >> uv.x >> uv.y;
+
+            texCoords.push_back(uv);
+
+        } else if (oper == "vn") {
+            glm::vec3 normal;
+            lineStream >> normal.x >> normal.y >> normal.z;
+
+            normals.push_back(normal);
+
+        } else if (oper == "f") {
+            std::string points[3];
+            lineStream >> points[0] >> points[1] >> points[2];
+
+            for (auto &point : points) {
+                std::stringstream pStream (point);
+                std::string v, vt, vn;
+                Vertex vertex;
+                std::getline(pStream, v, '/');
+                std::getline(pStream, vt, '/');
+                std::getline(pStream, vn, '/');
+                vertex.position = (v == "") ? glm::vec3(0.f) : positions[stoi(v) - 1];
+                vertex.textureCoord = (vt == "") ? glm::vec2(0.f) : texCoords[stoi(vt) - 1];
+                vertex.normal = (vn == "") ? glm::vec3(0.f) : normals[stoi(vn) - 1];
+                vertices.push_back(vertex);
+            }
+        }  // todo: matreial (.mtl)
+    }
+    addMesh(vertices);
+    return;
+}
 
 Object::~Object() = default;
