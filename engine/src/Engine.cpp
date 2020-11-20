@@ -7,8 +7,11 @@
 #include "Engine.h"
 
 
-Engine::Engine(Game *g, Window *pwindow) : game(g), window(pwindow),
-                                           camera(new Camera()), input(new InputHandler()) {
+Engine::Engine(Game *g, Window *pwindow) :
+    game(g),  window(pwindow),
+    camera(new Camera()),
+    input(new InputHandler()),
+    renderer(new Renderer()) {
     this->game->setEngine(this);
     glfwSetErrorCallback(&Console::glfwError);
 }
@@ -23,19 +26,22 @@ auto Engine::run() -> int {
     game->Init();
 
     while (!window->isCloseRequested()) {
-        auto currentFrame = float(glfwGetTime());
-        this->deltaTime = currentFrame - lastTime;
-        this->lastTime = currentFrame;
+        auto currentTime = float(glfwGetTime());
+        deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        FPS = 1000 / deltaTime;
+
 
         Window::update();
+        camera->updateMatrices();
 
         this->game->ProcessInput(deltaTime);
         this->game->Update(deltaTime);
         Window::clear();
         this->game->Render();
 
+        renderer->draw(camera-> getModelViewMat());
         window->render();
-
     }
 
     game->Destroy();

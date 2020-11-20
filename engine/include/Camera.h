@@ -16,6 +16,9 @@ private:
     glm::vec3 directionSide;
     glm::vec3 rightSide;
     glm::vec3 upSide;
+    glm::mat4 ProjectionMatrix;
+    glm::mat4 ViewMatrix;
+
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
 
@@ -24,38 +27,32 @@ private:
     float ddNear = 0.1f; // dd - drawing distance
     float ddFar = 100.0f;
 
-
-protected:
-
 public:
     glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
     float speed = 2.0f;
 
     Camera();
 
-    auto getMVP() -> glm::mat4;
+    // get all info
+    glm::vec2 getDirection() const; // horizontal and vertical angles
+    glm::vec3 getPosition() const;
+    auto getModelViewMat() -> glm::mat4;
+    void updateMatrices();
 
+    // set core params
     void changeFOV(float x);
+    void changeAspect(float a);
 
+    // change positon and view
     void changeDirection(float x, float y, float dt);
-
     void setPosition(glm::vec3 pos);
 
-    glm::vec2 getDirection(); // horizontal and vertical angles
-    glm::vec3 getPosition();
-
     void forward(float dt);
-
     void backward(float dt);
-
     void left(float dt);
-
     void right(float dt);
-
     void up(float dt);
-
     void down(float dt);
-
 
     ~Camera();
 };

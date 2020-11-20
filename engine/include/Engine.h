@@ -21,6 +21,7 @@
 #include "Camera.h"
 #include "Window.h"
 #include "InputHandler.h"
+#include "Renderer.h"
 
 class Engine {
 public:
@@ -34,9 +35,11 @@ public:
     Camera *camera = nullptr;
     Window *window = nullptr;
     InputHandler *input = nullptr;
+    Renderer *renderer = nullptr;
+
 private:
     Game *game = nullptr;
-
+    int FPS = 0;
     float deltaTime = 0.0;
     float lastTime = 0.0;
 
