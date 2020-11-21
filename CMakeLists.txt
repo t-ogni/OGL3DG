@@ -9,7 +9,7 @@ set(PROJ_EXE_NAME "${PROJECT_NAME}.ver${PROJECT_VERSION}")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build) #builded exe will be added to that path
 file(COPY ${PROJECT_SOURCE_DIR}/res DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
-IF (CMAKE_SIZEOF_VOID_P EQUAL 8)  #64 bit
+IF (CMAKE_SIZEOF_VOID_P EQUAL 8)  #64 OR 32 bit compiler
     message(STATUS "Running on 64bit platform. Proceeding...")
 ELSE ()
     message(STATUS "Running on 32bit platform. Proceeding...")
@@ -23,6 +23,7 @@ add_executable(
         ${PROJ_EXE_NAME}
         main.cpp
 )
+
 target_link_libraries(
         ${PROJ_EXE_NAME}
         -static gcc stdc++ winpthread -dynamic

@@ -74,7 +74,7 @@ void Object::loadFromFile(const char *path) {
                 vertex.textureCoord = (vt == "") ? glm::vec2(0.f) : texCoords[stoi(vt) - 1];
                 vertex.normal = (vn == "") ? glm::vec3(0.f) : normals[stoi(vn) - 1];
                 vertices.push_back(vertex);
-            }
+            } //todo: split by meshes
         }  // todo: matreial (.mtl)
     }
     addMesh(vertices);

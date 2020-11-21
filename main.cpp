@@ -6,6 +6,7 @@ private:
     Object *cube;
     Shader *shader;
     int8_t fillTextures = 0;
+    bool started = false;
 
 public:
     Striker() : Game() {
@@ -15,15 +16,17 @@ public:
     void Init() override {
         shader = new Shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
         cube = new Object("res/cube.obj");
+        cube-> shader = shader;
         engine->camera->speed = 20.0f;
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
         engine->input->setCursorHidden(true);
+        engine-> renderer-> addToScene(cube);
         Console::message("Init ended");
     }
 
     void ProcessInput(float dt) override {
-        if(engine-> window-> isActive()) {
+        if(engine-> window-> isActive() && started) {
             if (engine->input->getKeyStatus(GLFW_KEY_W))
                 engine->camera->forward(dt);
 
@@ -53,12 +56,15 @@ public:
             glm::vec2 mouseMoved = -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
             engine->camera->changeDirection(mouseMoved.x, mouseMoved.y, dt);
 
-            Console::message("pos: %d %d %d \t| looking at: %d %d",
+            Console::message("pos: %d %d %d \t| looking at: %d %d | CUBE at ",
                              engine-> camera-> getPosition().x,
                              engine-> camera-> getPosition().y,
                              engine-> camera-> getPosition().z,
                              engine-> camera-> getDirection().x,
                              engine-> camera-> getDirection().y);
+        } else {
+            if (engine->input->getKeyStatus(GLFW_KEY_ENTER))
+                started = true;
         }
     }
 

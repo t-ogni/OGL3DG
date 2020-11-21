@@ -21,6 +21,8 @@ void Renderer::draw(glm::mat4 MVmat) {
     for (auto &object : objects) {
         object-> shader-> bind();
         object-> shader-> uniformSet("MVP", MVmat);
+        glm::vec3 color = glm::vec3(1.0f);
+        object-> shader-> uniformSet("color", color);
         for (auto &mesh : object-> meshes) {
             mesh->draw();
         }
