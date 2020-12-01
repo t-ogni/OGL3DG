@@ -37,11 +37,16 @@ auto Engine::run() -> int {
 
         this->game->ProcessInput(deltaTime);
         this->game->Update(deltaTime);
+
+        input -> update();
+
         Window::clear();
         this->game->Render();
 
-        renderer->draw(camera-> getModelViewMat());
+        renderer->draw(camera->getProjViewMat());
         window->render();
+
+
     }
 
     game->Destroy();

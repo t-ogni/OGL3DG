@@ -60,6 +60,7 @@ void InputHandler::mouse_button_callback(GLFWwindow *windowParam, int button, in
 void InputHandler::cursor_pos_callback(GLFWwindow *windowParam, double xpos, double ypos) {
     glm::vec2 position = glm::vec2((float) xpos, (float) ypos);
     cursorPosition = position;
+    cursorMoved = true;
 
     if (isCursorLocked)
         setCursorPosition(window, lockedCursorPosition);
@@ -81,7 +82,7 @@ void InputHandler::setCursorHidden(bool to) {
     glfwSetInputMode(window, GLFW_CURSOR, to ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
 }
 
-auto InputHandler::getScrollOffset() -> double {
+auto InputHandler::getScrollOffset() const -> double {
     return scrollOffset;
 }
 
@@ -89,7 +90,7 @@ void InputHandler::setScrollOffset(float offset) {
     scrollOffset = offset;
 }
 
-bool InputHandler::getLockStatus() {
+bool InputHandler::getLockStatus() const {
     return isCursorLocked;
 }
 
@@ -116,5 +117,10 @@ char InputHandler::getMouseStatus(int key) {
     return MouseKeys[key];
 }
 
+void InputHandler::update() {
+    cursorMoved = false;
+}
 
-
+bool InputHandler::isCursorMoved() const {
+    return cursorMoved;
+};

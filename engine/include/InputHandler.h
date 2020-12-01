@@ -18,32 +18,32 @@ public:
     void initCallbacks(GLFWwindow *window);
 
     auto getCursorPosition() -> glm::vec2;
-
-    void setCursorPosition(GLFWwindow *window, glm::vec2 newPosition);
-
-    void setCursorHidden(bool to);
-
-    auto getScrollOffset() -> double;
-
-    void setScrollOffset(float offset);
-
-
-    void setLockedCursorPosition(glm::vec2 lockedPosition);
-
-
-    void setLockStatus(bool to);
-
+    auto getScrollOffset() const -> double;
     char getKeyStatus(int key);
     char getMouseStatus(int key);
     auto getLockedCursorPosition() -> glm::vec2;
-    bool getLockStatus();
+
+    bool getLockStatus() const;
+    bool isCursorMoved() const;
+
+    void setCursorPosition(GLFWwindow *window, glm::vec2 newPosition);
+    void setCursorHidden(bool to);
+    void setScrollOffset(float offset);
+    void setLockedCursorPosition(glm::vec2 lockedPosition);
+    void setLockStatus(bool to);
+
+    void update();
+
+
+
 
 private:
-    char KeyboardKeys[GLFW_KEY_LAST + 1] {};
-    char MouseKeys[GLFW_MOUSE_BUTTON_LAST + 1] {};
+    int8_t KeyboardKeys[GLFW_KEY_LAST + 1] {};
+    int8_t MouseKeys[GLFW_MOUSE_BUTTON_LAST + 1] {};
     glm::vec2 cursorPosition = glm::vec2(0.0f, 0.0f);
     glm::vec2 lockedCursorPosition = glm::vec2(0.0f, 0.0f);
     bool isCursorLocked = false;
+    bool cursorMoved = true;
     double scrollOffset = 0;
 
     GLFWwindow *window;

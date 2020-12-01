@@ -11,12 +11,13 @@ private:
 public:
     Striker() : Game() {
         Console::message("Striker game class created");
+        title = "hello";
     };
 
     void Init() override {
         shader = new Shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
-        cube = new Object("res/cube.obj");
-        cube-> shader = shader;
+        cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png"), glm::vec4 {00.1f}));
+        cube-> setShader(shader);
         engine->camera->speed = 20.0f;
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
@@ -39,6 +40,12 @@ public:
             if (engine->input->getKeyStatus(GLFW_KEY_D))
                 engine->camera->right(dt);
 
+            if (engine->input->getKeyStatus(GLFW_KEY_Q))
+                engine->camera->roll(1.0f, dt);
+
+            if (engine->input->getKeyStatus(GLFW_KEY_E))
+                engine->camera->roll(-1.0f, dt);
+
             if (engine->input->getKeyStatus(GLFW_KEY_LEFT_SHIFT))
                 engine->camera->up(dt);
 
@@ -46,22 +53,19 @@ public:
                 engine->camera->down(dt);
 
             if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_PRESS){
-                if (fillTextures % 1000 == 0)
-                    glPolygonMode(GL_FRONT_AND_BACK, (fillTextures % 2 == 0) ? GL_FILL : GL_LINE);
+                    glPolygonMode(GL_FRONT_AND_BACK, (fillTextures) ? GL_FILL : GL_LINE);
+                    fillTextures = !fillTextures;
+            }
+            if(engine-> input-> isCursorMoved()){
+                glm::vec2 viewAngles = engine-> camera-> getViewAngles();
+                glm::vec2 mouseMoved = -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
+                // -90deg <= vertical <= 90deg or mouse going middle
+                if (-1.57f <= viewAngles.y && viewAngles.y <= 1.57f)
+                    engine->camera->changeDirection(mouseMoved.x, mouseMoved.y, dt);
                 else
-                    fillTextures++;
+                    engine->camera->changeDirection(mouseMoved.x, -0.1f/viewAngles.y, dt);
 
             }
-
-            glm::vec2 mouseMoved = -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
-            engine->camera->changeDirection(mouseMoved.x, mouseMoved.y, dt);
-
-            Console::message("pos: %d %d %d \t| looking at: %d %d | CUBE at ",
-                             engine-> camera-> getPosition().x,
-                             engine-> camera-> getPosition().y,
-                             engine-> camera-> getPosition().z,
-                             engine-> camera-> getDirection().x,
-                             engine-> camera-> getDirection().y);
         } else {
             if (engine->input->getKeyStatus(GLFW_KEY_ENTER))
                 started = true;
@@ -69,7 +73,6 @@ public:
     }
 
     void Render() override {
-
     }
 
 };
