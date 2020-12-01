@@ -15,26 +15,27 @@ Camera::Camera() : position(glm::vec3(0, 0, -5)),
 }
 
 
-glm::mat4 Camera::getModelViewMat() {
+glm::mat4 Camera::getProjViewMat() {
     return ProjectionMatrix * ViewMatrix;
 }
 
 void Camera::updateMatrices() {
     directionSide = glm::vec3(
-            cos((double) verticalAngle) * sin((double) horizontalAngle),
-            sin((double) verticalAngle),
-            cos((double) verticalAngle) * cos((double) horizontalAngle)
+            cos((double) pitch) * sin((double) yaw),
+            sin((double) pitch),
+            cos((double) pitch) * cos((double) yaw)
     );
 
     rightSide = glm::vec3(
-            sin((double) horizontalAngle - 3.14f / 2.0f),
+            sin((double) yaw - 3.14f / 2.0f),
             0,
-            cos((double) horizontalAngle - 3.14f / 2.0f)
+            cos((double) yaw - 3.14f / 2.0f)
     );
 
     upSide = glm::cross(rightSide, directionSide);
 
     ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
+
 
     ViewMatrix = glm::lookAt(
             position,
@@ -43,13 +44,18 @@ void Camera::updateMatrices() {
     );
 }
 
-auto Camera::getDirection() const -> glm::vec2 {
-    return glm::vec2(horizontalAngle, verticalAngle);
+glm::vec3 Camera::getDirection() {
+    return directionSide;
 }
 
-auto Camera::getPosition() const -> glm::vec3 {
+glm::vec3 Camera::getPosition() {
     return position;
 }
+
+glm::vec2 Camera::getViewAngles() {
+    return glm::vec2(yaw, pitch);
+}
+
 void Camera::changeFOV(float x) {
     this->FOV += x;
 }
@@ -67,10 +73,12 @@ void Camera::down(float dt) { position -= upSide * dt * speed; }
 
 void Camera::setPosition(glm::vec3 pos) { position = pos; }
 void Camera::changeDirection(float x, float y, float dt) {
-    horizontalAngle += x * dt;
-    verticalAngle += y * dt;
+    yaw += x * dt;
+    pitch += y * dt;
 }
-
-
+// todo: roll
+void Camera::roll(float i, float dt) {
+    scroll += i * dt;
+}
 
 Camera::~Camera() = default;

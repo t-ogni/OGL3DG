@@ -6,22 +6,38 @@
 
 #include "Object.h"
 
-Object::Object(const char *path) {
-    loadFromFile(path);
+Object::Object(const char *pathToObj) {
+    loadObjFromFile(pathToObj);
 }
-Object::Object(Mesh *mesh1) {
-    meshes.push_back(mesh1);
+
+Object::Object(const char *pathToObj, Material *material1) {
+    loadObjFromFile(pathToObj);
+    material = material1;
+}
+
+Object::Object(const char *pathToObj, Texture *texture) {
+    loadObjFromFile(pathToObj);
+    material = new Material(texture);
+
+}
+Object::Object(const char *pathToObj, const char *pathToTexture) {
+    loadObjFromFile(pathToObj);
+    material = new Material(new Texture(pathToTexture));
 }
 
 void Object::addMesh(std::vector<Vertex> vertices) {
     meshes.push_back(new Mesh(vertices));
 }
 
-void Object::bindShader(Shader *shader1) {
+void Object::setShader(Shader *shader1) {
     shader = shader1;
 }
 
-void Object::loadFromFile(const char *path) {
+void Object::setMaterial(Material *material1) {
+    material = material1;
+}
+
+void Object::loadObjFromFile(const char *path) {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec2> texCoords;
     std::vector<glm::vec3> normals;
@@ -80,5 +96,10 @@ void Object::loadFromFile(const char *path) {
     addMesh(vertices);
     return;
 }
+
+void Object::loadMaterialFromFile(const char *path) {
+
+}
+
 
 Object::~Object() = default;

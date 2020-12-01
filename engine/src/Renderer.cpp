@@ -19,10 +19,13 @@ void Renderer::removeFromScene(Object *object) {
 
 void Renderer::draw(glm::mat4 MVmat) {
     for (auto &object : objects) {
-        object-> shader-> bind();
-        object-> shader-> uniformSet("MVP", MVmat);
-        glm::vec3 color = glm::vec3(1.0f);
-        object-> shader-> uniformSet("color", color);
+        if(object->shader != nullptr) {
+            if(object-> material-> texture != nullptr)
+                object -> material-> texture-> bind();
+            object->shader-> bind();
+            object->shader-> uniformSet("MVP", MVmat);
+            object->shader-> uniformSet("color", object-> material-> color);
+        }
         for (auto &mesh : object-> meshes) {
             mesh->draw();
         }
@@ -31,3 +34,6 @@ void Renderer::draw(glm::mat4 MVmat) {
 
 Renderer::~Renderer() = default;
 
+// x - абсцисс
+// y - ординат
+// z - аппликат

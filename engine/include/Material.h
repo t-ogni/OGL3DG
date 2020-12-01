@@ -10,14 +10,20 @@
 #include <glm/glm.hpp>
 #include "Texture.h"
 
+class Renderer;
+
 class Material {
+    friend Renderer;
 private:
-    glm::vec4 color { 1.0f };
-    Texture *texture = nullptr;
+    glm::vec4 color;
+    Texture *texture;
 
 public:
     Material();
-
+    Material(Texture *texture1, glm::vec4 color1 = {0.f, 1.f, 0.f, 1.f});
+    void loadMtl(const char *path);
+    void setColor(glm::vec3 color1);
+    void setColor(glm::vec4 color1);
     ~Material();
 };
 

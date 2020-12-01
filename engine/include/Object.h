@@ -20,20 +20,28 @@
 #include "Mesh.h"
 #include <vector>
 
+class Renderer;
+
 class Object {
-public:
+    friend Renderer;
+private:
     std::vector<Mesh *> meshes;
-    Shader *shader = nullptr;
-    Material *material = nullptr;
+    Shader *shader = nullptr; // todo basic shader
+    Material *material = new Material();
+
+public:
 
     Object() = default;
-    Object(const char *path);
-    Object(Mesh *mesh1);
+    Object(const char *pathToObj);
+    Object(const char *pathToObj, Material *material1);
+    Object(const char *pathToObj, Texture *texture1);
+    Object(const char *pathToObj, const char *pathToTexture);
 
     void addMesh(std::vector<Vertex> vertices);
-    void bindShader(Shader *shader1);
-    void loadFromFile(const char *path);
-
+    void setShader(Shader *shader1);
+    void setMaterial(Material *material1);
+    void loadObjFromFile(const char *path);
+    void loadMaterialFromFile(const char *path);
     ~Object();
 };
 

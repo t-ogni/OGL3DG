@@ -8,4 +8,21 @@
 
 Material::Material() {}
 
+Material::Material(Texture *texture1, glm::vec4 color1) {
+    texture = texture1;
+    color = color1;
+}
+
+void Material::loadMtl(const char *path) {
+
+}
+
+void Material::setColor(glm::vec3 color1) {
+    color = glm::vec4(color1, 1.0f);
+}
+
+void Material::setColor(glm::vec4 color1) {
+    color = color1;
+}
+
 Material::~Material() {}

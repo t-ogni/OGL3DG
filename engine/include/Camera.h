@@ -19,8 +19,9 @@ private:
     glm::mat4 ProjectionMatrix;
     glm::mat4 ViewMatrix;
 
-    float horizontalAngle = 0.0f;
-    float verticalAngle = 0.0f;
+    float yaw = 0.0f;
+    float pitch = 0.0f;
+    float scroll = 0.0f;
 
     float FOV = 45.0f;
     float aspect = 4.0f / 3.0f;
@@ -34,9 +35,12 @@ public:
     Camera();
 
     // get all info
-    glm::vec2 getDirection() const; // horizontal and vertical angles
-    glm::vec3 getPosition() const;
-    auto getModelViewMat() -> glm::mat4;
+    glm::vec3 getDirection();
+    glm::vec3 getPosition();
+    glm::vec2 getViewAngles();
+
+    // sys funcs
+    auto getProjViewMat() -> glm::mat4;
     void updateMatrices();
 
     // set core params
@@ -47,12 +51,14 @@ public:
     void changeDirection(float x, float y, float dt);
     void setPosition(glm::vec3 pos);
 
+    // moves
     void forward(float dt);
     void backward(float dt);
     void left(float dt);
     void right(float dt);
     void up(float dt);
     void down(float dt);
+    void roll(float i, float dt);
 
     ~Camera();
 };
