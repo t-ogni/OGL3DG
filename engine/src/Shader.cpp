@@ -78,64 +78,52 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
 
 
 void Shader::uniformSet(const char *name, bool value) const {
-    this->bind();
     glUniform1i(glGetUniformLocation(this->Program, name), int(value));
 }
 
 void Shader::uniformSet(const char *name, int value) const {
-    this->bind();
     glUniform1i(glGetUniformLocation(this->Program, name), value);
 }
 
 void Shader::uniformSet(const char *name, float value) const {
-    this->bind();
     glUniform1f(glGetUniformLocation(this->Program, name), int(value));
 }
 
 void Shader::uniformSet(const char *name, glm::vec2 &value) const {
-    this->bind();
     glUniform2fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
 void Shader::uniformSet(const char *name, float x, float y) const {
-    this->bind();
     glUniform2f(glGetUniformLocation(this->Program, name), x, y);
 }
 
 
 void Shader::uniformSet(const char *name, glm::vec3 &value) const {
-    this->bind();
     glUniform3fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
 void Shader::uniformSet(const char *name, float x, float y, float z) const {
-    this->bind();
     glUniform3f(glGetUniformLocation(this->Program, name), x, y, z);
 }
 
 void Shader::uniformSet(const char *name, glm::vec4 &value) const {
-    this->bind();
     glUniform4fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
 }
 
 void Shader::uniformSet(const char *name, float x, float y, float z, float w) const {
-    this->bind();
     glUniform4f(glGetUniformLocation(this->Program, name), x, y, z, w);
 }
 
 void Shader::uniformSet(const char *name, glm::mat2 &value) const {
-    this->bind();
     glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE,
                        &value[0][0]); // idk what doing 3rd argument (transpose)
 }
 
 void Shader::uniformSet(const char *name, glm::mat3 &value) const {
-    this->bind();
     glUniformMatrix3fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
 
 void Shader::uniformSet(const char *name, glm::mat4 &value) const {
-    this->bind();
     glUniformMatrix4fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
 }
 

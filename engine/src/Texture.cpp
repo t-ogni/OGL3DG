@@ -5,6 +5,7 @@
 // Created by moonlin on 007 07.11.20 at 22:59.
 
 #include "Texture.h"
+
 Texture::Texture(const char *path) {
     loadTextures(path);
 }
@@ -30,7 +31,7 @@ void Texture::loadTextures(const char *path) {
 }
 
 void Texture::bind() const {
-    glActiveTexture(GL_TEXTURE0 + textureID);
+    //glActiveTexture(GL_TEXTURE0 + textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
