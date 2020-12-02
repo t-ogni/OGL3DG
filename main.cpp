@@ -3,6 +3,7 @@
 
 class Striker : public Game {
 private:
+    Object *map;
     Object *cube;
     Shader *shader;
     int8_t fillTextures = 0;
@@ -11,18 +12,25 @@ private:
 public:
     Striker() : Game() {
         Console::message("Striker game class created");
-        title = "hello";
+        title = "Striker v1.0";
     };
 
     void Init() override {
         shader = new Shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
+
+        map = new Object("res/gameMap.obj");
+        map-> setShader(shader);
+        engine-> renderer-> addToScene(map);
+
         cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png"), glm::vec4 {00.1f}));
         cube-> setShader(shader);
+        engine-> renderer-> addToScene(cube);
+
         engine->camera->speed = 20.0f;
+
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
         engine->input->setCursorHidden(true);
-        engine-> renderer-> addToScene(cube);
         Console::message("Init ended");
     }
 

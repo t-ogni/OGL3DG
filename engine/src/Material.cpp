@@ -6,8 +6,6 @@
 
 #include "Material.h"
 
-Material::Material() {}
-
 Material::Material(Texture *texture1, glm::vec4 color1) {
     texture = texture1;
     color = color1;
@@ -26,3 +24,4 @@ void Material::setColor(glm::vec4 color1) {
 }
 
 Material::~Material() {}
+

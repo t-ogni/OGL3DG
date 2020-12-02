@@ -19,8 +19,6 @@ class Game {
 protected:
     friend Engine;
     Engine *engine = nullptr;
-    Object *ThisPlayer;
-
     void setEngine(Engine *eng);
 
 public:

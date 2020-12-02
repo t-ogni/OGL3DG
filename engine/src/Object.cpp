@@ -20,6 +20,7 @@ Object::Object(const char *pathToObj, Texture *texture) {
     material = new Material(texture);
 
 }
+
 Object::Object(const char *pathToObj, const char *pathToTexture) {
     loadObjFromFile(pathToObj);
     material = new Material(new Texture(pathToTexture));
@@ -96,10 +97,5 @@ void Object::loadObjFromFile(const char *path) {
     addMesh(vertices);
     return;
 }
-
-void Object::loadMaterialFromFile(const char *path) {
-
-}
-
 
 Object::~Object() = default;

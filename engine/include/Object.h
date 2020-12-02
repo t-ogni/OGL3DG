@@ -41,7 +41,8 @@ public:
     void setShader(Shader *shader1);
     void setMaterial(Material *material1);
     void loadObjFromFile(const char *path);
-    void loadMaterialFromFile(const char *path);
+
+    //todo: void setRandomColors(glm::vec3 from = glm::vec3(0.5f), glm::vec3 to = glm::vec3(1.0f));
     ~Object();
 };
 
