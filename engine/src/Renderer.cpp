@@ -19,9 +19,12 @@ void Renderer::removeFromScene(Object *object) {
 
 void Renderer::draw(glm::mat4 MVmat) {
     for (auto &object : objects) {
+
+        if(object-> material-> texture != nullptr)
+            object -> material-> texture-> bind();
+
         if(object->shader != nullptr) {
-            if(object-> material-> texture != nullptr)
-                object -> material-> texture-> bind();
+
             object->shader-> bind();
             object->shader-> uniformSet("MVP", MVmat);
             object->shader-> uniformSet("color", object-> material-> color);
@@ -29,6 +32,9 @@ void Renderer::draw(glm::mat4 MVmat) {
         for (auto &mesh : object-> meshes) {
             mesh->draw();
         }
+
+        if(object-> material-> texture != nullptr)
+            object -> material-> texture-> unbind();
     }
 }
 

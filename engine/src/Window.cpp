@@ -18,9 +18,9 @@ void Window::resizeCallback(GLFWwindow *windowParam, int width, int height) {
 
 void Window::init() {
     if (!glfwInit())
-        Console::error("GLFW cannot be started", ERROR::INIT_GLFW);
+        Log::error("GLFW cannot be started", ERROR::INIT_GLFW);
     else
-        Console::message("GLFW started");
+        Log::message("GLFW started");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
@@ -37,9 +37,9 @@ void Window::init() {
 
     if (window == nullptr) {
         glfwTerminate();
-        Console::error("Window cannot be initialised", ERROR::INIT_WINDOW);
+        Log::error("Window cannot be initialised", ERROR::INIT_WINDOW);
     } else
-        Console::message("Window initialised");
+        Log::message("Window initialised");
 
     // Set Window Position centered relative to the main screen
     GLFWmonitor *glfwMonitor = glfwGetPrimaryMonitor();
@@ -59,11 +59,11 @@ void Window::init() {
     if (!gladLoadGL()) {
         glfwDestroyWindow(window);
         glfwTerminate();
-        Console::error("GLAD cannot be initialised", ERROR::INIT_GLAD);
+        Log::error("GLAD cannot be initialised", ERROR::INIT_GLAD);
     } else
-        Console::message("GLAD initialised");
+        Log::message("GLAD initialised");
 
-    Console::message("OpenGL Version is %i.%i", GLVersion.major, GLVersion.minor);
+    Log::message("OpenGL Version is %i.%i", GLVersion.major, GLVersion.minor);
 
     glEnable(GL_DEPTH_TEST);
 }

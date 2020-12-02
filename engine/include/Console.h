@@ -5,6 +5,7 @@
 // Created by moonlin on 017 17.09.20 at 0:18.
 // todo: must be factored in future for output in hand-made in-app console
 // todo: create logging level (debug, info, warning, error)
+
 #ifndef OGL3DG_CONSOLE_H
 #define OGL3DG_CONSOLE_H
 
@@ -13,7 +14,7 @@
 #include <sstream>
 #include "Errors.h"
 
-namespace Console {
+namespace Log {
     static void error(const char *text, int errorCode = ERROR::UNKNOWN_ERROR, ...) {
         //Put to error stream and output stream
         va_list ptr = nullptr;
@@ -153,23 +154,6 @@ namespace Console {
 
     static void glfwError(int id, const char *description) {
         std::cout << "[" << id << "] GLFW error: " << description << std::endl;
-    }
-
-    template<class T>
-    static void showMas(T *start, T *end, const char *splitter = " - ") {
-        if (start > end) {
-            warning("showMas got invalid argument (%x > %x)", start, end);
-            return;
-        }
-        for (auto begin = start; begin != end; ++begin) {
-            std::cout << *start << splitter;
-            start++;
-        }
-    }
-
-    template<class T>
-    static void print(T &out, const char *end = "\n") {
-        std::cout << out << end;
     }
 }
 

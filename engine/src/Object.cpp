@@ -47,10 +47,10 @@ void Object::loadObjFromFile(const char *path) {
     std::ifstream objFile(path);
 
     if (!objFile) {
-        Console::warning("Object file in %s cannot be opened ", path);
+        Log::warning("Object file in %s cannot be opened ", path);
         return;
     } else
-        Console::message("Object file in %s was loaded", path);
+        Log::message("Object file in %s was loaded", path);
 
     std::string fileLine;
     while (objFile) {
@@ -92,10 +92,41 @@ void Object::loadObjFromFile(const char *path) {
                 vertex.normal = (vn == "") ? glm::vec3(0.f) : normals[stoi(vn) - 1];
                 vertices.push_back(vertex);
             } //todo: split by meshes
-        }  // todo: matreial (.mtl)
+        } else if (oper == "mtllib"){ //todo: material loader
+            std::string pathToMtl;
+            lineStream >> pathToMtl;
+            material-> loadMtl(pathToMtl.c_str());
+        } else if (oper == "usemtl"){
+
+        }
     }
     addMesh(vertices);
     return;
 }
 
 Object::~Object() = default;
+
+
+/*
+  # Список вершин, с координатами (x,y,z[,w]), w является не обязательным и по умолчанию 1.0.
+  v 0.123 0.234 0.345 1.0
+  ...
+  # Текстурные координаты (u,v[,w]), w является не обязательным и по умолчанию 0.
+  # Текстурная координата по y может быть указана как 1 - v, и при этом по x = u
+  vt 0.500 -1.352 [0.234]
+  ...
+  # Нормали (x,y,z); нормали могут быть не нормированными.
+  vn 0.707 0.000 0.707
+  ...
+  # Параметры вершин в пространстве (u [,v] [,w]); свободная форма геометрического состояния (см. ниже)
+  vp 0.310000 3.210000 2.100000
+  ...
+  # Определения поверхности (сторон)
+  f 1 2 3
+  f 3/1 4/2 5/3
+  f 6/4/1 3/5/3 7/6/5
+  f 6//1 3//3 7//5
+  ...
+  # Группа
+  g Group1
+*/

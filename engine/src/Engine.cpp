@@ -13,14 +13,14 @@ Engine::Engine(Game *g, Window *pwindow) :
     input(new InputHandler()),
     renderer(new Renderer()) {
     this->game->setEngine(this);
-    glfwSetErrorCallback(&Console::glfwError);
+    glfwSetErrorCallback(&Log::glfwError);
 }
 
 auto Engine::run() -> int {
     if (game == nullptr)
-        Console::error("game is nullptr. Aborting..");
+        Log::error("game is nullptr. Aborting..");
     else
-        Console::message("Engine started successfully");
+        Log::message("Engine started successfully");
     window->init();
     input->initCallbacks(window->getWindow());
     game->Init();

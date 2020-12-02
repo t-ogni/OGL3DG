@@ -11,7 +11,7 @@ private:
 
 public:
     Striker() : Game() {
-        Console::message("Striker game class created");
+        Log::message("Striker game class created");
         title = "Striker v1.0";
     };
 
@@ -31,7 +31,7 @@ public:
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
         engine->input->setCursorHidden(true);
-        Console::message("Init ended");
+        Log::message("Init ended");
     }
 
     void ProcessInput(float dt) override {

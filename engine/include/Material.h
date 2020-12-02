@@ -8,18 +8,18 @@
 #define OGL3DG_MATERIAL_H
 
 #include <glm/glm.hpp>
+#include <vector>
 #include "Texture.h"
 
 class Renderer;
 
-struct mtl {
-    glm::vec3 Ambient = glm::vec3(0.2f);
-    glm::vec3 Diffuse = glm::vec3(0.8f);
-    glm::vec3 Specular = glm::vec3(1.0f);
+struct MaterialStuct {
+    glm::vec3 Ambient = glm::vec3(0.2f);  // background color
+    glm::vec3 Diffuse = glm::vec3(0.8f);  // light object
+    glm::vec3 Specular = glm::vec3(1.0f); // reflection
     float alfa = 0.0;
-    float shiness = 0.0;
+    float shine = 0.0;
     short illum = 1;
-
 };
 
 class Material {
@@ -27,6 +27,7 @@ class Material {
 private:
     glm::vec4 color;
     Texture *texture = nullptr;
+    std::vector <MaterialStuct> materials;
 
 public:
     Material() = default;
@@ -49,8 +50,8 @@ Ka f f f              Ambient-свойства материала  float[3]
 Kd f f f              Diffuse-свойства материала
 Ks f f f              Specular-свойства материала
 d  f                      Прозрачность float 0..1
-Ns f                      Shineness (блеск)  float 0..?
-illum n                  Излучение float 0..?
+Ns f                      Shine (блеск)  float 0..?
+illum n                  режим float 0..?
 map_Ka  имя файла с Ambient-текстурой      (Может отсутствовать)
 map_Kd  имя файла с Diffuse-текстурой        (Может отсутствовать)
 map_Ks  имя файла с Specular-текстурой      (Может отсутствовать)

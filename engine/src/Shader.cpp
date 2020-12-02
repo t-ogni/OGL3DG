@@ -29,7 +29,7 @@ auto loadCode(const char *path) -> std::string {
         Stream << File.rdbuf();
         File.close();
     } catch (...) {
-        Console::error("File cannot be opened (path: %s)", ERROR::OPEN_FILE, path);
+        Log::error("File cannot be opened (path: %s)", ERROR::OPEN_FILE, path);
     }
     return Stream.str();
 }
@@ -44,9 +44,9 @@ auto compileShader(const std::string &s_code, int type) -> GLuint {
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        Console::error("Shader cannot be compiled: %s", ERROR::COMPILE_SHADER, infoLog);
+        Log::error("Shader cannot be compiled: %s", ERROR::COMPILE_SHADER, infoLog);
     } else {
-        Console::message("Shader compiled (type: %i)", type);
+        Log::message("Shader compiled (type: %i)", type);
     }
     return shader;
 }
@@ -67,9 +67,9 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
     glGetProgramiv(ProgID, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(ProgID, 512, nullptr, infoLog);
-        Console::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
+        Log::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
     } else
-        Console::message("Shaders linked to Program (ID: %i)", ProgID);
+        Log::message("Shaders linked to Program (ID: %i)", ProgID);
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
