@@ -3,21 +3,22 @@
 
 class Striker : public Game {
 private:
-    Object *map;
-    Object *cube;
+    Object *map, *cube;
+    Object *baseLight;
     Shader *shader;
-    int8_t fillTextures = 0;
+    bool fillTextures = true;
     bool started = false;
 
 public:
     Striker() : Game() {
-        Log::message("Striker game class created");
+        Log::loggingLevel = Log::DEBUG;
+        Log::info("Striker game class created");
         title = "Striker v1.0";
     };
 
     void Init() override {
+        State = GAME_MENU;
         shader = new Shader("shaders/vertex/basic.vert", "shaders/fragment/basic.frag");
-
         map = new Object("res/gameMap.obj");
         map-> setShader(shader);
         engine-> renderer-> addToScene(map);
@@ -26,16 +27,26 @@ public:
         cube-> setShader(shader);
         engine-> renderer-> addToScene(cube);
 
-        engine->camera->speed = 20.0f;
+        baseLight = new Object();
+        engine-> renderer-> addLight(baseLight);
+        // todo: object main variables as position, speed etc
+        // todo: split object and light
+        // todo: make light shader
+        // how much t0d0's by making light... uhh... ok... it will be hard *~*
+
+
+        engine->camera->speed = 10.0f;
 
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
         engine->input->setCursorHidden(true);
-        Log::message("Init ended");
+
+        engine-> renderer-> setAmbientStrength(1.0f);
+        Log::info("Init ended");
     }
 
     void ProcessInput(float dt) override {
-        if(engine-> window-> isActive() && started) {
+        if(engine-> window-> isActive() && State == GAME_ACTIVE) {
             if (engine->input->getKeyStatus(GLFW_KEY_W))
                 engine->camera->forward(dt);
 
@@ -60,23 +71,25 @@ public:
             if (engine->input->getKeyStatus(GLFW_KEY_LEFT_CONTROL))
                 engine->camera->down(dt);
 
-            if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_PRESS){
-                    glPolygonMode(GL_FRONT_AND_BACK, (fillTextures) ? GL_FILL : GL_LINE);
-                    fillTextures = !fillTextures;
+            if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_PRESS) {
+                engine-> renderer -> drawMode((fillTextures % 10 < 5) ? GL_FILL : GL_LINE);
+
             }
-            if(engine-> input-> isCursorMoved()){
-                glm::vec2 viewAngles = engine-> camera-> getViewAngles();
-                glm::vec2 mouseMoved = -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
+            if (engine->input->isCursorMoved()) {
+                glm::vec2 viewAngles = engine->camera->getViewAngles();
+                glm::vec2 mouseMoved =
+                        -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
                 // -90deg <= vertical <= 90deg or mouse going middle
                 if (-1.57f <= viewAngles.y && viewAngles.y <= 1.57f)
                     engine->camera->changeDirection(mouseMoved.x, mouseMoved.y, dt);
                 else
-                    engine->camera->changeDirection(mouseMoved.x, -0.1f/viewAngles.y, dt);
+                    engine->camera->changeDirection(mouseMoved.x, 1.57 - (viewAngles.y + 0.1 / viewAngles.y), dt);
 
             }
         } else {
-            if (engine->input->getKeyStatus(GLFW_KEY_ENTER))
-                started = true;
+            if (engine->input->getMouseStatus(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+                State = GAME_ACTIVE;
+            }
         }
     }
 

@@ -14,12 +14,19 @@
 class Renderer {
 private:
     std::vector <Object *> objects;
+    std::vector <Object *> lights;
+    float ambientStrength = 0.1f;
+public:
+    float getAmbientStrength() const;
+    void setAmbientStrength(float ambientStrength);
 
 public:
     Renderer();
     void addToScene(Object *object);
     void removeFromScene(Object *object);
+    void addLight(Object *object);
     void draw(glm::mat4 MVmat);
+    void drawMode(int mode);
     ~Renderer();
 };
 
