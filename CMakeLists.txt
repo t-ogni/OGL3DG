@@ -24,10 +24,21 @@ add_executable(
         main.cpp
 )
 
+
+
 target_link_libraries(
         ${PROJ_EXE_NAME}
         -static gcc stdc++ winpthread -dynamic
-
         PhonEngine
 )
 
+add_executable(
+        tests
+        Unit_test.cpp
+)
+
+target_link_libraries(
+        tests
+        -static gcc stdc++ winpthread -dynamic
+        PhonEngine
+)

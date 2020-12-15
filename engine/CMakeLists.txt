@@ -8,7 +8,7 @@ project(PhonEngine VERSION 0.1)
 add_subdirectory(lib) # to include external libs
 
 include_directories(include)
-file(GLOB SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" )
+file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/*.cpp" )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 

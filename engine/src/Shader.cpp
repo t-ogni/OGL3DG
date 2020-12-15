@@ -46,7 +46,7 @@ auto compileShader(const std::string &s_code, int type) -> GLuint {
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
         Log::error("Shader cannot be compiled: %s", ERROR::COMPILE_SHADER, infoLog);
     } else {
-        Log::message("Shader compiled (type: %i)", type);
+        Log::info("Shader compiled (type: %i)", type);
     }
     return shader;
 }
@@ -69,7 +69,7 @@ auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GL
         glGetProgramInfoLog(ProgID, 512, nullptr, infoLog);
         Log::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
     } else
-        Log::message("Shaders linked to Program (ID: %i)", ProgID);
+        Log::info("Shaders linked to Program (ID: %i)", ProgID);
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
