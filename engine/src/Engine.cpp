@@ -20,7 +20,7 @@ auto Engine::run() -> int {
     if (game == nullptr)
         Log::error("game is nullptr. Aborting..");
     else
-        Log::message("Engine started successfully");
+        Log::info("Engine started successfully");
     window->init();
     input->initCallbacks(window->getWindow());
     game->Init();

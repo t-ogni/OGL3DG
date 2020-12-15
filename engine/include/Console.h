@@ -12,150 +12,28 @@
 #include <iostream>
 #include <cstdarg>
 #include <sstream>
+#include <ctime>
 #include "Errors.h"
 
+std::string generateOut(const char *text, va_list ptr);
+
 namespace Log {
-    static void error(const char *text, int errorCode = ERROR::UNKNOWN_ERROR, ...) {
-        //Put to error stream and output stream
-        va_list ptr = nullptr;
-        va_start(ptr, errorCode);
-        std::stringstream coutOut;
-        std::cout << '\a';
-        coutOut << "[" << errorCode << "] Fatal error: ";
-        while (*text) {
-            if (*text == '%') {
-                switch (*(text + 1)) {
-                    case 'i': {
-                        coutOut << va_arg(ptr, int);
-                        break;
-                    }
-                    case 'd': {
-                        coutOut << va_arg(ptr, double);
-                        break;
-                    }
-                    case 'c': {
-                        coutOut << va_arg(ptr, int);
-                        break;
-                    }
-                    case 's': {
-                        coutOut << va_arg(ptr, char *);
-                        break;
-                    }
-                    case 'x': {
-                        coutOut << "0x" << std::hex << va_arg(ptr, int) << std::dec;
-                        break;
-                    }
-                    case 'o': {
-                        coutOut << "0x" << std::oct << va_arg(ptr, int) << std::dec;
-                        break;
-                    }
-                    case '%': {
-                        coutOut << '%';
-                        break;
-                    }
-                    default:
-                        error("unknown console output type ([%%i, %%d, %%c, %%s] only)");
-                }
-                text += 2;
-            } else {
-                coutOut << *text;
-                text++;
-            }
-        }
-        std::cout << coutOut.str() << std::endl;
-        std::cerr << "(cerr stream) " << coutOut.str() << std::endl;
-        va_end(ptr);
-        exit(errorCode);
-    }
+    enum EnumLoggingLevel {
+        DEBUG,
+        INFO,
+        WARNING,
+        ERROR,
+        GLFWERROR,
+        NOTHING
+    };
+    extern EnumLoggingLevel loggingLevel;
+    extern bool showTime;
+    void debug(const char *text, ...);
+    void info(const char *text, ...);
+    void warning(const char *text, ...);
+    void error(const char *text, int errorCode = ERROR::UNKNOWN_ERROR, ...);
 
-    static void warning(const char *text, ...) {
-        va_list ptr = nullptr;
-        va_start(ptr, text);
-        std::cout << "Warning: " << '\a';
-        while (*text) {
-            if (*text == '%') {
-                switch (*(text + 1)) {
-                    case 'i':
-                        std::cout << va_arg(ptr, int);
-                        break;
-                    case 'd':
-                        std::cout << va_arg(ptr, double);
-                        break;
-                    case 'c':
-                        std::cout << (char) va_arg(ptr, int);
-                        break;
-                    case 's':
-                        std::cout << va_arg(ptr, char*);
-                        break;
-                    case 'x':
-                        std::cout << "0x" << std::hex << va_arg(ptr, int) << std::dec;
-                        break;
-                    case 'o':
-                        std::cout << "0x" << std::oct << va_arg(ptr, int) << std::dec;
-                        break;
-                    case '%':
-                        std::cout << '%';
-                        break;
-
-                    default:
-                        error("unknown console output type ([%%i, %%d, %%c, %%s] only)");
-                }
-                text += 2;
-            } else {
-                std::cout << *text;
-                text++;
-            }
-        }
-        std::cout << std::endl;
-        va_end(ptr);
-    }
-
-    static void message(const char *text, ...) {
-        va_list ptr = nullptr;
-        va_start(ptr, text);
-        std::cout << "Info: ";
-        while (*text) {
-            if (*text == '%') {
-                switch (*(text + 1)) {
-                    case 'i':
-                        std::cout << va_arg(ptr, int);
-                        break;
-                    case 'd':
-                        std::cout << va_arg(ptr, double);
-                        break;
-                    case 'c':
-                        std::cout << (char) va_arg(ptr, int);
-                        break;
-                    case 's':
-                        std::cout << va_arg(ptr, char*);
-                        break;
-                    case 'x':
-                        std::cout << "0x" << std::hex << va_arg(ptr, int) << std::dec;
-                        break;
-                    case 'o':
-                        std::cout << "0x" << std::oct << va_arg(ptr, int) << std::dec;
-                        break;
-                    case '%':
-                        std::cout << '%';
-                        break;
-
-                    default:
-                        error("unknown console output type ([%%i, %%d, %%c, %%s] only)");
-                }
-                text += 2;
-            } else {
-                std::cout << *text;
-                text++;
-            }
-        }
-        std::cout << std::endl;
-        va_end(ptr);
-    }
-
-    static void glfwError(int id, const char *description) {
-        std::cout << "[" << id << "] GLFW error: " << description << std::endl;
-    }
+    void glfwError(int id, const char *description);
 }
-
 
 #endif //OGL3DG_CONSOLE_H

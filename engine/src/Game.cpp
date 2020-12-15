@@ -14,7 +14,7 @@ Game::Game() {
 }
 
 void Game::setEngine(Engine *eng) {
-    Log::message("Engine located at 0x%x (mem)", eng);
+    Log::info("Engine located at 0x%x (mem)", eng);
     this->engine = eng;
 }
 

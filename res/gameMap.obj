@@ -2,7 +2,7 @@
 # Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
 # File units = meters
 
-mtllib crossfire.mtl
+mtllib gameMap.mtl
 
 g Mesh1 g_BSP_Object_model_0_0_1 skpB990_1 Model
 
