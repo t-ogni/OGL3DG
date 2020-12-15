@@ -18,6 +18,10 @@ Mesh::Mesh(std::vector<Vertex> vertices, int mode) {
     setupMesh(vertices, mode);
 }
 
+void Mesh::setMaterial(MaterialStuct *mat) {
+    material = mat;
+}
+
 void Mesh::setupMesh(std::vector<Vertex> vertices, int mode) {
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
@@ -52,4 +56,5 @@ Mesh::~Mesh() {
     if (vbo) glDeleteBuffers(1, &vbo);
     if (vao) glDeleteVertexArrays(1, &vao);
 }
+
 

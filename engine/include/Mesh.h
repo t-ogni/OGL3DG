@@ -9,8 +9,9 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
-#include "Shader.h"
 #include <vector>
+#include "Shader.h"
+#include "Material.h"
 
 struct Vertex {
     glm::vec3 position;
@@ -27,10 +28,12 @@ struct Vertex {
 };
 
 class Mesh {
-protected:
+    friend Renderer;
+private:
     unsigned int vao;		// Vertex Array Object
     unsigned int vbo;		// Vertex Buffer Object
     unsigned int size;
+    MaterialStuct *material = new MaterialStuct();
 
     void setupMesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
 
@@ -39,7 +42,7 @@ public:
     Mesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
 
     void draw() const;
-
+    void setMaterial(MaterialStuct *mat);
     ~Mesh();
 
 };

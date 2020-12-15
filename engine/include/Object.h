@@ -16,7 +16,6 @@
 //#include "Shader.h"
 // included from "Mesh.h"
 
-#include "Material.h"
 #include "Mesh.h"
 #include <vector>
 
@@ -37,12 +36,12 @@ public:
     Object(const char *pathToObj, Texture *texture1);
     Object(const char *pathToObj, const char *pathToTexture);
 
-    void addMesh(std::vector<Vertex> vertices);
     void setShader(Shader *shader1);
     void setMaterial(Material *material1);
+    void addMesh(Mesh *mesh);
     void loadObjFromFile(const char *path);
 
-    //todo: void setRandomColors(glm::vec3 from = glm::vec3(0.5f), glm::vec3 to = glm::vec3(1.0f));
+    //void setRandomColors(glm::vec3 from = glm::vec3(0.5f), glm::vec3 to = glm::vec3(1.0f));
     ~Object();
 };
 

@@ -26,8 +26,8 @@ Object::Object(const char *pathToObj, const char *pathToTexture) {
     material = new Material(new Texture(pathToTexture));
 }
 
-void Object::addMesh(std::vector<Vertex> vertices) {
-    meshes.push_back(new Mesh(vertices));
+void Object::addMesh(Mesh *mesh) {
+    meshes.push_back(mesh);
 }
 
 void Object::setShader(Shader *shader1) {
@@ -50,7 +50,7 @@ void Object::loadObjFromFile(const char *path) {
         Log::warning("Object file in %s cannot be opened ", path);
         return;
     } else
-        Log::message("Object file in %s was loaded", path);
+        Log::info("Object file in %s was loaded", path);
 
     std::string fileLine;
     while (objFile) {
@@ -81,7 +81,7 @@ void Object::loadObjFromFile(const char *path) {
             lineStream >> points[0] >> points[1] >> points[2];
 
             for (auto &point : points) {
-                std::stringstream pStream (point);
+                std::stringstream pStream(point);
                 std::string v, vt, vn;
                 Vertex vertex;
                 std::getline(pStream, v, '/');
@@ -92,16 +92,27 @@ void Object::loadObjFromFile(const char *path) {
                 vertex.normal = (vn == "") ? glm::vec3(0.f) : normals[stoi(vn) - 1];
                 vertices.push_back(vertex);
             } //todo: split by meshes
-        } else if (oper == "mtllib"){ //todo: material loader
-            std::string pathToMtl;
-            lineStream >> pathToMtl;
-            material-> loadMtl(pathToMtl.c_str());
-        } else if (oper == "usemtl"){
+        } else if (oper == "usemtl") {
+            //todo: material loader
+        } else if (oper == "mtllib") {
+            std::string pathToMtl, pathObj = path;
 
+            // find current path for load
+            for (auto itChar = pathObj.end() - 1; itChar != pathObj.begin() - 1; --itChar)
+                if (*itChar == '/' or *itChar == '\\') {
+                    pathObj.erase(itChar, pathObj.end());
+                    break;
+                }
+            lineStream >> pathToMtl;
+            Log::debug("Obj mtl found in %s", pathToMtl.c_str());
+            material->loadMtl(pathToMtl.c_str());
         }
     }
-    addMesh(vertices);
-    return;
+
+    Mesh *tempMesh = new Mesh(vertices);
+    MaterialStuct *tempMtl = new MaterialStuct();
+    tempMesh->setMaterial(tempMtl); // todo: delete this
+    addMesh(tempMesh);
 }
 
 Object::~Object() = default;
