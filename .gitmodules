@@ -1,9 +1,9 @@
 [submodule "engine/lib/glfw"]
 	path = engine/lib/glfw
 	url = https://github.com/glfw/glfw
-[submodule "engine/lib/glm"]
-	path = engine/lib/glm
-	url = https://github.com/g-truc/glm
 [submodule "engine/lib/soil"]
 	path = engine/lib/soil
 	url = https://github.com/paralin/soil
+[submodule "engine\\lib\\glm"]
+	path = engine\\lib\\glm
+	url = https://github.com/g-truc/glm
