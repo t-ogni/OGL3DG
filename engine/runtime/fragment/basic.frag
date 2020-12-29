@@ -13,30 +13,33 @@ struct LightStruct {
     vec3 color;
 };
 
-struct MaterialStuct {
-    vec3 Ambient;  // background color
-    vec3 Diffuse;  // light object
-    vec3 Specular; // reflection
-    float alfa;
-    float shine;
-    int illum;
-};
+//
+//struct MaterialStuct {
+//    vec3 Ambient;  // background color
+//    vec3 Diffuse;  // light object
+//    vec3 Specular; // reflection
+//    float alfa;
+//    float shine;
+//    int illum;
+//};
 
-
+uniform vec3 lightPos;
 uniform sampler2D TextureSample;
-uniform MaterialStuct material;
-
-uniform LightStruct lights[LIGHTS_MAX];
-uniform int lightsAmount;
+uniform LightStruct light;//s[LIGHTS_MAX];
+//uniform MaterialStuct material;
+//
+//uniform LightStruct lights[LIGHTS_MAX];
+//uniform int lightsAmount;
 
 
 void main()
 {
-    for(int i = 0; i < lightsAmount; i++) {
-        vec3 lightDirection = normalize(lights[i].position - fragPos);
-        float diff = max(dot(fragNormal, lightDirection), 0.0);
-        fragColor = fragColor * vec4(diff * lights[i].color, 1.0f);
-    }
-
-    color = texture(TextureSample, fragTextureCoord);
+    vec3 ambient = vec3(0.1f);
+    vec3 objectColor = vec3(0.5f, 0.3f, 0.0f);
+    vec3 lightColor = vec3(1f, 1f, 1f);
+    vec3 lightDir = normalize(lightPos - fragPos);
+    float diff = max(dot(fragNormal, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor;
+    vec3 result = (ambient + diffuse) * objectColor;
+    color = vec4(result, 1.0) + texture(TextureSample, fragTextureCoord);
 }
