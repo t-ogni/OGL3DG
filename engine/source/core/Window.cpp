@@ -4,9 +4,6 @@
 // Copyright (c) 2020 Dark Shield Team. All rights reserved.
 // Created by moonlin on 025 25.10.20 at 2:36.
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "Window.h"
 
 

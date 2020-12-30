@@ -8,6 +8,9 @@
 #define OGL3DG_WINDOW_H
 
 #include "Console.h"
+#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 class Window {
 private:
