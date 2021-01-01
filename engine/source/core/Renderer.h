@@ -8,8 +8,8 @@
 #define OGL3DG_RENDERER_H
 
 #include <vector>
-#include "Object.h"
-#include "Camera.h"
+#include "components/object/Object.h"
+#include "components/camera/Camera.h"
 
 class Renderer {
 private:

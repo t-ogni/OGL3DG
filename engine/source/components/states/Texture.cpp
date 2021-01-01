@@ -5,6 +5,7 @@
 // Created by moonlin on 007 07.11.20 at 22:59.
 
 #include "Texture.h"
+#include <glad/glad.h>
 
 Texture::Texture(const char *path) {
     loadTextures(path);

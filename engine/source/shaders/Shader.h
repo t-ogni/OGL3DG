@@ -8,12 +8,13 @@
 #define OGL3DG_SHADER_H
 
 #include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <glm/glm.hpp>
-#include "Console.h"
+#include "core/Console.h"
 
 class Shader {
 private:

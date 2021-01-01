@@ -7,11 +7,10 @@
 #ifndef OGL3DG_TEXTURE_H
 #define OGL3DG_TEXTURE_H
 
-#include <SOIL/SOIL.h>
-#include <glad/glad.h>
+#include "SOIL/SOIL.h"
 
 class Texture {
-    GLuint textureID = 0;
+    unsigned int textureID = 0;
 public:
     void bind() const;
     void unbind() const;
