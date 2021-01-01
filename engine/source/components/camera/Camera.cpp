@@ -11,7 +11,7 @@ Camera::Camera() : position(glm::vec3(0, 0, -5)),
                    directionSide(glm::vec3(0, 0, 1)),
                    rightSide(glm::vec3(-1, 0, 0)),
                    upSide(0, 1, 0) {
-
+    ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
 }
 
 
@@ -34,7 +34,6 @@ void Camera::updateMatrices() {
 
     upSide = glm::cross(rightSide, directionSide);
 
-    ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
 
 
     ViewMatrix = glm::lookAt(

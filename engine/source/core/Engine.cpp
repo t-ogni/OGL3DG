@@ -45,8 +45,6 @@ auto Engine::run() -> int {
 
         renderer->draw(camera->getProjViewMat());
         window->render();
-
-
     }
 
     game->Destroy();

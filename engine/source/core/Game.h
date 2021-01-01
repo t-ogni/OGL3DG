@@ -6,8 +6,6 @@
 #ifndef OGL3DG_GAME_H
 #define OGL3DG_GAME_H
 
-#include "Object.h"
-
 class Engine;
 
 enum GameState {

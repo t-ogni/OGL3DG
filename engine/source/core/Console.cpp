@@ -29,7 +29,7 @@ namespace Log {
 
         if(showTime)
             std::cout << __getTime();
-        std::cout << "Fatal (code: " << errorCode << "): "
+        std::cout << "Fatal  "<< errorCode << "): "
                         << '\a' << coutOut << std::endl;
         std::cerr << "(cerr stream) " << coutOut << std::endl;
         exit(errorCode);

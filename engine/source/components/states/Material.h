@@ -11,7 +11,7 @@
 #include <map>
 #include <fstream>
 #include "Texture.h"
-#include "Console.h"
+#include "core/Console.h"
 
 class Renderer;
 

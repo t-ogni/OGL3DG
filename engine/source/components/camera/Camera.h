@@ -52,6 +52,7 @@ public:
     void setPosition(glm::vec3 pos);
 
     // moves
+    // todo: make subclass
     void forward(float dt);
     void backward(float dt);
     void left(float dt);

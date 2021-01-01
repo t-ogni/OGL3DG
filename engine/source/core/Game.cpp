@@ -8,13 +8,14 @@
 // included from "InputHandler.h"
 
 #include "Game.h"
+#include "core/Console.h"
 
 Game::Game() {
     title = "new Game";
 }
 
 void Game::setEngine(Engine *eng) {
-    Log::info("Engine located at 0x%x (mem)", eng);
+    Log::debug("Engine located at 0x%x (mem)", eng);
     this->engine = eng;
 }
 
@@ -36,4 +37,5 @@ void Game::Destroy() {
 
 Game::~Game() {
     Destroy();
+    Log::debug("Game Destroyed");
 }

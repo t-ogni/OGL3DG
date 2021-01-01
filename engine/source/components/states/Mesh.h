@@ -10,7 +10,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <vector>
-#include "Shader.h"
+#include "shaders/Shader.h"
 #include "Material.h"
 
 struct Vertex {

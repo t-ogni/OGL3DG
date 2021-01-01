@@ -7,24 +7,17 @@
 #ifndef OGL3DG_ENGINE_H
 #define OGL3DG_ENGINE_H
 
-//#include <glad/glad.h>
-//#include <GLFW/glfw3.h>
-//#include "Console.h"
-// included from "Shader.h"
-
-
-//#include "Object.h"
-//#include "Shader.h"
-// included from "Game.h"
-
 #include "Game.h"
-#include "Camera.h"
+#include "../components/camera/Camera.h"
 #include "Window.h"
 #include "InputHandler.h"
 #include "Renderer.h"
 
 class Engine {
 public:
+    int FPS = 0;
+    float lastTime = 0.0;
+    float deltaTime = 0.0;
     explicit Engine(Game *windowParam,
                     Window *pwindow = new Window);
 
@@ -39,9 +32,6 @@ public:
 
 private:
     Game *game = nullptr;
-    int FPS = 0;
-    float deltaTime = 0.0;
-    float lastTime = 0.0;
 
 };
 
