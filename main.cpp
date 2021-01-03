@@ -25,19 +25,15 @@ public:
         map-> setShader(shader);
         engine-> renderer-> addToScene(map);
 
-        cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png"), glm::vec4 {00.1f}));
+        cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png"), glm::vec4 {0.1f}));
         cube-> setShader(shader);
         cube-> transform-> setPosition({5.0f, 10.0f, -2.0f});
         engine-> renderer-> addToScene(cube);
+        engine-> renderer-> addLight(cube);
 
-        baseLight = new Object();
-        engine-> renderer-> addLight(baseLight);
-        // todo: object main variables as position, speed etc
-        // todo: split object and light
         // todo: make light shader
-        // how much t0d0's by making light... uhh... ok... it will be hard *~*
 
-        engine->camera->speed = 10.0f;
+        engine->camera->setSpeed(10.0f);
 
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
@@ -87,12 +83,6 @@ public:
                 if (engine->input->getKeyStatus(GLFW_KEY_LEFT_CONTROL))
                     engine->camera->down(dt);
             }
-            if (engine->input->getKeyStatus(GLFW_KEY_Q))
-                engine->camera->roll(1.0f, dt);
-
-            if (engine->input->getKeyStatus(GLFW_KEY_E))
-                engine->camera->roll(-1.0f, dt);
-
 
             if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_PRESS)
                 engine-> renderer -> drawMode(GL_LINE);
@@ -100,14 +90,15 @@ public:
                 engine-> renderer -> drawMode(GL_FILL);
 
             if (engine->input->isCursorMoved()) {
-                glm::vec2 viewAngles = engine->camera->getViewAngles();
+                glm::vec3 viewAngles = engine->camera->transform->getEulerAngles();
                 glm::vec2 mouseMoved =
                         -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
                 // -90deg <= vertical <= 90deg or mouse going middle
-                if (-1.57f <= viewAngles.y && viewAngles.y <= 1.57f)
-                    engine->camera->changeDirection(mouseMoved.x, mouseMoved.y, dt);
+                if ((-1.57f <= viewAngles.y && viewAngles.y <= 1.57f) || abs(mouseMoved.y) < 1.57f)
+                    engine->camera->transform-> setEulerAngles({mouseMoved.x*dt, mouseMoved.y*dt, 0});
                 else
-                    engine->camera->changeDirection(mouseMoved.x, 1.57 - (viewAngles.y + 0.1 / viewAngles.y), dt);
+                    engine->camera->transform-> setEulerAngles({mouseMoved.x*dt, 1.57 - (viewAngles.y + 0.1 / viewAngles.y)*dt, 0});
+
             }
 
         } else {

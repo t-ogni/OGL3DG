@@ -25,17 +25,21 @@ void Renderer::removeFromScene(Object *object) {
 
 }
 
-void Renderer::draw(glm::mat4 VPmat) {
+void Renderer::draw(Camera *camera) {
+    glm::mat4 MVPmat = camera-> getProjViewMat();
     for (auto &object : objects) {
         object-> transform-> updateMat();
-        glm::mat4 outputMAT = VPmat * object-> transform-> getModel();
-
+        glm::mat4 matModel = object-> transform-> getModel();
+        MVPmat *= matModel;
         if(object-> material-> texture != nullptr)
             object -> material-> texture-> bind();
 
         if(object->shader != nullptr) {
             object->shader->bind();
-            object->shader->uniformSet("matVP", outputMAT);
+            object->shader->uniformSet("matModViewProj", MVPmat);
+            object->shader->uniformSet("matModel", matModel);
+            glm::vec3 lightPos = lights[0]->transform-> getPosition();
+            object->shader->uniformSet("lightPos", lightPos);
 
             for (auto &mesh : object->meshes) {
                 glm::vec3 ambient = mesh->material->Ambient * ambientStrength;
@@ -47,9 +51,9 @@ void Renderer::draw(glm::mat4 VPmat) {
 //                object->shader->uniformSet("material.illum", mesh->material->illum);
                 mesh->draw();
             }
-            glm::vec3 a = glm::vec3(1.0f, 20.0f, 40.0f);
-            object-> shader-> uniformSet("lightPos", a);
-            // lights
+            object->shader->bind();
+
+           // lights
 
 //            for(int lightIndex = 0; lightIndex < lights.size(); lightIndex++){
 //                std::string Name = "lights[";

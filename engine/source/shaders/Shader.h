@@ -31,11 +31,14 @@ public:
     void uniformSet(const char *name, bool value) const;
     void uniformSet(const char *name, int value) const;
     void uniformSet(const char *name, float value) const;
-    void uniformSet(const char *name, glm::vec2 &value) const;
+//    void uniformSet(const char *name, glm::vec2 &value) const;
+    void uniformSet(const char *name, glm::vec2 value) const;
     void uniformSet(const char *name, float x, float y) const;
-    void uniformSet(const char *name, glm::vec3 &value) const;
+//    void uniformSet(const char *name, glm::vec3 &value) const;
+    void uniformSet(const char *name, glm::vec3 value) const;
     void uniformSet(const char *name, float x, float y, float z) const;
-    void uniformSet(const char *name, glm::vec4 &value) const;
+//    void uniformSet(const char *name, glm::vec4 &value) const;
+    void uniformSet(const char *name, glm::vec4 value) const;
     void uniformSet(const char *name, float x, float y, float z, float w) const;
     void uniformSet(const char *name, glm::mat2 &value) const;
     void uniformSet(const char *name, glm::mat3 &value) const;

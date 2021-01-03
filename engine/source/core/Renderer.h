@@ -25,7 +25,7 @@ public:
     void addToScene(Object *object);
     void removeFromScene(Object *object);
     void addLight(Object *object);
-    void draw(glm::mat4 MVmat);
+    void draw(Camera *camera);
     void drawMode(int mode);
     ~Renderer();
 };

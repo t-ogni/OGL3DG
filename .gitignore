@@ -44,9 +44,9 @@ Makefile
 
 # Misc.
 *.log
-
-/.vs
-/.vscode
 /CMakeSettings.json
-.DS_Store
 *.swp
+
+#Windows temp files
+Trumps.db
+
