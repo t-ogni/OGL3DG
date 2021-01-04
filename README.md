@@ -10,6 +10,7 @@ The following dependencies are used:
 2. [`GLFW`](https://github.com/glfw/glfw) - For creating the window and handling OS-specific operations
 3. [`GLAD`](https://github.com/Dav1dde/glad) - The OpenGL Loader-Generator based on the official specs.
 4. [`GLM`](https://github.com/Groovounet/glm) - Math Extensions for transformations
+5. [`SOIL`](https://github.com/paralin/soil) - Library used primarily for uploading textures into OpenGL
 
 ---
 
