@@ -2,6 +2,8 @@
 3d game using OpenGL
 
 
+![exammple](doc/test.04.01.png)
+
 ---
 
 The following dependencies are used:
