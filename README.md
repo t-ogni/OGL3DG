@@ -18,8 +18,9 @@ The following dependencies are used:
 - [x] Shader loader and compiler
 - [x] Loading of OBJ files
 - [x] Camera
-- [ ] Rotation, projection and movement (local Object)
-- [ ] Textures
-- [ ] Simple lighting
+- [x] Textures
+- [x] Rotation, projection and movement (local Object)
+- [x] Simple lighting
+- [ ] Object material
 - [ ] Shadow
 - [ ] Sound system
