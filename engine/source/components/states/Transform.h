@@ -36,20 +36,20 @@ public:
     Transform(glm::vec3 position, glm::vec3 EulerAxis = glm::vec3(0.0f));
 
     glm::vec3 getPosition() const;
+    glm::vec3 getDirection();
+    glm::mat4 getModel();
 
     float getRoll() const;
     float getYaw() const;
     float getPitch() const;
+    glm::vec3 getEulerAngles();
+
 
     void setYaw(float yaw);
     void setPitch(float pitch);
     void setRoll(float roll);
-
+    void setEulerAngles(glm::vec3 axes); // { x, y, z } as { roll, yaw, pitch }
     void setPosition(glm::vec3 position);
-
-
-    glm::vec3 getDirection();
-    glm::mat4 getModel();
 
     void updateMat();
 

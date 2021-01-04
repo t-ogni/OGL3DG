@@ -26,13 +26,13 @@ Transform::Transform(glm::vec3 position, glm::vec3 EulerAxis):
 
 }
 
-glm::vec3 Transform::getPosition() const {
-    // lol. why ide shows that line as endless loop?
-    return position;
-}
 
 float Transform::getRoll() const {
     return roll;
+}
+
+void Transform::setRoll(float roll1) {
+    Transform::roll = roll1;
 }
 
 float Transform::getPitch() const {
@@ -43,20 +43,12 @@ void Transform::setPitch(float pitch1) {
     Transform::pitch = pitch1;
 }
 
-void Transform::setRoll(float roll1) {
-    Transform::roll = roll1;
-}
-
 float Transform::getYaw() const {
     return yaw;
 }
 
 void Transform::setYaw(float yaw1) {
     Transform::yaw = yaw1;
-}
-
-glm::mat4 Transform::getModel() {
-    return model;
 }
 
 glm::vec3 Transform::getDirection() {
@@ -67,6 +59,25 @@ void Transform::setPosition(glm::vec3 position1) {
     Transform::position = position1;
 }
 
+glm::vec3 Transform::getPosition() const {
+    return position;
+}
+
+void Transform::setEulerAngles(glm::vec3 axes) {
+    roll = axes.x;
+    yaw = axes.y;
+    pitch = axes.z;
+}
+
+glm::vec3 Transform::getEulerAngles() {
+    return glm::vec3(roll, yaw, pitch);
+}
+
+
+glm::mat4 Transform::getModel() {
+    return model;
+}
+
 void Transform::updateMat() {
     model = glm::mat4(1.0f);
     model = glm::rotate(model, roll, glm::vec3(1.0, 0.0, 0.0));
@@ -75,9 +86,9 @@ void Transform::updateMat() {
     model = glm::translate(model, position);
 
     directionSide = glm::vec3(
-            cos((double) pitch) * cos((double) yaw),
-            sin((double) pitch) * cos((double) roll),
-            cos((double) pitch) * cos((double) yaw)
+            glm::cos(pitch) * glm::cos(yaw),
+            glm::sin(pitch),
+            glm::cos(pitch) * glm::cos(yaw)
     );
 }
 

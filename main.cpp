@@ -27,7 +27,7 @@ public:
 
         cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png"), glm::vec4 {0.1f}));
         cube-> setShader(shader);
-        cube-> transform-> setPosition({5.0f, 10.0f, -2.0f});
+        cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(cube);
         engine-> renderer-> addLight(cube);
 
@@ -88,17 +88,10 @@ public:
                 engine-> renderer -> drawMode(GL_LINE);
             else if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_RELEASE)
                 engine-> renderer -> drawMode(GL_FILL);
-
             if (engine->input->isCursorMoved()) {
                 glm::vec3 viewAngles = engine->camera->transform->getEulerAngles();
-                glm::vec2 mouseMoved =
-                        -(engine->input->getCursorPosition() - engine->input->getLockedCursorPosition()) * 0.2f;
-                // -90deg <= vertical <= 90deg or mouse going middle
-                if ((-1.57f <= viewAngles.y && viewAngles.y <= 1.57f) || abs(mouseMoved.y) < 1.57f)
-                    engine->camera->transform-> setEulerAngles({mouseMoved.x*dt, mouseMoved.y*dt, 0});
-                else
-                    engine->camera->transform-> setEulerAngles({mouseMoved.x*dt, 1.57 - (viewAngles.y + 0.1 / viewAngles.y)*dt, 0});
-
+                glm::vec2 PositionDelta = engine->input->getLockedCursorPosition() - engine->input->getCursorPosition();
+                engine->camera->transform-> setEulerAngles({0, viewAngles.y+(PositionDelta.x*dt), viewAngles.z+(PositionDelta.y * dt)});
             }
 
         } else {

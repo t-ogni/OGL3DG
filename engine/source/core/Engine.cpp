@@ -17,7 +17,7 @@ Engine::Engine(Game *g, Window *pwindow) :
 }
 
 auto Engine::run() -> int {
-    if (game == nullptr)
+    if (game == nullptr) // if game not added to engine
         Log::error("game is nullptr. Aborting..");
     else
         Log::info("Engine started successfully");
@@ -43,7 +43,7 @@ auto Engine::run() -> int {
         Window::clear();
         this->game->Render();
 
-        renderer->draw(camera->getProjViewMat());
+        renderer->draw(camera);
         window->render();
     }
 

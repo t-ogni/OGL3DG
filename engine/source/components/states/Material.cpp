@@ -55,8 +55,6 @@ void Material::loadMtl(const char *path) {
         }
 
     }
-
-    7;
 }
 
 void Material::setColor(glm::vec3 color1) {

@@ -90,6 +90,7 @@ std::string generateOut(const char *text, va_list ptr){
                     coutOut << va_arg(ptr, int);
                     break;
                 }
+                case 'f':
                 case 'd': {
                     coutOut << va_arg(ptr, double);
                     break;

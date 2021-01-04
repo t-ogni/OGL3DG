@@ -10,56 +10,43 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include "components/states/Transform.h"
 
+// todo: make camera as object subclass
 class Camera {
 private:
-    glm::vec3 directionSide;
-    glm::vec3 rightSide;
-    glm::vec3 upSide;
     glm::mat4 ProjectionMatrix;
     glm::mat4 ViewMatrix;
-
-    float yaw = 0.0f;
-    float pitch = 0.0f;
-    float scroll = 0.0f;
-
+    glm::vec3 directionSide, rightSide, upSide;
     float FOV = 45.0f;
     float aspect = 4.0f / 3.0f;
     float ddNear = 0.1f; // dd - drawing distance
     float ddFar = 100.0f;
-
+    float speed = 1.0f;
+    float sense = 1.0f;
 public:
-    glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
-    float speed = 2.0f;
-
+    Transform *transform = new Transform();
     Camera();
-
-    // get all info
-    glm::vec3 getDirection();
-    glm::vec3 getPosition();
-    glm::vec2 getViewAngles();
 
     // sys funcs
     auto getProjViewMat() -> glm::mat4;
     void updateMatrices();
 
-    // set core params
-    void changeFOV(float x);
-    void changeAspect(float a);
+    float getSpeed() const;
+    float getFov() const;
+    float getSense() const;
 
-    // change positon and view
-    void changeDirection(float x, float y, float dt);
-    void setPosition(glm::vec3 pos);
+    void setSpeed(float speed);
+    void setFov(float fov);
+    void setSense(float sense);
 
     // moves
-    // todo: make subclass
     void forward(float dt);
     void backward(float dt);
     void left(float dt);
     void right(float dt);
     void up(float dt);
     void down(float dt);
-    void roll(float i, float dt);
 
     ~Camera();
 };
