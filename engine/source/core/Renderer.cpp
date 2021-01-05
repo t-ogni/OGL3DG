@@ -40,6 +40,7 @@ void Renderer::draw(Camera *camera) {
             object->shader->uniformSet("matModel", matModel);
             glm::vec3 lightPos = lights[0]->transform-> getPosition();
             object->shader->uniformSet("lightPos", lightPos);
+            object->shader->uniformSet("viewPos", camera->transform->getPosition());
 
             for (auto &mesh : object->meshes) {
                 glm::vec3 ambient = mesh->material->Ambient * ambientStrength;

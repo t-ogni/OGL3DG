@@ -22,6 +22,7 @@ message("PhonEngine Version: ${PhonEngine_VERSION}")
 add_executable(
         ${PROJ_EXE_NAME}
         main.cpp
+        res/data.o  # icon
 )
 
 
