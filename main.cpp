@@ -25,7 +25,7 @@ public:
         map-> setShader(shader);
         engine-> renderer-> addToScene(map);
 
-        cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png"), glm::vec4 {0.1f}));
+        cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png")));
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(cube);

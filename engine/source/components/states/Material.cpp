@@ -6,7 +6,7 @@
 
 #include "Material.h"
 
-Material::Material(Texture *texture1, glm::vec4 color1) {
+Material::Material(Texture *texture1, glm::vec3 color1) {
     texture = texture1;
     color = color1;
 }
@@ -75,8 +75,8 @@ newmtl string          название материала
 Ka f f f              Ambient-свойства материала  float[3]
 Kd f f f              Diffuse-свойства материала
 Ks f f f              Specular-свойства материала
-d  f                      Прозрачность float 0..1
-Ns f                      Shine (блеск)  float 0..?
+d f                      Прозрачность float 0..1
+Ns f                      Shine (блеск)  float 0..128 (^f)
 illum n                  режим int 0..?
 map_Ka  имя файла с Ambient-текстурой      (Может отсутствовать)
 map_Kd  имя файла с Diffuse-текстурой        (Может отсутствовать)
@@ -86,4 +86,14 @@ map_Ks  имя файла с Specular-текстурой      (Может отс
 
 newmtl .....
 .....
+*/
+
+/*
+Краткое описание свойств
+
+AMBIENT - цвет фонового отражения материала
+DIFFUSE -  цвет рассеянного отражения материала
+SPECULAR - цвет зеркального отражения материала
+EMISSION - цвет собственного излучения материала
+SHININESS - степень в формуле зеркального отражения (коэффициент блеска). Допускаются значения в интервале [0; 128].
 */

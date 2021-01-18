@@ -27,13 +27,13 @@ struct MaterialStuct {
 class Material {
     friend Renderer;
 private:
-    glm::vec4 color;
+    glm::vec3 color;
     Texture *texture = nullptr;
     std::map <std::string, MaterialStuct*> materials;
 
 public:
     Material() = default;
-    Material(Texture *texture1, glm::vec4 color1 = {0.f, 1.f, 0.f, 1.f});
+    Material(Texture *texture1, glm::vec3 color1 = {1.f, 1.f, 1.f});
     void loadMtl(const char *path);
     void setColor(glm::vec3 color1);
     void setColor(glm::vec4 color1);

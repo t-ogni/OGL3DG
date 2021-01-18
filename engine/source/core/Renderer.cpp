@@ -22,7 +22,7 @@ void Renderer::addToScene(Object *object) {
 }
 
 void Renderer::removeFromScene(Object *object) {
-
+    //todo remove from scene
 }
 
 void Renderer::draw(Camera *camera) {
@@ -38,8 +38,10 @@ void Renderer::draw(Camera *camera) {
             object->shader->bind();
             object->shader->uniformSet("matModViewProj", MVPmat);
             object->shader->uniformSet("matModel", matModel);
+
             glm::vec3 lightPos = lights[0]->transform-> getPosition();
-            object->shader->uniformSet("lightPos", lightPos);
+            object->shader->uniformSet("light.position", lightPos);
+            object->shader->uniformSet("light.color", lights[0]->material->color);
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
 
             for (auto &mesh : object->meshes) {

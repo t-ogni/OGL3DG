@@ -29,7 +29,6 @@ cmake_install.cmake
 install_manifest.txt
 !engine/lib/glm/cmake/glm/glmConfig.cmake
 !cmake/glm/glmConfig-version.cmake
-# ^ May need to add future .cmake files as exceptions
 
 # Test logs
 Testing/*
@@ -46,6 +45,8 @@ Makefile
 *.log
 /CMakeSettings.json
 *.swp
+*.rar
+*.zip
 
 #Windows temp files
 Trumps.db

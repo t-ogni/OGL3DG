@@ -22,7 +22,7 @@ namespace Log {
     void error(const char *text, int errorCode, ...) {
         if(loggingLevel > ERROR) return;
 
-        va_list ptr = nullptr;
+        va_list ptr;
         va_start(ptr, errorCode);
         std::string coutOut = generateOut(text, ptr);
         va_end(ptr);
@@ -38,7 +38,7 @@ namespace Log {
     void warning(const char *text, ...) {
         if(loggingLevel > WARNING) return;
 
-        va_list ptr = nullptr;
+        va_list ptr;
         va_start(ptr, text);
         std::string coutOut = generateOut(text, ptr);
         va_end(ptr);
@@ -52,7 +52,7 @@ namespace Log {
     void info(const char *text, ...) {
         if(loggingLevel > INFO) return;
 
-        va_list ptr = nullptr;
+        va_list ptr;
         va_start(ptr, text);
         std::string coutOut = generateOut(text, ptr);
         va_end(ptr);
@@ -65,7 +65,7 @@ namespace Log {
     void debug(const char *text, ...) {
         if(loggingLevel > DEBUG) return;
 
-        va_list ptr = nullptr;
+        va_list ptr;
         va_start(ptr, text);
         std::string coutOut = generateOut(text, ptr);
         va_end(ptr);
