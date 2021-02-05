@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.4)
 project(deps)
 add_library(deps INTERFACE)
 
@@ -14,7 +14,7 @@ set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 set(glm_DIR glm/cmake/glm)
 
 find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
+#find_package(GLUT REQUIRED)
 find_package(glm REQUIRED)
 add_subdirectory(glad)
 add_subdirectory(soil)

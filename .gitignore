@@ -48,6 +48,6 @@ Makefile
 *.rar
 *.zip
 
-#Windows temp files
-Trumps.db
-
+#Staic files
+*/Trumps.db
+.idea/
