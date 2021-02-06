@@ -1,10 +1,10 @@
-#include "engine/source/components/states/Transform.h"
-#include "engine/source/core/Engine.h"
+#include "engine/source/shaders/standartShader.h"
 #include <iostream>
+
 using namespace std;
 
 int main(){
-    Object a;
+    standartShader a = new standartShader();
     cout << sizeof(a);
     return 0;
 }

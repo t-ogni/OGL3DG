@@ -7,15 +7,6 @@
 #ifndef OGL3DG_OBJECT_H
 #define OGL3DG_OBJECT_H
 
-//#include <GLFW/glfw3.h>
-//#include <glm/glm.hpp>
-//#include <fstream>
-//#include <sstream>
-//#include <string>
-//#include "Console.h"
-//#include "Shader.h"
-// included from "Mesh.h"
-
 #include "components/states/Mesh.h"
 #include "components/states/Transform.h"
 #include <vector>

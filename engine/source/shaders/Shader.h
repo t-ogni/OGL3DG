@@ -20,6 +20,10 @@ class Shader {
 private:
     GLuint Program = 0;
 
+protected:  // i think it`s bad
+    static std::string loadCode(const char *path);
+    static GLuint compileShader(const std::string &s_code, int type);
+    void linkProgram(GLuint vertex, GLuint fragment);
 public:
     Shader() = default;
     Shader(const char *vertexPath, const char *fragmentPath);
@@ -27,7 +31,8 @@ public:
     void bind() const;
     void unbind() const;
 
-    static auto loadShaders(const char *vertexPath, const char *fragmentPath) -> unsigned int;
+    void loadShaders(const char *vertexPath, const char *fragmentPath);
+
     void uniformSet(const char *name, bool value) const;
     void uniformSet(const char *name, int value) const;
     void uniformSet(const char *name, float value) const;

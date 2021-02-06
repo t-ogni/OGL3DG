@@ -1,5 +1,6 @@
 #include "engine/source/core/Game.h"
 #include "engine/source/core/Engine.h"
+#include "engine/source/shaders/standartShader.h"
 
 class Striker : public Game {
 private:
@@ -20,12 +21,14 @@ public:
 
     void Init() override {
         State = GAME_MENU;
-        shader = new Shader("runtime/vertex/basic.vert", "runtime/fragment/basic.frag");
-        map = new Object("res/gameMap.obj");
+        shader = new standartShader();
+
+        Material *wood = new Material(new Texture("res/cube.png"));
+
+        map = new Object("res/gameMap.obj", wood);
         map-> setShader(shader);
         engine-> renderer-> addToScene(map);
-
-        cube = new Object("res/cube.obj", new Material(new Texture("res/cube.png")));
+        cube = new Object("res/cube.obj", wood);
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(cube);

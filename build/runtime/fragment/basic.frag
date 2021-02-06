@@ -1,4 +1,4 @@
-#version 450 core
+#version 330 core
 #define LIGHTS_MAX 10
 //dont fogot delete posbuild shader path
 

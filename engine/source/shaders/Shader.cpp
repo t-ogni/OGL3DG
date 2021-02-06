@@ -1,15 +1,13 @@
-////______  _______ _______ _______ _______ _______
-////|     \ |______    |    |______ |_____| |  |  |
-////|_____/.______| .  |    |______ |     | |  |  |
-//// Copyright (c) 2020 Dark Shield Team. All rights reserved.
-//// Created by moonlin on 014 14.09.20 at 21:37.
-
+//______  _______ _______ _______ _______ _______
+//|     \ |______    |    |______ |_____| |  |  |
+//|_____/.______| .  |    |______ |     | |  |  |
+// Copyright (c) 2020 Dark Shield Team. All rights reserved.
+// Created by moonlin on 014 14.09.20 at 21:37.
 
 #include "Shader.h"
 
-
 Shader::Shader(const char *vertexPath, const char *fragmentPath) {
-    Program = loadShaders(vertexPath, fragmentPath);
+    loadShaders(vertexPath, fragmentPath);
 }
 
 void Shader::bind() const {
@@ -20,7 +18,7 @@ void Shader::unbind() const {
     glUseProgram(0);
 }
 
-auto loadCode(const char *path) -> std::string {
+auto Shader::loadCode(const char *path) -> std::string {
     std::ifstream File;
     std::stringstream Stream;
     File.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -34,7 +32,7 @@ auto loadCode(const char *path) -> std::string {
     return Stream.str();
 }
 
-auto compileShader(const std::string &s_code, int type) -> GLuint {
+auto Shader::compileShader(const std::string &s_code, int type) -> GLuint {
     GLuint shader = glCreateShader(type);
     GLint success = 0;
     GLchar infoLog[512];
@@ -51,29 +49,29 @@ auto compileShader(const std::string &s_code, int type) -> GLuint {
     return shader;
 }
 
-
-auto Shader::loadShaders(const char *vertexPath, const char *fragmentPath) -> GLuint {
-    // Compile shaders
-    GLuint vertex = compileShader(loadCode(vertexPath), GL_VERTEX_SHADER);
-    GLuint fragment = compileShader(loadCode(fragmentPath), GL_FRAGMENT_SHADER);
-
-    // Shader Program
+void Shader::linkProgram(GLuint vertex, GLuint fragment) {
     GLint success = 0;
     GLchar infoLog[512];
-    GLuint ProgID = glCreateProgram();
-    glAttachShader(ProgID, vertex);
-    glAttachShader(ProgID, fragment);
-    glLinkProgram(ProgID);
-    glGetProgramiv(ProgID, GL_LINK_STATUS, &success);
+    Program = glCreateProgram();
+    glAttachShader(Program, vertex);
+    glAttachShader(Program, fragment);
+    glLinkProgram(Program);
+    glGetProgramiv(Program, GL_LINK_STATUS, &success);
     if (!success) {
-        glGetProgramInfoLog(ProgID, 512, nullptr, infoLog);
+        glGetProgramInfoLog(Program, 512, nullptr, infoLog);
         Log::error(infoLog, ERROR::LINK_PROGRAM_SHADER);
     } else
-        Log::info("Shaders linked to Program (ID: %i)", ProgID);
+        Log::info("Shaders linked to Program (ID: %i)", Program);
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
-    return ProgID;
+}
+
+void Shader::loadShaders(const char *vertexPath, const char *fragmentPath) {
+    // Compile shaders
+    GLuint vertex = compileShader(loadCode(vertexPath), GL_VERTEX_SHADER);
+    GLuint fragment = compileShader(loadCode(fragmentPath), GL_FRAGMENT_SHADER);
+    linkProgram(vertex, fragment);
 }
 
 

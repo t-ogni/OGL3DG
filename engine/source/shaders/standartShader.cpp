@@ -1,6 +1,12 @@
-#version 450 core
+//
+// Created by moonlin on 20.01.2021.
+//
+
+#include "standartShader.h"
+
+std::string fragRawCode = R"(
+#version 330 core
 #define LIGHTS_MAX 10
-//dont fogot delete posbuild shader path
 
 in vec2 fragTextureCoord;
 in vec3 fragNormal;
@@ -37,23 +43,31 @@ void main()
     vec3 result = (ambient + diffuse + specular) * objectColor;
 
     color = vec4(result, 1.0) + texture(TextureSample, fragTextureCoord);
+})";
+
+std::string vertRawCode = R"(
+#version 330 core
+layout (location = 0) in vec3 VertexPosition;
+layout (location = 1) in vec2 texCoord;
+layout (location = 2) in vec3 normal;
+
+uniform mat4 matModViewProj;
+uniform mat4 matModel;
+
+out vec2 fragTextureCoord;
+out vec3 fragNormal;
+out vec3 fragPos;
+
+void main()
+{
+    gl_Position = matModViewProj * vec4(VertexPosition, 1.0f);
+    fragPos = vec3(vec4(VertexPosition, 1.0f) * matModel);
+    fragNormal = mat3(transpose(inverse(matModel))) * normal; // if was scaled
+    fragTextureCoord = texCoord;
+})";
+
+standartShader::standartShader(){
+    GLuint vertex = compileShader(vertRawCode, GL_VERTEX_SHADER);
+    GLuint fragment = compileShader(fragRawCode, GL_FRAGMENT_SHADER);
+    linkProgram(vertex, fragment);
 }
-
-
-
-
-//
-//struct MaterialStuct {
-//    vec3 Ambient;  // background color
-//    vec3 Diffuse;  // light object
-//    vec3 Specular; // reflection
-//    float alfa;
-//    float shine;
-//    int illum;
-//};
-
-//uniform MaterialStuct material;
-//
-//uniform LightStruct lights[LIGHTS_MAX];
-//uniform int lightsAmount;
-

@@ -45,8 +45,7 @@ namespace Log {
 
         if(showTime)
             std::cout << __getTime();
-        std::cout << "Warning: " << '\a'
-                  << coutOut << std::endl;
+        std::cout << "Warning: " << coutOut << '\a' << std::endl;
     }
 
     void info(const char *text, ...) {
@@ -126,7 +125,7 @@ std::string generateOut(const char *text, va_list ptr){
         }
     }
     if(ErrTip)
-        coutOut << "\n unknown console output type ([%i, %d, %c, %s] only)";
+        coutOut << "\n unknown console output type ([%i, %fd, %c, %s, %xo, %%] only)";
 
     return coutOut.str();
 

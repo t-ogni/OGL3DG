@@ -19,14 +19,8 @@ void Window::init() {
     else
         Log::info("GLFW started");
 
-    int major, minor; // todo for check - don`t forget to delete
-    std::cout << "\ninput ogl ver: ";
-    std::cout << "major: ";
-    std::cin >> major;
-    std::cout << "minor: ";
-    std::cin >> minor;
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
