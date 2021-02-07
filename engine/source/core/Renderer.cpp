@@ -28,9 +28,11 @@ void Renderer::removeFromScene(Object *object) {
 void Renderer::draw(Camera *camera) {
     glm::mat4 MVPmat = camera-> getProjViewMat();
     for (auto &object : objects) {
+        // refresh matrices
         object-> transform-> updateMat();
         glm::mat4 matModel = object-> transform-> getModel();
         MVPmat *= matModel;
+
         if(object-> material-> texture != nullptr)
             object -> material-> texture-> bind();
 
@@ -45,7 +47,7 @@ void Renderer::draw(Camera *camera) {
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
 
             for (auto &mesh : object->meshes) {
-                glm::vec3 ambient = mesh->material->Ambient * ambientStrength;
+//                glm::vec3 ambient = mesh->material->Ambient * ambientStrength;
 //                object->shader->uniformSet("material.Ambient", ambient);
 //                object->shader->uniformSet("material.Diffuse", mesh->material->Diffuse);
 //                object->shader->uniformSet("material.Specular", mesh->material->Specular);

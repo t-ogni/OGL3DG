@@ -13,6 +13,3 @@ target_link_libraries(${PROJECT_NAME} deps)
 if(COPY_RUNTIME)
     file(COPY ${PROJECT_SOURCE_DIR}/runtime DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 endif()
-
-add_executable(pe_test main.cpp)
-target_link_libraries(pe_test ${PROJECT_NAME})

@@ -7,8 +7,8 @@
 #ifndef OGL3DG_OBJECT_H
 #define OGL3DG_OBJECT_H
 
-#include "components/states/Mesh.h"
-#include "components/states/Transform.h"
+#include "components/initals/Mesh.h"
+#include "components/initals/Transform.h"
 #include <vector>
 
 class Renderer;
@@ -29,8 +29,8 @@ public:
     Object(const char *pathToObj, Texture *texture1);
     Object(const char *pathToObj, const char *pathToTexture);
 
-    void setShader(Shader *shader1);
-    void setMaterial(Material *material1);
+    void setShader(Shader *shader);
+    void setMaterial(Material *material);
     void addMesh(Mesh *mesh);
     void loadObjFromFile(const char *path);
 

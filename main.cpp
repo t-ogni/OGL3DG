@@ -4,12 +4,8 @@
 
 class Striker : public Game {
 private:
-    Object *map, *cube;
-    Object *baseLight;
-    Shader *shader;
-    int secs;
-    bool fillTextures = true;
-    bool started = false;
+    Object *map {}, *cube {};
+    Shader *shader {};
 
 public:
     Striker() : Game() {
@@ -21,9 +17,9 @@ public:
 
     void Init() override {
         State = GAME_MENU;
-        shader = new standartShader();
+        shader = new Shader("runtime/vertex/basic.vert", "runtime/fragment/basic.frag");
 
-        Material *wood = new Material(new Texture("res/cube.png"));
+        auto *wood = new Material(new Texture("res/cube.png"));
 
         map = new Object("res/gameMap.obj", wood);
         map-> setShader(shader);
@@ -36,14 +32,14 @@ public:
 
         // todo: make light shader
 
-        engine->camera->setSpeed(10.0f);
+        engine->camera->setSpeed(100.0f);
 
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
         engine->input->setCursorHidden(true);
 
         engine-> renderer-> setAmbientStrength(1.0f);
-        Log::info("Init ended");
+        Log::info("Striker Init function ended");
     }
 
     void ProcessInput(float dt) override {

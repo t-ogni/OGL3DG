@@ -39,7 +39,7 @@ private:
 
 public:
     Mesh();
-    Mesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
+    explicit Mesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
 
     void draw() const;
     void setMaterial(MaterialStuct *mat);

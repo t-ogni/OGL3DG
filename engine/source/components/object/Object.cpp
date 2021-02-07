@@ -18,7 +18,6 @@ Object::Object(const char *pathToObj, Material *material1) {
 Object::Object(const char *pathToObj, Texture *texture) {
     loadObjFromFile(pathToObj);
     material = new Material(texture);
-
 }
 
 Object::Object(const char *pathToObj, const char *pathToTexture) {
@@ -47,10 +46,10 @@ void Object::loadObjFromFile(const char *path) {
     std::ifstream objFile(path);
 
     if (!objFile) {
-        Log::warning("Object file in %s cannot be opened ", path);
+        Log::warning("Object file in %s cannot be opened", path);
         return;
     } else
-        Log::info("Object file in %s was loaded", path);
+        Log::info("Object file in %s was loaded successfully", path);
 
     std::string fileLine;
     while (objFile) {
@@ -87,9 +86,9 @@ void Object::loadObjFromFile(const char *path) {
                 std::getline(pStream, v, '/');
                 std::getline(pStream, vt, '/');
                 std::getline(pStream, vn, '/');
-                vertex.position = (v == "") ? glm::vec3(0.f) : positions[stoi(v) - 1];
-                vertex.textureCoord = (vt == "") ? glm::vec2(0.f) : texCoords[stoi(vt) - 1];
-                vertex.normal = (vn == "") ? glm::vec3(0.f) : normals[stoi(vn) - 1];
+                vertex.position = (v.empty()) ? glm::vec3(0.f) : positions[stoi(v) - 1];
+                vertex.textureCoord = (vt.empty()) ? glm::vec2(0.f) : texCoords[stoi(vt) - 1];
+                vertex.normal = (vn.empty()) ? glm::vec3(0.f) : normals[stoi(vn) - 1];
                 vertices.push_back(vertex);
             } //todo: split by meshes
         } else if (oper == "usemtl") {
@@ -97,14 +96,15 @@ void Object::loadObjFromFile(const char *path) {
         } else if (oper == "mtllib") {
             std::string pathToMtl, pathObj = path;
 
-            // find current path for load
+            // use current path for load mtl
             for (auto itChar = pathObj.end() - 1; itChar != pathObj.begin() - 1; --itChar)
                 if (*itChar == '/' or *itChar == '\\') {
-                    pathObj.erase(itChar, pathObj.end());
+                    pathObj.erase(itChar + 1, pathObj.end());
                     break;
                 }
             lineStream >> pathToMtl;
-            Log::debug("Obj mtl found in %s", pathToMtl.c_str());
+            pathToMtl.insert(0, pathObj);
+            Log::debug("looking for mtl file in %s", pathToMtl.c_str());
             material->loadMtl(pathToMtl.c_str());
         }
     }

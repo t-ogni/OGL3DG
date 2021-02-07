@@ -6,19 +6,20 @@
 
 #include "Material.h"
 
-Material::Material(Texture *texture1, glm::vec3 color1) {
-    texture = texture1;
-    color = color1;
+Material::Material(Texture *texture1, glm::vec4 color1) :
+    texture(texture1),
+    color(color1) {
+
 }
 
 void Material::loadMtl(const char *path) {
     std::string currentMtl;  // map.rstring() ?
     std::ifstream mtlFile(path);
     if (!mtlFile) {
-        Log::warning("Material file for Object in %s cannot be opened", path);
+        Log::warning("Material file in %s cannot be opened", path);
         return;
     } else
-        Log::info("Object file in %s was loaded", path);
+        Log::info("Material file in %s was loaded successfully", path);
     std::string fileLine;
     while (mtlFile) {
         getline(mtlFile, fileLine);
@@ -65,7 +66,7 @@ void Material::setColor(glm::vec4 color1) {
     color = color1;
 }
 
-Material::~Material() {}
+Material::~Material() = default;
 
 
 /*
