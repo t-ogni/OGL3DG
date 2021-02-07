@@ -33,7 +33,7 @@ private:
 
 public:
     Material() = default;
-    explicit Material(Texture *texture, glm::vec4 color = glm::vec4(0.0f));
+    explicit Material(Texture *texture, glm::vec4 color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
     void loadMtl(const char *path);
 

@@ -22,9 +22,9 @@ public:
 
 public:
     Renderer();
-    void addToScene(Object *object);
-    void removeFromScene(Object *object); // todo delete objects from scene
-    void addLight(Object *object);
+    void addToScene(Object &object);
+    void removeFromScene(Object &object); // todo delete objects from scene
+    void addLight(Object &object);
     void draw(Camera *camera);
     void drawMode(int mode);
     ~Renderer();

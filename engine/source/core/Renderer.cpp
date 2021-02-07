@@ -17,11 +17,11 @@ void Renderer::setAmbientStrength(float ambientStrength1) {
     ambientStrength = ambientStrength1;
 }
 
-void Renderer::addToScene(Object *object) {
-    objects.push_back(object);
+void Renderer::addToScene(Object &object) {
+    objects.push_back(&object);
 }
 
-void Renderer::removeFromScene(Object *object) {
+void Renderer::removeFromScene(Object &object) {
     //todo remove from scene
 }
 
@@ -74,8 +74,8 @@ void Renderer::draw(Camera *camera) {
     }
 }
 
-void Renderer::addLight(Object *light){
-    lights.push_back(light);
+void Renderer::addLight(Object &light){
+    lights.push_back(&light);
 }
 
 void Renderer::drawMode(int mode) {

@@ -23,12 +23,12 @@ public:
 
         map = new Object("res/gameMap.obj", wood);
         map-> setShader(shader);
-        engine-> renderer-> addToScene(map);
+        engine-> renderer-> addToScene(*map);
         cube = new Object("res/cube.obj", wood);
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
-        engine-> renderer-> addToScene(cube);
-        engine-> renderer-> addLight(cube);
+        engine-> renderer-> addToScene(*cube);
+        engine-> renderer-> addLight(*cube);
 
         // todo: make light shader
 
@@ -44,6 +44,12 @@ public:
 
     void ProcessInput(float dt) override {
         if(engine-> window-> isActive() && State == GAME_ACTIVE) {
+            if(engine-> input-> getKeyStatus(GLFW_KEY_G)) //tests
+                cube-> transform-> setPitch(cube->transform->getPitch()+2*engine->deltaTime);
+            if(engine-> input-> getKeyStatus(GLFW_KEY_H))
+                cube-> transform-> setYaw(cube->transform->getYaw()+2*engine->deltaTime);
+            if(engine-> input-> getKeyStatus(GLFW_KEY_J))
+                cube-> transform-> setRoll(cube->transform->getRoll()+2*engine->deltaTime);
             if (engine->input->getKeyStatus(GLFW_KEY_SPACE)){
                 if (engine->input->getKeyStatus(GLFW_KEY_W))
                     cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {1, 0, 0});
