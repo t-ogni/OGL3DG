@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include "components/states/Transform.h"
+#include <cmath>
 
 // todo: make camera as object subclass
 class Camera {

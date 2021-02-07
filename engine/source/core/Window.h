@@ -33,8 +33,8 @@ public:
     void dispose();
 
     GLFWwindow *getWindow();
-    int getWidth();
-    int getHeight();
+    int getWidth() const;
+    int getHeight() const;
     bool isActive();
     auto isCloseRequested() -> bool;
 

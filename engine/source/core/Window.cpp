@@ -89,12 +89,12 @@ void Window::dispose() {
 }
 
 // RETURN WINDOW WIDTH
-int Window::getWidth() {
+int Window::getWidth() const {
     return w_width;
 }
 
 // RETURN WINDOW HEIGHT
-int Window::getHeight() {
+int Window::getHeight() const {
     return w_height;
 }
 
