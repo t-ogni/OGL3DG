@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b58f6c8d3cd744bb9de3e4706068996f)](https://app.codacy.com/gh/Dark-Shield-Team/OGL3DG?utm_source=github.com&utm_medium=referral&utm_content=Dark-Shield-Team/OGL3DG&utm_campaign=Badge_Grade)
 
-3d game using OpenGL
+3d game that uses OpenGL. project started in september.
 
 ![example](doc/test.04.01.png)
 
