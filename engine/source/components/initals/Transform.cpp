@@ -69,7 +69,7 @@ void Transform::setEulerAngles(glm::vec3 axes) {
     pitch = axes.z;
 }
 
-glm::vec3 Transform::getEulerAngles() {
+glm::vec3 Transform::getEulerAngles() const {
     return glm::vec3(roll, yaw, pitch);
 }
 
@@ -79,11 +79,12 @@ glm::mat4 Transform::getModel() {
 }
 
 void Transform::updateMat() {
-    model = glm::mat4(1.0f);
+    // euler's angles
+    model = glm::mat4(1.0f);  // that stuff causes gimbals lock
+    model = glm::translate(model, position);
     model = glm::rotate(model, roll, glm::vec3(1.0, 0.0, 0.0));
     model = glm::rotate(model, yaw, glm::vec3(0.0, 1.0, 0.0));
     model = glm::rotate(model, pitch, glm::vec3(0.0, 0.0, 1.0));
-    model = glm::translate(model, position);
 
     directionSide = glm::vec3(
             glm::cos(pitch) * glm::cos(yaw),

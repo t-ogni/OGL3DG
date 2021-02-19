@@ -43,7 +43,7 @@ void Renderer::draw(Camera *camera) {
 
             glm::vec3 lightPos = lights[0]->transform-> getPosition();
             object->shader->uniformSet("light.position", lightPos);
-            object->shader->uniformSet("light.color", lights[0]->material->color);
+            object->shader->uniformSet("light.color", glm::vec3(lights[0]->material->color));
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
 
             for (auto &mesh : object->meshes) {

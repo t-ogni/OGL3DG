@@ -19,9 +19,9 @@
 class Transform {
 private:
     glm::vec3 position;
-    glm::vec3 directionSide;
-    glm::vec3 rightSide;
-    glm::vec3 upSide;
+    glm::vec3 directionSide{};
+    glm::vec3 rightSide{};
+    glm::vec3 upSide{};
     glm::mat4 model = glm::mat4(1.0f);
 
     // x - right, y - up, z - forward;
@@ -42,7 +42,7 @@ public:
     float getRoll() const;
     float getYaw() const;
     float getPitch() const;
-    glm::vec3 getEulerAngles();
+    glm::vec3 getEulerAngles() const;
 
 
     void setYaw(float yaw);

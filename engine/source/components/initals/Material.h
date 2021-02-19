@@ -40,6 +40,8 @@ public:
     void setColor(glm::vec3 color);
     void setColor(glm::vec4 color);
 
+    MaterialStuct *getMaterial(std::string title);
+
     ~Material();
 };
 

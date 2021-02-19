@@ -45,6 +45,8 @@ void Object::loadObjFromFile(const char *path) {
     std::vector<Vertex> vertices;
     std::ifstream objFile(path);
 
+    auto usingMtl = new MaterialStuct();
+
     if (!objFile) {
         Log::warning("Object file in %s cannot be opened", path);
         return;
@@ -91,8 +93,17 @@ void Object::loadObjFromFile(const char *path) {
                 vertex.normal = (vn.empty()) ? glm::vec3(0.f) : normals[stoi(vn) - 1];
                 vertices.push_back(vertex);
             } //todo: split by meshes
+        } else if (oper == "s") {
+            auto tmpMesh = new Mesh(vertices);
+            tmpMesh->setMaterial(usingMtl);
+            meshes.push_back(tmpMesh);
+            vertices.clear();
         } else if (oper == "usemtl") {
-            //todo: material loader
+            std::string title;
+            lineStream >> title;
+
+            usingMtl = material->getMaterial(title);
+
         } else if (oper == "mtllib") {
             std::string pathToMtl, pathObj = path;
 
@@ -109,10 +120,9 @@ void Object::loadObjFromFile(const char *path) {
         }
     }
 
-    Mesh *tempMesh = new Mesh(vertices);
-    MaterialStuct *tempMtl = new MaterialStuct();
-    tempMesh->setMaterial(tempMtl); // todo: delete this
-    addMesh(tempMesh);
+    if(meshes.empty())
+        meshes.push_back(new Mesh(vertices));
+
 }
 
 Object::~Object() = default;
@@ -140,4 +150,5 @@ Object::~Object() = default;
   ...
   # Группа
   g Group1
+  s set1
 */

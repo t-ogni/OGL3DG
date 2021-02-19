@@ -9,6 +9,7 @@
 
 #include "components/initals/Mesh.h"
 #include "components/initals/Transform.h"
+#include "shaders/standartShader.h"
 #include <vector>
 
 class Renderer;
@@ -17,14 +18,14 @@ class Object {
     friend Renderer;
 private:
     std::vector<Mesh *> meshes;
-    Shader *shader = nullptr; // todo basic shader
+    Shader *shader = new standartShader();
     Material *material = new Material();
 
 public:
     Transform *transform = new Transform();
 
     Object() = default;
-    Object(const char *pathToObj);
+    explicit Object(const char *pathToObj);
     Object(const char *pathToObj, Material *material1);
     Object(const char *pathToObj, Texture *texture1);
     Object(const char *pathToObj, const char *pathToTexture);

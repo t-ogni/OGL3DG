@@ -19,12 +19,12 @@ public:
         State = GAME_MENU;
         shader = new Shader("runtime/vertex/basic.vert", "runtime/fragment/basic.frag");
 
-        auto *wood = new Material(new Texture("res/cube.png"));
+        auto *wood = new Material(new Texture("res/cube.png"), {1,1,1,1});
 
         map = new Object("res/gameMap.obj", wood);
         map-> setShader(shader);
         engine-> renderer-> addToScene(*map);
-        cube = new Object("res/cube.obj", wood);
+        cube = new Object("res/xyzpoint/file.obj", wood);
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(*cube);
@@ -32,7 +32,7 @@ public:
 
         // todo: make light shader
 
-        engine->camera->setSpeed(100.0f);
+        engine->camera->setSpeed(10.0f);
 
         engine->input->setLockedCursorPosition({engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2});
         engine->input->setLockStatus(true);
@@ -44,7 +44,7 @@ public:
 
     void ProcessInput(float dt) override {
         if(engine-> window-> isActive() && State == GAME_ACTIVE) {
-            if(engine-> input-> getKeyStatus(GLFW_KEY_G)) //tests
+            if(engine-> input-> getKeyStatus(GLFW_KEY_G)) //testshu
                 cube-> transform-> setPitch(cube->transform->getPitch()+2*engine->deltaTime);
             if(engine-> input-> getKeyStatus(GLFW_KEY_H))
                 cube-> transform-> setYaw(cube->transform->getYaw()+2*engine->deltaTime);
