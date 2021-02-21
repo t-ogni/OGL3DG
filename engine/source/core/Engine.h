@@ -7,32 +7,27 @@
 #ifndef OGL3DG_ENGINE_H
 #define OGL3DG_ENGINE_H
 
+#include "Time.h"
 #include "Game.h"
-#include "../components/camera/Camera.h"
 #include "Window.h"
-#include "InputHandler.h"
 #include "Renderer.h"
+#include "InputHandler.h"
+#include "../components/camera/Camera.h"
 
 class Engine {
+private:
+    Game *game = nullptr;
+
 public:
-    int FPS = 0;
-    float lastTime = 0.0;
-    float deltaTime = 0.0;
-    explicit Engine(Game *windowParam,
-                    Window *pwindow = new Window);
-
-    auto run() -> int;
-
-    void attachCamera(Object &obj, glm::vec3 position);
-
     Camera *camera = nullptr;
     Window *window = nullptr;
     InputHandler *input = nullptr;
     Renderer *renderer = nullptr;
 
-private:
-    Game *game = nullptr;
+    explicit Engine(Game *windowParam,
+                    Window *pwindow = new Window);
 
+    auto run() -> int;
 };
 
 #endif //OGL3DG_ENGINE_H

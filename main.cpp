@@ -1,16 +1,21 @@
 #include "engine/source/core/Game.h"
 #include "engine/source/core/Engine.h"
 #include "engine/source/shaders/standartShader.h"
+#include "engine/source/core/Console.h"
+#include "engine/source/core/Time.h"
 
 class Striker : public Game {
 private:
-    Object *map {}, *cube {};
-    Shader *shader {};
+    Object *map, *cube;
+    Shader *shader;
 
 public:
-    Striker() : Game() {
-        Log::loggingLevel = Log::DEBUG;
-        Log::info("Striker game class created");
+    Striker() :
+        Game(),
+        map(), cube(),
+        shader() {
+        Log.loggingLevel = Log.DEBUG;
+        Log.info("Striker game class created");
         title = "Striker v1.0";
         // k3rn3lp4nic.b4d
     };
@@ -24,7 +29,7 @@ public:
         map = new Object("res/gameMap.obj", wood);
         map-> setShader(shader);
         engine-> renderer-> addToScene(*map);
-        cube = new Object("res/xyzpoint/file.obj", wood);
+        cube = new Object("res/cube.obj", wood);
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(*cube);
@@ -39,17 +44,17 @@ public:
         engine->input->setCursorHidden(true);
 
         engine-> renderer-> setAmbientStrength(1.0f);
-        Log::info("Striker Init function ended");
+        Log.info("Striker Init function ended");
     }
 
     void ProcessInput(float dt) override {
         if(engine-> window-> isActive() && State == GAME_ACTIVE) {
-            if(engine-> input-> getKeyStatus(GLFW_KEY_G)) //testshu
-                cube-> transform-> setPitch(cube->transform->getPitch()+2*engine->deltaTime);
+            if(engine-> input-> getKeyStatus(GLFW_KEY_G))
+                cube-> transform-> setPitch(cube->transform->getPitch()+2*Time.getDelta());
             if(engine-> input-> getKeyStatus(GLFW_KEY_H))
-                cube-> transform-> setYaw(cube->transform->getYaw()+2*engine->deltaTime);
+                cube-> transform-> setYaw(cube->transform->getYaw()+2*Time.getDelta());
             if(engine-> input-> getKeyStatus(GLFW_KEY_J))
-                cube-> transform-> setRoll(cube->transform->getRoll()+2*engine->deltaTime);
+                cube-> transform-> setRoll(cube->transform->getRoll()+2*Time.getDelta());
             if (engine->input->getKeyStatus(GLFW_KEY_SPACE)){
                 if (engine->input->getKeyStatus(GLFW_KEY_W))
                     cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {1, 0, 0});

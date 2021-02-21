@@ -17,7 +17,10 @@
 
 std::string generateOut(const char *text, va_list ptr);
 
-namespace Log {
+
+
+static class Log {
+public:
     enum EnumLoggingLevel {
         DEBUG,
         INFO,
@@ -25,15 +28,15 @@ namespace Log {
         ERROR,
         GLFWERROR,
         NOTHING
-    };
-    extern EnumLoggingLevel loggingLevel;
-    extern bool showTime;
-    void debug(const char *text, ...);
-    void info(const char *text, ...);
-    void warning(const char *text, ...);
-    void error(const char *text, int errorCode = ERROR::UNKNOWN_ERROR, ...);
+    } loggingLevel = WARNING;
+    bool showTime = true;
+    void debug(const char *text, ...) const;
+    void info(const char *text, ...) const;
+    void warning(const char *text, ...) const;
+    void error(const char *text, int errorCode = ERR::UNKNOWN_ERROR, ...) const;
 
-    void glfwError(int id, const char *description);
-}
+    static void glfwError(int id, const char *description);
+
+} Log;
 
 #endif //OGL3DG_CONSOLE_H

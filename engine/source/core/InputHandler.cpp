@@ -36,7 +36,7 @@ void InputHandler::initCallbacks(GLFWwindow *windowParam) {
     glfwSetCursorPosCallback(window, cursor_pos_callback_lambda);
     glfwSetMouseButtonCallback(window, mouse_button_callback_lambda);
     glfwSetScrollCallback(window, scroll_callback_lambda);
-    Log::info("Input Callbacks Initialized");
+    Log.info("Input Callbacks Initialized");
 }
 
 

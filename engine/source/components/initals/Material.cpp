@@ -16,10 +16,10 @@ void Material::loadMtl(const char *path) {
     std::string currentMtl;  // map.rstring() ?
     std::ifstream mtlFile(path);
     if (!mtlFile) {
-        Log::warning("Material file in %s cannot be opened", path);
+        Log.warning("Material file in %s cannot be opened", path);
         return;
     } else
-        Log::info("Material file in %s was loaded successfully", path);
+        Log.info("Material file in %s was loaded successfully", path);
     std::string fileLine;
     while (mtlFile) {
         getline(mtlFile, fileLine);

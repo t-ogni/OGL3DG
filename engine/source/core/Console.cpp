@@ -6,7 +6,7 @@
 
 #include "Console.h"
 
-std::string __getTime(){
+std::string getTime(){
     time_t rawtime;
     struct tm * timeinfo;
     char buffer [40];                                // строка, в которой будет храниться текущее время
@@ -16,68 +16,67 @@ std::string __getTime(){
     return buffer;
 }
 
-namespace Log {
-    EnumLoggingLevel loggingLevel = INFO;
-    bool showTime = true;
-    void error(const char *text, int errorCode, ...) {
-        if(loggingLevel > ERROR) return;
+void Log::error(const char *text, int errorCode, ...) const {
+    if(loggingLevel > ERROR) return;
 
-        va_list ptr;
-        va_start(ptr, errorCode);
-        std::string coutOut = generateOut(text, ptr);
-        va_end(ptr);
+    va_list ptr;
+    va_start(ptr, errorCode);
+    std::string coutOut = generateOut(text, ptr);
+    va_end(ptr);
 
-        if(showTime)
-            std::cout << __getTime();
-        std::cout << "Fatal  "<< errorCode << "): "
-                        << '\a' << coutOut << std::endl;
-        std::cerr << "(cerr stream) " << coutOut << std::endl;
-        exit(errorCode);
-    }
-
-    void warning(const char *text, ...) {
-        if(loggingLevel > WARNING) return;
-
-        va_list ptr;
-        va_start(ptr, text);
-        std::string coutOut = generateOut(text, ptr);
-        va_end(ptr);
-
-        if(showTime)
-            std::cout << __getTime();
-        std::cout << "Warning: " << coutOut << '\a' << std::endl;
-    }
-
-    void info(const char *text, ...) {
-        if(loggingLevel > INFO) return;
-
-        va_list ptr;
-        va_start(ptr, text);
-        std::string coutOut = generateOut(text, ptr);
-        va_end(ptr);
-
-        if(showTime)
-            std::cout << __getTime();
-        std::cout << "Info   : " << coutOut << std::endl;
-    }
-
-    void debug(const char *text, ...) {
-        if(loggingLevel > DEBUG) return;
-
-        va_list ptr;
-        va_start(ptr, text);
-        std::string coutOut = generateOut(text, ptr);
-        va_end(ptr);
-
-        if(showTime)
-            std::cout << __getTime();
-        std::cout << "Debug  : " << coutOut << std::endl;
-    }
-    void glfwError(int id, const char *description) {
-        if(loggingLevel > GLFWERROR) return;
-        std::cout << "[" << id << "] GLFW error: " << description << std::endl;
-    }
+    if(showTime)
+        std::cout << getTime();
+    std::cout << "Fatal  (" << errorCode << "): "
+                   << coutOut << '\a' << std::endl;
+    std::cerr << "(cerr stream) " << coutOut << std::endl;
+    exit(errorCode);
 }
+
+void Log::warning(const char *text, ...) const {
+    if(loggingLevel > WARNING) return;
+
+    va_list ptr;
+    va_start(ptr, text);
+    std::string coutOut = generateOut(text, ptr);
+    va_end(ptr);
+
+    if(showTime)
+        std::cout << getTime();
+    std::cout << "Warning: " << coutOut << '\a' << std::endl;
+}
+
+void Log::info(const char *text, ...) const {
+    if(loggingLevel > INFO) return;
+
+    va_list ptr;
+    va_start(ptr, text);
+    std::string coutOut = generateOut(text, ptr);
+    va_end(ptr);
+
+    if(showTime)
+        std::cout << getTime();
+    std::cout << "Info   : " << coutOut << std::endl;
+}
+
+void Log::debug(const char *text, ...) const {
+    if(loggingLevel > DEBUG) return;
+
+    va_list ptr;
+    va_start(ptr, text);
+    std::string coutOut = generateOut(text, ptr);
+    va_end(ptr);
+
+    if(showTime)
+        std::cout << getTime();
+    std::cout << "Debug  : " << coutOut << std::endl;
+}
+
+
+
+void Log::glfwError(int id, const char *description) {
+    std::cout << "[" << id << "] GLFW error: " << description << std::endl;
+}
+
 
 std::string generateOut(const char *text, va_list ptr){
     std::stringstream coutOut;
@@ -129,5 +128,4 @@ std::string generateOut(const char *text, va_list ptr){
 
     return coutOut.str();
 
-};
-
+}

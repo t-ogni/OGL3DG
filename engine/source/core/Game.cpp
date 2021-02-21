@@ -15,7 +15,7 @@ Game::Game() {
 }
 
 void Game::setEngine(Engine *eng) {
-    Log::debug("Engine located at 0x%x (mem)", eng);
+    Log.debug("Engine located at 0x%x (mem)", eng);
     this->engine = eng;
 }
 
@@ -37,5 +37,5 @@ void Game::Destroy() {
 
 Game::~Game() {
     Destroy();
-    Log::debug("Game Destroyed");
+    Log.debug("Game Destroyed");
 }

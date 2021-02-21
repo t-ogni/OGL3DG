@@ -7,11 +7,9 @@
 #include "Transform.h"
 
 Transform::Transform():
-    position(glm::vec3(0)),
-    directionSide(glm::vec3(0, 0, 1)),
-    rightSide(glm::vec3(-1, 0, 0)),
-    upSide(0, 1, 0),
-    model(glm::mat4(1.0f))
+        position(glm::vec3(0)),
+        rotation(glm::vec3(0, 0, 0)),
+        model(glm::mat4(1.0f))
 {
 
 }
@@ -52,7 +50,7 @@ void Transform::setYaw(float yaw1) {
 }
 
 glm::vec3 Transform::getDirection() {
-    return directionSide;
+    return rotation;
 }
 
 void Transform::setPosition(glm::vec3 position1) {
@@ -86,7 +84,7 @@ void Transform::updateMat() {
     model = glm::rotate(model, yaw, glm::vec3(0.0, 1.0, 0.0));
     model = glm::rotate(model, pitch, glm::vec3(0.0, 0.0, 1.0));
 
-    directionSide = glm::vec3(
+    rotation = glm::vec3(
             glm::cos(pitch) * glm::cos(yaw),
             glm::sin(pitch),
             glm::cos(pitch) * glm::cos(yaw)

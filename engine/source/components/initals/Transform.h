@@ -19,21 +19,18 @@
 class Transform {
 private:
     glm::vec3 position;
-    glm::vec3 directionSide{};
-    glm::vec3 rightSide{};
-    glm::vec3 upSide{};
+    glm::vec3 rotation;    // x - right, y - up, z - forward;
+    glm::vec3 scale;
     glm::mat4 model = glm::mat4(1.0f);
 
-    // x - right, y - up, z - forward;
-
-    // radians
+    // grads
     float roll = 0.0f; // angle between y and z axis ( x )
     float yaw = 0.0f;  // angle between x and z axis ( y )
     float pitch = 0.0f; // angle between x and y axis ( z )
 
 public:
     Transform();
-    Transform(glm::vec3 position, glm::vec3 EulerAxis = glm::vec3(0.0f));
+    explicit Transform(glm::vec3 position, glm::vec3 EulerAxis = glm::vec3(0.0f));
 
     glm::vec3 getPosition() const;
     glm::vec3 getDirection();

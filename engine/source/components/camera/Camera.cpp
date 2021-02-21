@@ -6,8 +6,11 @@
 
 #include "Camera.h"
 
-Camera::Camera() {
-    ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
+Camera::Camera() :
+    type(cameraType::Perspective),
+    FOV(60.0f)
+{
+
 }
 
 
@@ -15,12 +18,11 @@ glm::mat4 Camera::getProjViewMat() {
     return ProjectionMatrix * ViewMatrix;
 }
 
-void Camera::updateMatrices() {
+void Camera::updateMatrices(float aspect) {
+    if(type == cameraType::Perspective) ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
+    else if(type == cameraType::Orthographic) ProjectionMatrix = glm::ortho(-FOV, FOV, -FOV, FOV, ddNear, ddFar);
     float pitch = transform-> getPitch();
     float yaw = transform-> getYaw();
-    // excluded roll
-    //directionSide = transform->getModel() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-    //rightSide = transform->getModel() * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f);
 
     directionSide = glm::vec3(
             cos(pitch) * sin(yaw),
@@ -82,14 +84,6 @@ float Camera::getSpeed() const {
 
 void Camera::setSpeed(float speed1) {
     Camera::speed = speed1;
-}
-
-float Camera::getSense() const {
-    return sense;
-}
-
-void Camera::setSense(float sense1) {
-    Camera::sense = sense1;
 }
 
 Camera::~Camera() = default;

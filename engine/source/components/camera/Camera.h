@@ -13,33 +13,31 @@
 #include "components/initals/Transform.h"
 #include <cmath>
 
-// todo: make camera as object subclass
 class Camera {
 private:
     glm::mat4 ProjectionMatrix;
     glm::mat4 ViewMatrix;
     glm::vec3 directionSide, rightSide, upSide;
-    float FOV = 45.0f;
-    float aspect = 4.0f / 3.0f;
+    float FOV;
     float ddNear = 0.1f; // dd - drawing distance
     float ddFar = 100.0f;
     float speed = 1.0f;
-    float sense = 1.0f;
+
 public:
+    enum cameraType { Perspective, Orthographic } type;
+
     Transform *transform = new Transform();
     Camera();
 
     // sys funcs
     auto getProjViewMat() -> glm::mat4;
-    void updateMatrices();
+    void updateMatrices(float aspect = 1.0f);
 
     float getSpeed() const;
     float getFov() const;
-    float getSense() const;
 
     void setSpeed(float speed);
     void setFov(float fov);
-    void setSense(float sense);
 
     // moves
     void forward(float dt);

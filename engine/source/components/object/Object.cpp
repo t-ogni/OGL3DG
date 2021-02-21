@@ -48,10 +48,10 @@ void Object::loadObjFromFile(const char *path) {
     auto usingMtl = new MaterialStuct();
 
     if (!objFile) {
-        Log::warning("Object file in %s cannot be opened", path);
+        Log.warning("Object file in %s cannot be opened", path);
         return;
     } else
-        Log::info("Object file in %s was loaded successfully", path);
+        Log.info("Object file in %s was loaded successfully", path);
 
     std::string fileLine;
     while (objFile) {
@@ -115,7 +115,7 @@ void Object::loadObjFromFile(const char *path) {
                 }
             lineStream >> pathToMtl;
             pathToMtl.insert(0, pathObj);
-            Log::debug("looking for mtl file in %s", pathToMtl.c_str());
+            Log.debug("looking for mtl file in %s", pathToMtl.c_str());
             material->loadMtl(pathToMtl.c_str());
         }
     }
