@@ -20,7 +20,7 @@ struct MaterialStuct {
     glm::vec3 Diffuse = glm::vec3(0.8f);  // light object
     glm::vec3 Specular = glm::vec3(1.0f); // reflection
     float alfa = 1.0f;
-    float shine = 0.0f;
+    float shine = 1.0f;
     int illum = 1;
 };
 
@@ -33,6 +33,7 @@ private:
 
 public:
     Material() = default;
+    explicit Material(glm::vec4 color);
     explicit Material(Texture *texture, glm::vec4 color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
     void loadMtl(const char *path);
@@ -40,7 +41,7 @@ public:
     void setColor(glm::vec3 color);
     void setColor(glm::vec4 color);
 
-    MaterialStuct *getMaterial(std::string title);
+    MaterialStuct *getMaterial(const std::string& title);
 
     ~Material();
 };

@@ -121,3 +121,7 @@ bool Window::isActive() {
     return glfwGetWindowAttrib(window, GLFW_FOCUSED);
 }
 
+float Window::getAspect() {
+    return w_width / w_height;
+}
+

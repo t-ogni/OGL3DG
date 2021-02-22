@@ -45,15 +45,16 @@ void Renderer::draw(Camera *camera) {
             object->shader->uniformSet("light.position", lightPos);
             object->shader->uniformSet("light.color", glm::vec3(lights[0]->material->color));
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
+            object->shader->uniformSet("ucolor", object->material->color);
 
             for (auto &mesh : object->meshes) {
-//                glm::vec3 ambient = mesh->material->Ambient * ambientStrength;
-//                object->shader->uniformSet("material.Ambient", ambient);
-//                object->shader->uniformSet("material.Diffuse", mesh->material->Diffuse);
-//                object->shader->uniformSet("material.Specular", mesh->material->Specular);
-//                object->shader->uniformSet("material.alfa", mesh->material->alfa);
-//                object->shader->uniformSet("material.shine", mesh->material->shine);
-//                object->shader->uniformSet("material.illum", mesh->material->illum);
+                glm::vec3 ambient = mesh->material->Ambient * ambientStrength;
+                object->shader->uniformSet("material.Ambient", ambient);
+                object->shader->uniformSet("material.Diffuse", mesh->material->Diffuse);
+                object->shader->uniformSet("material.Specular", mesh->material->Specular);
+                object->shader->uniformSet("material.alfa", mesh->material->alfa);
+                object->shader->uniformSet("material.shine", mesh->material->shine);
+                object->shader->uniformSet("material.illum", mesh->material->illum);
                 mesh->draw();
             }
             object->shader->bind();

@@ -15,7 +15,7 @@ Game::Game() {
 }
 
 void Game::setEngine(Engine *eng) {
-    Log.debug("Engine located at 0x%x (mem)", eng);
+    Log.debug("Game class linked for Engine", eng);
     this->engine = eng;
 }
 

@@ -6,6 +6,12 @@
 
 #include "Material.h"
 
+Material::Material(glm::vec4 color1) :
+    color(color1)
+{
+
+}
+
 Material::Material(Texture *texture1, glm::vec4 color1) :
     texture(texture1),
     color(color1) {
@@ -66,7 +72,7 @@ void Material::setColor(glm::vec4 color1) {
     color = color1;
 }
 
-MaterialStuct *Material::getMaterial(std::string title) {
+MaterialStuct *Material::getMaterial(const std::string& title) {
     return materials[title];
 }
 

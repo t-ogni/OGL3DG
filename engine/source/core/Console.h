@@ -26,9 +26,8 @@ public:
         INFO,
         WARNING,
         ERROR,
-        GLFWERROR,
         NOTHING
-    } loggingLevel = WARNING;
+    } loggingLevel = DEBUG;
     bool showTime = true;
     void debug(const char *text, ...) const;
     void info(const char *text, ...) const;

@@ -13,7 +13,7 @@ Engine::Engine(Game *g, Window *pwindow) :
     input(new InputHandler()),
     renderer(new Renderer()) {
     this->game->setEngine(this);
-    glfwSetErrorCallback(&Log.glfwError);
+    glfwSetErrorCallback(&Log::glfwError);
 }
 
 auto Engine::run() -> int {
@@ -29,7 +29,7 @@ auto Engine::run() -> int {
         Time.update();
 
         Window::update();
-        camera->updateMatrices();
+        camera->updateMatrices(window->getAspect());
 
         this->game->ProcessInput(Time.getDelta());
         this->game->Update(Time.getDelta());

@@ -10,6 +10,7 @@
 #include <vector>
 #include "components/object/Object.h"
 #include "components/camera/Camera.h"
+#include "core/Window.h"
 
 class Renderer {
 private:
@@ -26,7 +27,7 @@ public:
     void removeFromScene(Object &object); // todo delete objects from scene
     void addLight(Object &object);
     void draw(Camera *camera);
-    void drawMode(int mode);
+    static void drawMode(int mode);
     ~Renderer();
 };
 

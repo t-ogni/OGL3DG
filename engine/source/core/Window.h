@@ -40,6 +40,7 @@ public:
     auto isCloseRequested() -> bool;
 
 
+    float getAspect();
 };
 
 

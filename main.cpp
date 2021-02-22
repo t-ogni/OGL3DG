@@ -6,34 +6,39 @@
 
 class Striker : public Game {
 private:
-    Object *map, *cube;
+    Object *cube {};
     Shader *shader;
 
 public:
     Striker() :
         Game(),
-        map(), cube(),
         shader() {
         Log.loggingLevel = Log.DEBUG;
         Log.info("Striker game class created");
         title = "Striker v1.0";
-        // k3rn3lp4nic.b4d
     };
 
     void Init() override {
         State = GAME_MENU;
-        shader = new Shader("runtime/vertex/basic.vert", "runtime/fragment/basic.frag");
+        shader = new Shader("runtime/BASIC/basic.vert", "runtime/BASIC/basic.frag");
+        auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
 
-        auto *wood = new Material(new Texture("res/cube.png"), {1,1,1,1});
+        auto *wood = new Material(new Texture("res/cube.png"), glm::vec4 {1.0f});
 
-        map = new Object("res/gameMap.obj", wood);
+        auto map = new Object("res/gameMap.obj");
         map-> setShader(shader);
         engine-> renderer-> addToScene(*map);
+
         cube = new Object("res/cube.obj", wood);
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(*cube);
-        engine-> renderer-> addLight(*cube);
+
+        auto light = new Object("res/cube.obj");
+        light-> setMaterial(new Material(glm::vec4 {1.0f}));
+        light-> setShader(lightShader);
+        engine-> renderer-> addToScene(*light);
+        engine-> renderer-> addLight(*light);
 
         // todo: make light shader
 
@@ -95,9 +100,9 @@ public:
             }
 
             if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_PRESS)
-                engine-> renderer -> drawMode(GL_LINE);
+                Renderer::drawMode(GL_LINE);
             else if (engine->input->getKeyStatus(GLFW_KEY_Q) == GLFW_RELEASE)
-                engine-> renderer -> drawMode(GL_FILL);
+                Renderer::drawMode(GL_FILL);
             if (engine->input->isCursorMoved()) {
                 glm::vec3 viewAngles = engine->camera->transform->getEulerAngles();
                 glm::vec2 PositionDelta = engine->input->getLockedCursorPosition() - engine->input->getCursorPosition();
