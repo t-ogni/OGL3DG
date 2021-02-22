@@ -7,39 +7,6 @@
 #include "InputHandler.h"
 
 
-void InputHandler::initCallbacks(GLFWwindow *windowParam) {
-    window = windowParam;
-    clear();
-    glfwSetWindowUserPointer(window, this);
-    // idk how that anonymous func works, but it works :)
-    auto key_callback_lambda = [](GLFWwindow *windowParam, int key, int scancode, int action, int mode) {
-        InputHandler *ih = static_cast<InputHandler *>(glfwGetWindowUserPointer(windowParam));
-        ih->key_callback(windowParam, key, scancode, action, mode);
-    };
-
-    auto cursor_pos_callback_lambda = [](GLFWwindow *windowParam, double xpos, double ypos) {
-        InputHandler *ih = static_cast<InputHandler *>(glfwGetWindowUserPointer(windowParam));
-        ih->cursor_pos_callback(windowParam, xpos, ypos);
-    };
-
-    auto mouse_button_callback_lambda = [](GLFWwindow *windowParam, int button, int action, int mods) {
-        InputHandler *ih = static_cast<InputHandler *>(glfwGetWindowUserPointer(windowParam));
-        ih->mouse_button_callback(windowParam, button, action, mods);
-    };
-
-    auto scroll_callback_lambda = [](GLFWwindow *windowParam, double xoffset, double yoffset) {
-        InputHandler *ih = static_cast<InputHandler *>(glfwGetWindowUserPointer(windowParam));
-        ih->scroll_callback(windowParam, xoffset, yoffset);
-    };
-
-    glfwSetKeyCallback(window, key_callback_lambda);
-    glfwSetCursorPosCallback(window, cursor_pos_callback_lambda);
-    glfwSetMouseButtonCallback(window, mouse_button_callback_lambda);
-    glfwSetScrollCallback(window, scroll_callback_lambda);
-    Log.info("Input Callbacks Initialized");
-}
-
-
 void InputHandler::clear() {
     setScrollOffset(0);
     for (auto &item : KeyboardKeys)
@@ -123,4 +90,4 @@ void InputHandler::update() {
 
 bool InputHandler::isCursorMoved() const {
     return cursorMoved;
-};
+}

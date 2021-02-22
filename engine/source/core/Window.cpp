@@ -6,8 +6,18 @@
 
 #include "Window.h"
 
+Window::Window(const char *title, int width, int height) {
+    w_title = title;
+    w_width = width;
+    w_height = height;
+}
 
 void Window::resizeCallback(GLFWwindow *windowParam, int width, int height) {
+    auto *win = getWinClass(windowParam);
+    win-> resize(width, height);
+}
+
+void Window::resize(int width, int height) {
     glViewport(0, 0, width, height);
     w_width = width;
     w_height = height;
@@ -16,8 +26,7 @@ void Window::resizeCallback(GLFWwindow *windowParam, int width, int height) {
 void Window::init() {
     if (!glfwInit())
         Log.error("GLFW cannot be started", ERR::INIT_GLFW);
-    else
-        Log.info("GLFW started");
+    Log.info("GLFW started");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -26,43 +35,45 @@ void Window::init() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    window = glfwCreateWindow(this->w_width,
-                              this->w_height,
-                              this->w_title,
-                              nullptr,
-                              nullptr);
-
-    if (window == nullptr) {
+    // Create window
+    window = glfwCreateWindow(this->w_width, this->w_height, this->w_title, nullptr, nullptr);
+    if (!window) {
         glfwTerminate();
         Log.error("Window cannot be initialised", ERR::INIT_WINDOW);
-    } else
-        Log.info("Window initialised");
+    }
+    Log.info("Window initialised");
 
     // Set Window Position centered relative to the main screen
     GLFWmonitor *glfwMonitor = glfwGetPrimaryMonitor();
     const GLFWvidmode *glfwVidMode = glfwGetVideoMode(glfwMonitor);
     glfwSetWindowPos(window, (glfwVidMode->width - w_width) / 2, (glfwVidMode->height - w_height) / 2);
 
-    auto resizeCallback_lambda = [](GLFWwindow *windowParam, int width, int height) {
-        auto *w = static_cast<Window *>(glfwGetWindowUserPointer(windowParam));
-        w->resizeCallback(windowParam, width, height);
-    };
-
-    glfwSetFramebufferSizeCallback(window, resizeCallback_lambda);
-
     glfwMakeContextCurrent(window);
-    glfwSetWindowUserPointer(this->window, this);
+    glfwSetWindowUserPointer(window, this);
+    glfwSetFramebufferSizeCallback(window, resizeCallback);
 
     if (!gladLoadGL()) {
         glfwDestroyWindow(window);
         glfwTerminate();
         Log.error("GLAD cannot be initialised", ERR::INIT_GLAD);
-    } else
-        Log.info("GLAD initialised");
+    }
+    Log.info("GLAD initialised");
 
-    Log.info("OpenGL Version is %i.%i", GLVersion.major, GLVersion.minor);
+    Log.info("OpenGL Version: %i.%i", GLVersion.major, GLVersion.minor);
+    Log.debug("Vendor: %s", glGetString(GL_VENDOR));
+    Log.debug("GLSL Version: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     glEnable(GL_DEPTH_TEST);
+}
+
+
+void Window::initCallbacks(InputHandler *handler) {
+    glfwSetKeyCallback(window, InputHandler::key_callback);
+    glfwSetMouseButtonCallback(window, InputHandler::mouse_button_callback);
+    glfwSetCursorPosCallback(window, InputHandler::cursor_pos_callback);
+    glfwSetScrollCallback(window, InputHandler::scroll_callback);
+
+    Log.info("Input Callbacks Initialized");
 }
 
 
@@ -78,50 +89,56 @@ void Window::render() {
 
 // CLEAR SCREEN
 void Window::clear() {
-    glClearColor(0.1, 0.69, 0.9f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-// DESTROY WINDOW & TERMINATE GLFW
-void Window::dispose() {
-    glfwDestroyWindow(window);
-    glfwTerminate();
-}
-
-// RETURN WINDOW WIDTH
-int Window::getWidth() const {
-    return w_width;
-}
-
-// RETURN WINDOW HEIGHT
-int Window::getHeight() const {
-    return w_height;
-}
-
-// RETURN GLFW WINDOW
-GLFWwindow *Window::getWindow() {
-    return window;
 }
 
 auto Window::isCloseRequested() -> bool {
     return glfwWindowShouldClose(window);
 }
 
-Window::Window(const char *title, int width, int height) {
-    w_title = title;
-    w_width = width;
-    w_height = height;
-}
-
-Window::~Window() {
-    dispose();
+// close and destroy window & GLFW
+void Window::dispose() {
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    Log.info("Window Terminated");
 }
 
 bool Window::isActive() {
     return glfwGetWindowAttrib(window, GLFW_FOCUSED);
 }
 
-float Window::getAspect() {
-    return w_width / w_height;
+// setters
+void Window::setTitle(const char *title1) {
+    w_title = title1;
 }
 
+void Window::setClearColor(float r, float g, float b, float a) {
+    glClearColor(r, g, b, a);
+}
+
+// getters
+Window *Window::getWinClass(GLFWwindow *window) {
+    return static_cast<Window *>(glfwGetWindowUserPointer(window));
+}
+
+GLFWwindow *Window::getWindow() {
+    return window;
+}
+
+int Window::getWidth() const {
+    return w_width;
+}
+
+int Window::getHeight() const {
+    return w_height;
+}
+
+float Window::getAspect() const {
+    Log.debug("wh: %i %i", w_width, w_height);
+    return (float) w_width / (float) w_height;
+}
+
+// destructor
+Window::~Window() {
+    dispose();
+}

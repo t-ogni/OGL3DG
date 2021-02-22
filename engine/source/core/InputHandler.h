@@ -11,11 +11,35 @@
 #include <glm/glm.hpp>
 #include "Console.h"
 
+
+class Mouse {
+private:
+    static bool m_cursorLocked;
+public:
+    static double lastX;
+    static double lastY;
+    static bool   leftButtonDown;
+    static bool   middleButtonDown;
+    static bool   rightMouseDown;
+
+    static bool isPressed(int button);
+    static void setPosition(double x, double y);
+    static void centre();
+    static void lock();
+    static void toggleLock();
+    static void unlock();
+    static inline bool isLocked() { return m_cursorLocked; }
+};
+
+class Keyboard {
+private:
+public:
+    static bool isPressed(int key);
+};
+
 class InputHandler {
 public:
     InputHandler() = default;
-
-    void initCallbacks(GLFWwindow *window);
 
     auto getCursorPosition() -> glm::vec2;
     auto getScrollOffset() const -> double;
@@ -34,9 +58,11 @@ public:
 
     void update();
 
-
-
-
+protected:
+    virtual void keyCallback(int key, int scancode, int action, int mods) {};
+    virtual void mouseCallback(int button, int action, int mods) {};
+    virtual void cursorPosCallback(double x, double y) {};
+    virtual void scrollCallback(double xoffset, double yoffset) {};
 private:
     int8_t KeyboardKeys[GLFW_KEY_LAST + 1] {};
     int8_t MouseKeys[GLFW_MOUSE_BUTTON_LAST + 1] {};
@@ -46,18 +72,19 @@ private:
     bool cursorMoved = true;
     double scrollOffset = 0;
 
-    GLFWwindow *window;
-
     void clear();
 
-    void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
-
-    void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
-
-    void cursor_pos_callback(GLFWwindow *window, double x, double y);
-
-    void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+    static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+    static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+    static void cursor_pos_callback(GLFWwindow *window, double x, double y);
+    static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 };
 
+void input_callback_key(GLFWwindow* window, int key, int scancode, int action, int mods);
+//void input_callback_char(GLFWwindow* winodw, unsigned int codepoint);
+void input_callback_cursorPosition(GLFWwindow* window, double xpos, double ypos);
+//void input_callback_cursorEnter(GLFWwindow* window, int entered);
+void input_callback_mouseButton(GLFWwindow* window, int button, int action, int mods);
+void input_callback_scroll(GLFWwindow* window, double xoffset, double yoffset);
 
 #endif //OGL3DG_INPUTHANDLER_H

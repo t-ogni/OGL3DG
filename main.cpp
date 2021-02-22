@@ -19,6 +19,7 @@ public:
     };
 
     void Init() override {
+        engine-> window-> setClearColor(0.1f, 0.7f, 0.9f);
         State = GAME_MENU;
         shader = new Shader("runtime/BASIC/basic.vert", "runtime/BASIC/basic.frag");
         auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
@@ -127,6 +128,6 @@ public:
 
 int main() {
     Striker MainGame;
-    Engine MainEng(&MainGame, new Window {MainGame.title, 1000, 900});
+    Engine MainEng(&MainGame, new Window {MainGame.title, 480, 320});
     return MainEng.run();
 }
