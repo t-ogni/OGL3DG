@@ -20,7 +20,7 @@ private:
     glm::vec3 directionSide, rightSide, upSide;
     float FOV;
     float ddNear = 0.1f; // dd - drawing distance
-    float ddFar = 100.0f;
+    float ddFar = 1000.0f;
     float speed = 1.0f;
 
 public:

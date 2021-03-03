@@ -11,7 +11,6 @@
 #include "Game.h"
 #include "Window.h"
 #include "Renderer.h"
-#include "InputHandler.h"
 #include "../components/camera/Camera.h"
 
 class Engine {
@@ -19,10 +18,9 @@ private:
     Game *game = nullptr;
 
 public:
-    Camera *camera = nullptr;
     Window *window = nullptr;
-    InputHandler *input = nullptr;
-    Renderer *renderer = nullptr;
+    Renderer *renderer = new Renderer();
+    Camera *camera = new Camera();
 
     explicit Engine(Game *windowParam,
                     Window *pwindow = new Window);

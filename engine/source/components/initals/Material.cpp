@@ -73,7 +73,7 @@ void Material::setColor(glm::vec4 color1) {
 }
 
 MaterialStuct *Material::getMaterial(const std::string& title) {
-    return materials[title];
+    return materials[title] ? materials[title] : new MaterialStuct();
 }
 
 Material::~Material() = default;

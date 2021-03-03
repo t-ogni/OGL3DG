@@ -12,11 +12,6 @@ Window::Window(const char *title, int width, int height) {
     w_height = height;
 }
 
-void Window::resizeCallback(GLFWwindow *windowParam, int width, int height) {
-    auto *win = getWinClass(windowParam);
-    win-> resize(width, height);
-}
-
 void Window::resize(int width, int height) {
     glViewport(0, 0, width, height);
     w_width = width;
@@ -48,9 +43,7 @@ void Window::init() {
     const GLFWvidmode *glfwVidMode = glfwGetVideoMode(glfwMonitor);
     glfwSetWindowPos(window, (glfwVidMode->width - w_width) / 2, (glfwVidMode->height - w_height) / 2);
 
-    glfwMakeContextCurrent(window);
-    glfwSetWindowUserPointer(window, this);
-    glfwSetFramebufferSizeCallback(window, resizeCallback);
+    initCallbacks();
 
     if (!gladLoadGL()) {
         glfwDestroyWindow(window);
@@ -67,11 +60,18 @@ void Window::init() {
 }
 
 
-void Window::initCallbacks(InputHandler *handler) {
-    glfwSetKeyCallback(window, InputHandler::key_callback);
-    glfwSetMouseButtonCallback(window, InputHandler::mouse_button_callback);
-    glfwSetCursorPosCallback(window, InputHandler::cursor_pos_callback);
-    glfwSetScrollCallback(window, InputHandler::scroll_callback);
+void Window::initCallbacks() {
+    mouse = new Mouse(window);
+    keyboard = new Keyboard(window);
+
+    glfwMakeContextCurrent(window);
+    glfwSetWindowUserPointer(window, this);
+
+    glfwSetFramebufferSizeCallback(window, resizeCallback);
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, mouse_position_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, mouse_scroll_callback);
 
     Log.info("Input Callbacks Initialized");
 }
@@ -85,6 +85,7 @@ void Window::update() {
 // SWAP BUFFERS
 void Window::render() {
     glfwSwapBuffers(window);
+    mouse-> update();
 }
 
 // CLEAR SCREEN
@@ -134,11 +135,35 @@ int Window::getHeight() const {
 }
 
 float Window::getAspect() const {
-    Log.debug("wh: %i %i", w_width, w_height);
     return (float) w_width / (float) w_height;
 }
 
 // destructor
 Window::~Window() {
     dispose();
+}
+
+void Window::resizeCallback(GLFWwindow *window, int width, int height) {
+    auto *win = getWinClass(window);
+    win-> resize(width, height);
+}
+
+void Window::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    auto *win = getWinClass(window);
+    win-> keyboard-> key_callback(key, scancode, action, mods);
+}
+
+void Window::mouse_position_callback(GLFWwindow *window, double xpos, double ypos) {
+    auto *win = getWinClass(window);
+    win-> mouse-> position_callback(xpos, ypos);
+}
+
+void Window::mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+    auto *win = getWinClass(window);
+    win-> mouse-> button_callback(button, action, mods);
+}
+
+void Window::mouse_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    auto *win = getWinClass(window);
+    win-> mouse-> scroll_callback(xoffset, yoffset);
 }

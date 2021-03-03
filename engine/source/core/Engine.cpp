@@ -8,10 +8,7 @@
 
 
 Engine::Engine(Game *g, Window *pwindow) :
-    game(g),  window(pwindow),
-    camera(new Camera()),
-    input(new InputHandler()),
-    renderer(new Renderer()) {
+    game(g), window(pwindow) {
     this->game->setEngine(this);
     glfwSetErrorCallback(&Log::glfwError);
 }
@@ -22,19 +19,18 @@ auto Engine::run() -> int {
     else
         Log.info("Engine started successfully");
     window->init();
-    input->initCallbacks(window->getWindow());
+
+
     game->Init();
 
     while (!window->isCloseRequested()) {
         Time.update();
 
-        Window::update();
+        window-> update();
         camera->updateMatrices(window->getAspect());
 
         this->game->ProcessInput(Time.getDelta());
         this->game->Update(Time.getDelta());
-
-        input -> update();
 
         Window::clear();
         this->game->Render();
