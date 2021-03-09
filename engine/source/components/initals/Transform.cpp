@@ -58,7 +58,7 @@ void Transform::setPosition(glm::vec3 position1) {
 }
 
 glm::vec3 Transform::getPosition() const {
-    return position;
+    return position * glm::mat3(model);
 }
 
 void Transform::setEulerAngles(glm::vec3 axes) {
@@ -78,7 +78,7 @@ glm::mat4 Transform::getModel() {
 
 void Transform::updateMat() {
     // euler's angles
-    model = glm::mat4(1.0f);  // that stuff causes gimbals lock
+    model = glm::mat4(1.0f);  // that stuff causes gimbal lock
     model = glm::translate(model, position);
     model = glm::rotate(model, roll, glm::vec3(1.0, 0.0, 0.0));
     model = glm::rotate(model, yaw, glm::vec3(0.0, 1.0, 0.0));
@@ -94,7 +94,8 @@ void Transform::updateMat() {
 
 Transform::~Transform() = default;
 
-///* Keep It Simple, Stupid - glm have .trans()
+//// Keep It Simple, Stupid - glm have ::translate() and ::rotate()
+///*
 //      Rx(P)=| 1      0       0 |
 //            | 0  cos P  -sin P |
 //            | 0  sin P   cos P |

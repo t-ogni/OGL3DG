@@ -6,13 +6,12 @@
 
 class Striker : public Game {
 private:
-    Object *cube {};
+    Object *light;
     Shader *shader;
 
 public:
-    Striker() :
-        Game(),
-        shader() {
+    Striker() : Game(),
+                shader(), light() {
         Log.loggingLevel = Log.WARNING;
         Log.info("Striker game class created");
         title = "Striker v1.0";
@@ -24,31 +23,32 @@ public:
         shader = new Shader("runtime/BASIC/basic.vert", "runtime/BASIC/basic.frag");
         auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
 
-        auto *wood = new Material(new Texture("res/cube.png"), glm::vec4 {1.0f});
+        auto *wood = new Material(new Texture("res/light.png"), glm::vec4 {1.0f});
 
 //        auto map = new Object("res/spot/sportcenter_obj.obj");
         auto map = new Object("res/gameMap.obj", wood);
+        map->label = "map";
         map-> setShader(shader);
         engine-> renderer-> addToScene(*map);
 
-        cube = new Object("res/cube.obj", wood);
+        auto cube = new Object("res/cube.obj", wood);
+        cube-> label = "cube";
         cube-> setShader(shader);
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(*cube);
 
-        auto light = new Object("res/cube.obj");
+        light = new Object("res/cube.obj");
+        light->label = "light";
         light-> setMaterial(new Material(glm::vec4 {1.0f}));
         light-> setShader(lightShader);
         engine-> renderer-> addToScene(*light);
         engine-> renderer-> addLight(*light);
 
-        // todo: make light shader
-
         engine->camera->setSpeed(5.0f);
 
         engine-> window-> mouse-> setLockedPosition(engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2);
         engine-> window-> mouse-> setLockStatus(true);
-//        engine-> window-> mouse-> setCursorType(GLFW_CURSOR_HIDDEN);
+        engine-> window-> mouse-> setCursorType(GLFW_CURSOR_HIDDEN);
 
         engine-> renderer-> setAmbientStrength(1.0f);
         Log.info("Striker Init function ended");
@@ -56,30 +56,37 @@ public:
 
     void ProcessInput(float dt) override {
         if(engine-> window-> isActive() && State == GAME_ACTIVE) {
+            if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_E)){
+                if(engine-> camera-> type == Camera::Orthographic)
+                    engine-> camera-> type = Camera::Perspective;
+                else
+                    engine-> camera-> type = Camera::Orthographic;
+            }
+
             if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_G))
-                cube-> transform-> setPitch(cube->transform->getPitch()+2*dt);
+                light-> transform-> setPitch(light->transform->getPitch() + 2 * dt);
             if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_H))
-                cube-> transform-> setYaw(cube->transform->getYaw()+2*dt);
+                light-> transform-> setYaw(light->transform->getYaw() + 2 * dt);
             if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_J))
-                cube-> transform-> setRoll(cube->transform->getRoll()+2*dt);
+                light-> transform-> setRoll(light->transform->getRoll() + 2 * dt);
             if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_SPACE)){
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_W))
-                    cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {1, 0, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {1, 0, 0});
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_S))
-                    cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {-1, 0, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {-1, 0, 0});
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_A))
-                    cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {0, 0, -1});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 0, -1});
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_D))
-                    cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {0, 0, 1});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 0, 1});
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_LEFT_SHIFT))
-                    cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {0, 1, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 1, 0});
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_LEFT_CONTROL))
-                    cube-> transform-> setPosition(cube-> transform-> getPosition() + glm::vec3 {0, -1, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, -1, 0});
 
             } else {
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_W))

@@ -19,8 +19,8 @@
 class Transform {
 private:
     glm::vec3 position;
-    glm::vec3 rotation;    // x - right, y - up, z - forward;
-    glm::vec3 scale;
+    glm::vec3 rotation{};    // x - right, y - up, z - forward;
+    glm::vec3 scale{};
     glm::mat4 model = glm::mat4(1.0f);
 
     // grads

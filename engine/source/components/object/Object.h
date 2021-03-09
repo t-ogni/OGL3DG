@@ -22,6 +22,7 @@ private:
     Material *material = new Material();
 
 public:
+    std::string label = "unknown";
     Transform *transform = new Transform();
 
     Object() = default;
