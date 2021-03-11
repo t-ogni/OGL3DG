@@ -18,13 +18,16 @@ private:
     glm::mat4 ProjectionMatrix;
     glm::mat4 ViewMatrix;
     glm::vec3 directionSide, rightSide, upSide;
-    float FOV;
+    float FOV = 60.0f;
     float ddNear = 0.1f; // dd - drawing distance
     float ddFar = 1000.0f;
     float speed = 1.0f;
 
 public:
-    enum cameraType { Perspective, Orthographic } type;
+    enum cameraType {
+        Perspective,
+        Orthographic
+    } type = Perspective;
 
     Transform *transform = new Transform();
     Camera();

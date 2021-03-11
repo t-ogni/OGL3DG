@@ -6,13 +6,10 @@
 
 #include "Camera.h"
 
-Camera::Camera() :
-    type(cameraType::Perspective),
-    FOV(60.0f)
+Camera::Camera()
 {
 
 }
-
 
 glm::mat4 Camera::getProjViewMat() {
     return ProjectionMatrix * ViewMatrix;
@@ -21,8 +18,8 @@ glm::mat4 Camera::getProjViewMat() {
 void Camera::updateMatrices(float aspect) {
     if(type == cameraType::Perspective) ProjectionMatrix = glm::perspective(glm::radians(FOV), aspect, ddNear, ddFar);
     else if(type == cameraType::Orthographic) ProjectionMatrix = glm::ortho(-FOV, FOV, -FOV, FOV, ddNear, ddFar);
-    float pitch = transform-> getPitch();
-    float yaw = transform-> getYaw();
+    double pitch = transform-> getPitch();
+    double yaw = transform-> getYaw();
 
     directionSide = glm::vec3(
             cos(pitch) * sin(yaw),
@@ -31,9 +28,9 @@ void Camera::updateMatrices(float aspect) {
     );
 
     rightSide = glm::vec3 {
-            sin((double) yaw - 1.57f),
+            sin(yaw - 1.57f),
             0,
-            cos((double) yaw - 1.57f)
+            cos(yaw - 1.57f)
     };
 
     upSide = glm::cross(-directionSide, rightSide);
