@@ -29,19 +29,25 @@ uniform MaterialStuct material;
 
 void main()
 {
+    vec4 texture = texture(TextureSample, fragTextureCoord);
+    if(vec3(texture) == vec3(0, 0, 0)){
+        texture = vec4(0.2, 0.2, 0.2, 1);
+    }
+    
     vec3 lightDir = normalize(light.position - fragPos);
     vec3 viewDir = normalize(viewPos - fragPos);
     vec3 reflectDir = reflect(-lightDir, fragNormal);
+
+    vec3 ambient = light.color;
 
     float diffuseAngle = max(dot(fragNormal, lightDir), 0.0);
     vec3 diffuse = diffuseAngle * light.color;
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shine);
-    vec3 specular = spec * light.color * material.specular;
+    vec3 specular = material.specular * spec * light.color ;
 
-    color = texture(TextureSample, fragTextureCoord);
-    color += vec4(material.ambient + diffuse, 1.0);
-    color += vec4(specular, 1.0);
+    vec3 result = (ambient + diffuse + specular) * vec3(texture);
+    color = vec4(result, 1.0f);
 }
 
 
