@@ -13,14 +13,12 @@
 
 // that class contains all matrices as needed
 // like position, rotation, scale
-// (not done but must be)
-// todo: matrices
 
 class Transform {
 private:
-    glm::vec3 position;
-    glm::vec3 rotation{};    // x - right, y - up, z - forward;
-    glm::vec3 scale{};
+    glm::vec3 position {0.0f};
+    glm::vec3 rotation{0.0f};    // x - right, y - up, z - forward;
+    glm::vec3 scale {1.0f};
     glm::mat4 model = glm::mat4(1.0f);
 
     // grads
@@ -34,6 +32,7 @@ public:
 
     glm::vec3 getPosition() const;
     glm::vec3 getDirection();
+    glm::vec3 getScale();
     glm::mat4 getModel();
 
     float getRoll() const;
@@ -45,15 +44,15 @@ public:
     void setYaw(float yaw);
     void setPitch(float pitch);
     void setRoll(float roll);
+    void setScale(float scalar);
+    void setScale(glm::vec3 xyz);
     void setEulerAngles(glm::vec3 axes); // { x, y, z } as { roll, yaw, pitch }
     void setPosition(glm::vec3 position);
 
     void updateMat();
 
-
-
-
     ~Transform();
+
 };
 
 

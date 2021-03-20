@@ -14,11 +14,11 @@
 #include "Material.h"
 
 struct Vertex {
-    glm::vec3 position;
-    glm::vec2 textureCoord;
-    glm::vec3 normal;
+    glm::vec3 position {0.0f};
+    glm::vec2 textureCoord {0.0f};
+    glm::vec3 normal {0.0f};
 
-    Vertex(glm::vec3 position = glm::vec3(0.0f),
+    explicit Vertex(glm::vec3 position = glm::vec3(0.0f),
            glm::vec2 textureCoord = glm::vec2(0.0f),
            glm::vec3 normal = glm::vec3(0.0f)) {
         this->position = position;
@@ -30,15 +30,15 @@ struct Vertex {
 class Mesh {
     friend Renderer;
 private:
-    unsigned int vao;		// Vertex Array Object
-    unsigned int vbo;		// Vertex Buffer Object
-    unsigned int size;
-    MaterialStuct *material = new MaterialStuct();
+    unsigned int vao;	// Vertex Array Object
+    unsigned int vbo;	// Vertex Buffer Object
+    unsigned int size;  // amount of vertices
+
+    MaterialStuct *material = nullptr;
 
     void setupMesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
 
 public:
-    Mesh();
     explicit Mesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
 
     void draw() const;

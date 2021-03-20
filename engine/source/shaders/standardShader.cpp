@@ -2,7 +2,7 @@
 // Created by moonlin on 20.01.2021.
 //
 
-#include "standartShader.h"
+#include "standardShader.h"
 
 std::string fragRawCode = R"(
 #version 330 core
@@ -66,7 +66,7 @@ void main()
     fragTextureCoord = texCoord;
 })";
 
-standartShader::standartShader(){
+standardShader::standardShader(){
     GLuint vertex = compileShader(vertRawCode, GL_VERTEX_SHADER);
     GLuint fragment = compileShader(fragRawCode, GL_FRAGMENT_SHADER);
     linkProgram(vertex, fragment);

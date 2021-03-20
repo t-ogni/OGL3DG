@@ -6,36 +6,22 @@
 
 #include "Object.h"
 
-Object::Object(const char *pathToObj) {
-    loadObjFromFile(pathToObj);
+Object::Object(const char *label1) {
+    label = label1;
 }
 
-Object::Object(const char *pathToObj, Material *material1) {
-    loadObjFromFile(pathToObj);
+void Object::setMaterial(Material *material1) {
     material = material1;
-}
-
-Object::Object(const char *pathToObj, Texture *texture) {
-    loadObjFromFile(pathToObj);
-    material = new Material(texture);
-}
-
-Object::Object(const char *pathToObj, const char *pathToTexture) {
-    loadObjFromFile(pathToObj);
-    material = new Material(new Texture(pathToTexture));
-}
-
-void Object::addMesh(Mesh *mesh) {
-    meshes.push_back(mesh);
 }
 
 void Object::setShader(Shader *shader1) {
     shader = shader1;
 }
 
-void Object::setMaterial(Material *material1) {
-    material = material1;
+void Object::addMesh(Mesh *mesh) {
+    meshes.push_back(mesh);
 }
+
 
 void Object::loadObjFromFile(const char *path) {
     std::vector<glm::vec3> positions;
@@ -106,7 +92,10 @@ void Object::loadObjFromFile(const char *path) {
 
         } else if (oper == "mtllib") {
             std::string pathToMtl, pathObj = path;
-
+            if(material == nullptr){
+                material = new Material();
+                Log.debug("No matching material for %s found, created new Material()", label.c_str());
+            }
             // use current path for load mtl
             for (auto itChar = pathObj.end() - 1; itChar != pathObj.begin() - 1; --itChar)
                 if (*itChar == '/' or *itChar == '\\') {
@@ -123,6 +112,10 @@ void Object::loadObjFromFile(const char *path) {
     if(meshes.empty())
         meshes.push_back(new Mesh(vertices));
 
+}
+
+std::string Object::getLabel() {
+    return label;
 }
 
 Object::~Object() = default;

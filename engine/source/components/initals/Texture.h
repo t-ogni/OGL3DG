@@ -8,17 +8,17 @@
 #define OGL3DG_TEXTURE_H
 
 #include "SOIL/SOIL.h"
+#include "core/Console.h"
 
 class Texture {
     unsigned int textureID = 0;
 public:
     void bind() const;
-    void unbind() const;
-
-    int getTextureID();
+    static void unbind();
+    unsigned int getTextureID() const;
 
     Texture() = default;
-    Texture(const char *path);
+    explicit Texture(const char *path);
     void loadTextures(const char *path);
 
     ~Texture();

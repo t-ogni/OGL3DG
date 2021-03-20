@@ -3,16 +3,16 @@
 //|_____/.______| .  |    |______ |     | |  |  |
 // Copyright (c) 2020 Dark Shield Team. All rights reserved.
 // Created by moonlin on 014 14.09.20 at 21:37.
-// mb to rename to devTeam? darkSpaceTeam?
+// mb to rename to devTeam?  Xaq??)
 
-#ifndef OGL3DG_STANDARTSHADER_H
-#define OGL3DG_STANDARTSHADER_H
+#ifndef OGL3DG_STANDARDSHADER_H
+#define OGL3DG_STANDARDSHADER_H
 
 #include "shaders/Shader.h"
 
-class standartShader : public Shader {
+class standardShader : public Shader {
 public:
-    standartShader();
+    standardShader();
 };
 
-#endif //OGL3DG_STANDARTSHADER_H
+#endif //OGL3DG_STANDARDSHADER_H

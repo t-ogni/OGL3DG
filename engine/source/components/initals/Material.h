@@ -27,9 +27,9 @@ struct MaterialStuct {
 class Material {
     friend Renderer;
 private:
-    glm::vec4 color;
+    glm::vec4 color {1.0f};
     Texture *texture = nullptr;
-    std::map <std::string, MaterialStuct*> materials;
+    std::map <std::string, MaterialStuct *> materials;
 
 public:
     Material() = default;

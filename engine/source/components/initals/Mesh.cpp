@@ -6,16 +6,10 @@
 
 #include "Mesh.h"
 
-Mesh::Mesh() :
-        vbo(0),
-        vao(0),
-        size(0)
-{
-
-}
+#include <utility>
 
 Mesh::Mesh(std::vector<Vertex> vertices, int mode) {
-    setupMesh(vertices, mode);
+    setupMesh(std::move(vertices), mode);
 }
 
 void Mesh::setMaterial(MaterialStuct *mat) {

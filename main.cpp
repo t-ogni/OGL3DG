@@ -1,18 +1,19 @@
+#include <cmath>
+
+#include "engine/source/core/Console.h"
 #include "engine/source/core/Game.h"
 #include "engine/source/core/Engine.h"
-#include "engine/source/shaders/standartShader.h"
-#include "engine/source/core/Console.h"
+#include "engine/source/shaders/standardShader.h"
 #include "engine/source/core/Time.h"
+
+
 
 class Striker : public Game {
 private:
     Object *light;
-    Shader *shader;
 
 public:
-    Striker() : Game(),
-                shader(), light() {
-        Log.loggingLevel = Log.WARNING;
+    Striker() : Game(), light() {
         Log.info("Striker game class created");
         title = "Striker v1.0";
     };
@@ -20,55 +21,51 @@ public:
     void Init() override {
         Window::setClearColor(0.1f, 0.7f, 0.9f);
         State = GAME_MENU;
-        shader = new Shader("runtime/BASIC/basic.vert", "runtime/BASIC/basic.frag");
+        auto basicShader = new Shader("runtime/standard/basic.vert", "runtime/standard/basic.frag");
         auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
 
-        auto *wood = new Material(new Texture("res/light.png"), glm::vec4 {1.0f});
 
-//        auto map = new Object("res/spot/sportcenter_obj.obj");
-        auto map = new Object("res/gameMap.obj", wood);
-        map->label = "map";
-        map-> setShader(shader);
+        auto t_wood = new Texture("res/weed.png");
+        auto m_wood = new Material(t_wood, glm::vec4 {1.0f});
+
+        auto map = new Object("map");
+        map->loadObjFromFile("res/gameMap.obj");
+        map-> setShader(basicShader);
         engine-> renderer-> addToScene(*map);
 
-        auto cube = new Object("res/cube.obj", wood);
-        cube-> label = "cube";
-        cube-> setShader(shader);
+        auto cube = new Object("cube");
+        cube-> setShader(basicShader);
+        cube->setMaterial(m_wood);
+        cube->loadObjFromFile("res/cube.obj");
         cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
         engine-> renderer-> addToScene(*cube);
 
-        light = new Object("res/cube.obj");
-        light->label = "light";
+        light = new Object("light");
         light-> setMaterial(new Material(glm::vec4 {1.0f}));
         light-> setShader(lightShader);
+        light->loadObjFromFile("res/cube.obj");
+        light-> transform-> setScale(0.1f);
         engine-> renderer-> addToScene(*light);
         engine-> renderer-> addLight(*light);
 
         engine->camera->setSpeed(5.0f);
 
-        engine-> window-> mouse-> setLockedPosition(engine-> window-> getWidth() / 2, engine-> window-> getHeight() / 2);
+        engine-> window-> mouse-> setLockedPosition(double(engine-> window-> getWidth()) / 2, double(engine-> window-> getHeight()) / 2);
         engine-> window-> mouse-> setLockStatus(true);
         engine-> window-> mouse-> setCursorType(GLFW_CURSOR_HIDDEN);
 
-        engine-> renderer-> setAmbientStrength(1.0f);
+        engine-> renderer-> setAmbientStrength(0.1f);
         Log.info("Striker Init function ended");
     }
 
     void ProcessInput(float dt) override {
         if(engine-> window-> isActive() && State == GAME_ACTIVE) {
-            if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_E)){
-                if(engine-> camera-> type == Camera::Orthographic)
-                    engine-> camera-> type = Camera::Perspective;
-                else
-                    engine-> camera-> type = Camera::Orthographic;
-            }
 
-            if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_G))
-                light-> transform-> setPitch(light->transform->getPitch() + 2 * dt);
-            if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_H))
-                light-> transform-> setYaw(light->transform->getYaw() + 2 * dt);
-            if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_J))
-                light-> transform-> setRoll(light->transform->getRoll() + 2 * dt);
+            if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_P))
+                engine-> camera-> type = Camera::Perspective;
+            else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_O))
+                engine-> camera-> type = Camera::Orthographic;
+
             if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_SPACE)){
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_W))
                     light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {1, 0, 0});
@@ -131,7 +128,20 @@ public:
 
 
 int main() {
+    Log.loggingLevel = Log::WARNING;
     Striker MainGame;
-    Engine MainEng(&MainGame, new Window {MainGame.title, 1500, 849});
+    Engine MainEng(&MainGame, new Window {MainGame.title, 1600, 900});
     return MainEng.run();
 }
+
+
+
+
+//    void Update(float dt) override {
+//
+//        light-> transform-> setPitch((light->transform->getPitch() * 0.1f + 1) * std::cos(dt));
+//        light-> transform-> setYaw((light->transform->getYaw() * 0.1f + 1) * std::sin(dt) );
+//        glm::vec3 pos = light-> transform-> getPosition();
+//        pos += glm::vec3{ sin(dt), sin(dt)*cos(dt), cos(dt)} / glm::vec3{10};
+//        light-> transform-> setPosition(pos);
+//    }

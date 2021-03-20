@@ -9,34 +9,32 @@
 
 #include "components/initals/Mesh.h"
 #include "components/initals/Transform.h"
-#include "shaders/standartShader.h"
+#include "shaders/standardShader.h"
 #include <vector>
 
 class Renderer;
 
 class Object {
     friend Renderer;
-private:
+protected:
+    std::string label;
     std::vector<Mesh *> meshes;
-    Shader *shader = new standartShader();
-    Material *material = new Material();
+    Shader *shader = nullptr;
+    Material *material = nullptr;
 
 public:
-    std::string label = "unknown";
     Transform *transform = new Transform();
 
     Object() = default;
-    explicit Object(const char *pathToObj);
-    Object(const char *pathToObj, Material *material1);
-    Object(const char *pathToObj, Texture *texture1);
-    Object(const char *pathToObj, const char *pathToTexture);
+    explicit Object(const char* label);
+    std::string getLabel();
 
     void setShader(Shader *shader);
     void setMaterial(Material *material);
+
     void addMesh(Mesh *mesh);
     void loadObjFromFile(const char *path);
 
-    //void setRandomColors(glm::vec3 from = glm::vec3(0.5f), glm::vec3 to = glm::vec3(1.0f));
     ~Object();
 };
 

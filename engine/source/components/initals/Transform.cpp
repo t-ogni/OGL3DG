@@ -58,7 +58,7 @@ void Transform::setPosition(glm::vec3 position1) {
 }
 
 glm::vec3 Transform::getPosition() const {
-    return position * glm::mat3(model);
+    return position;
 }
 
 void Transform::setEulerAngles(glm::vec3 axes) {
@@ -71,6 +71,17 @@ glm::vec3 Transform::getEulerAngles() const {
     return glm::vec3(roll, yaw, pitch);
 }
 
+void Transform::setScale(float scalar) {
+    scale = glm::vec3(scalar);
+}
+
+void Transform::setScale(glm::vec3 d) {
+    scale = d;
+}
+
+glm::vec3 Transform::getScale() {
+    return scale;
+}
 
 glm::mat4 Transform::getModel() {
     return model;
@@ -79,6 +90,7 @@ glm::mat4 Transform::getModel() {
 void Transform::updateMat() {
     // euler's angles
     model = glm::mat4(1.0f);  // that stuff causes gimbal lock
+    model = glm::scale(model, scale);
     model = glm::translate(model, position);
     model = glm::rotate(model, roll, glm::vec3(1.0, 0.0, 0.0));
     model = glm::rotate(model, yaw, glm::vec3(0.0, 1.0, 0.0));
@@ -90,6 +102,7 @@ void Transform::updateMat() {
             glm::cos(pitch) * glm::cos(yaw)
     );
 }
+
 
 
 Transform::~Transform() = default;

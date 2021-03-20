@@ -4,13 +4,13 @@ in vec2 fragTextureCoord;
 in vec3 fragNormal;
 in vec3 fragPos;
 
-out vec4 color;
+out vec4 outputColor;
 
-uniform vec4 ucolor;
+uniform vec4 fragColor;
 
 void main()
 {
-    color = vec4(ucolor.xyz, 0.8f);
+    outputColor = fragColor;
 }
 
 

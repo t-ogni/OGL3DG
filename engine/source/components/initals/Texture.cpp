@@ -14,6 +14,10 @@ Texture::Texture(const char *path) {
 void Texture::loadTextures(const char *path) {
     int width = 0, height = 0;
     unsigned char* image = SOIL_load_image(path, &width, &height, nullptr, SOIL_LOAD_RGB);
+    if(image == nullptr) {
+        Log.warning("Texture [%s] not loaded", path);
+        return;
+    }
 
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -29,6 +33,7 @@ void Texture::loadTextures(const char *path) {
 
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
+    Log.debug("Texture loaded successfully");
 }
 
 void Texture::bind() const {
@@ -36,12 +41,12 @@ void Texture::bind() const {
     glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
-void Texture::unbind() const {
+void Texture::unbind() {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-int Texture::getTextureID() {
+unsigned int Texture::getTextureID() const {
     return textureID;
 }
 
