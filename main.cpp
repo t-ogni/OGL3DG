@@ -1,4 +1,5 @@
 #include <cmath>
+#include <string>
 
 #include "engine/source/core/Console.h"
 #include "engine/source/core/Game.h"
@@ -25,19 +26,30 @@ public:
         auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
 
 
-        auto t_wood = new Texture("res/weed.png");
+        auto t_wood = new Texture("res/wood.png");
         auto m_wood = new Material(t_wood, glm::vec4 {1.0f});
+//        int dist = 10;
+//        for (int i = -dist; i <= dist; ++i) {
+//            for (int j = -dist; j <= dist; ++j) {
+//                auto map = new Object((std::string("map") + std::to_string(i)+"_"+std::to_string(j)).c_str());
+//                map->transform->setPosition({i, -1, j});
+//                map->loadObjFromFile("res/square.obj");
+//                map->setMaterial(m_wood);
+//                map-> setShader(basicShader);
+//                engine-> renderer-> addToScene(*map);
+//            }
+//        }
 
         auto map = new Object("map");
-        map->loadObjFromFile("res/gameMap.obj");
         map-> setShader(basicShader);
+        map-> loadObjFromFile("res/gameMap.obj");
         engine-> renderer-> addToScene(*map);
 
         auto cube = new Object("cube");
         cube-> setShader(basicShader);
         cube->setMaterial(m_wood);
         cube->loadObjFromFile("res/cube.obj");
-        cube-> transform-> setPosition({1.0f, 0.0f, 10.0f});
+        cube-> transform-> setPosition({1.0f, 1.0f, 9.0f});
         engine-> renderer-> addToScene(*cube);
 
         light = new Object("light");
@@ -45,6 +57,7 @@ public:
         light-> setShader(lightShader);
         light->loadObjFromFile("res/cube.obj");
         light-> transform-> setScale(0.1f);
+        light-> transform-> setPosition({2.0f, 2.0f, 0});
         engine-> renderer-> addToScene(*light);
         engine-> renderer-> addLight(*light);
 

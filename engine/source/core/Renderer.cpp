@@ -26,20 +26,19 @@ void Renderer::removeFromScene(Object &object) {
 }
 
 void Renderer::draw(Camera *camera) {
-    glm::mat4 MVPmat = camera-> getProjViewMat();
+    glm::mat4 ViewProjectionMatrix = camera-> getProjViewMat();
     for (auto &object : objects) {
-        // refresh matrices
         object-> transform-> updateMat();
-        glm::mat4 matModel = object-> transform-> getModel();
-        MVPmat *= matModel;
+        glm::mat4 ModelMatrix = object-> transform-> getModel();
+        glm::mat4 ResultMatrix = ViewProjectionMatrix * ModelMatrix;
 
         if(object-> material-> texture != nullptr)
             object -> material-> texture-> bind();
 
         if(object->shader != nullptr) {
             object->shader->bind();
-            object->shader->uniformSet("matModViewProj", MVPmat);
-            object->shader->uniformSet("matModel", matModel);
+            object->shader->uniformSet("matModViewProj", ResultMatrix);
+            object->shader->uniformSet("matModel", ModelMatrix);
 
             glm::vec3 lightPos = lights[0]->transform-> getPosition();
             object->shader->uniformSet("light.position", lightPos);
