@@ -1,4 +1,4 @@
-#include <cmath>
+// #include <cmath>
 #include <string>
 
 #include "engine/source/core/Console.h"
@@ -28,6 +28,8 @@ public:
 
         auto t_wood = new Texture("res/wood.png");
         auto m_wood = new Material(t_wood, glm::vec4 {1.0f});
+        auto t_uvm = new Texture("res/uv_map.jpg");
+        auto m_uvm = new Material(t_uvm, glm::vec4 {1.0f});
 //        int dist = 10;
 //        for (int i = -dist; i <= dist; ++i) {
 //            for (int j = -dist; j <= dist; ++j) {
@@ -42,7 +44,9 @@ public:
 
         auto map = new Object("map");
         map-> setShader(basicShader);
+        map-> setMaterial(m_uvm);
         map-> loadObjFromFile("res/gameMap.obj");
+        map-> transform-> setPosition({0, 0, 1});
         engine-> renderer-> addToScene(*map);
 
         auto cube = new Object("cube");

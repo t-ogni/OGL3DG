@@ -40,11 +40,11 @@ void Renderer::draw(Camera *camera) {
             object->shader->uniformSet("matModViewProj", ResultMatrix);
             object->shader->uniformSet("matModel", ModelMatrix);
 
-            glm::vec3 lightPos = lights[0]->transform-> getPosition();
+            glm::vec3 lightPos = lights[0]-> transform-> getPosition();
             object->shader->uniformSet("light.position", lightPos);
             object->shader->uniformSet("light.color", glm::vec3(lights[0]->material->color));
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
-            object->shader->uniformSet("fragColor", object->material->color); // todo remove material color
+            object->shader->uniformSet("fragColor", object->material->color);
 
             for (auto &mesh : object->meshes) {
                 if(mesh-> material != nullptr) {
