@@ -6,21 +6,19 @@
 
 #include "Transform.h"
 
-Transform::Transform():
+Transform::Transform() :
         position(glm::vec3(0)),
         rotation(glm::vec3(0, 0, 0)),
-        model(glm::mat4(1.0f))
-{
+        model(glm::mat4(1.0f)) {
 
 }
 
 
-Transform::Transform(glm::vec3 position, glm::vec3 EulerAxis):
+Transform::Transform(glm::vec3 position, glm::vec3 EulerAxis) :
         position(position),
         yaw(EulerAxis.y),
         pitch(EulerAxis.z),
-        roll(EulerAxis.x)
-{
+        roll(EulerAxis.x) {
 
 }
 
@@ -102,7 +100,6 @@ void Transform::updateMat() {
 //            glm::cos(pitch) * glm::cos(yaw)
 //    );
 }
-
 
 
 Transform::~Transform() = default;

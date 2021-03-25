@@ -19,8 +19,10 @@ std::string generateOut(const char *text, va_list ptr);
 
 
 
-static class Log {
+class Logger {
 public:
+    static Logger *instance(); // singleton
+
     enum EnumLoggingLevel {
         DEBUG,
         INFO,
@@ -36,6 +38,7 @@ public:
 
     static void glfwError(int id, const char *description);
 
-} Log;
+};
 
+#define Log Logger::instance()
 #endif //OGL3DG_CONSOLE_H

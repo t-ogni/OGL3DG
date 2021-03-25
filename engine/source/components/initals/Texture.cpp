@@ -15,7 +15,7 @@ void Texture::loadTextures(const char *path) {
     int width = 0, height = 0;
     unsigned char* image = SOIL_load_image(path, &width, &height, nullptr, SOIL_LOAD_RGB);
     if(image == nullptr) {
-        Log.warning("Texture [%s] not loaded", path);
+        Log->warning("Texture [%s] not loaded", path);
         return;
     }
 
@@ -33,7 +33,7 @@ void Texture::loadTextures(const char *path) {
 
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
-    Log.debug("Texture loaded successfully");
+    Log->debug("Texture loaded successfully");
 }
 
 void Texture::bind() const {

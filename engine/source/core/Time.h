@@ -8,7 +8,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-static class Time {
+// singleton Time
+class Time {
 private:
     //Values to return
     int frames_passed = 0;
@@ -22,34 +23,18 @@ private:
     float current_frame = 0.0f;
 
 public:
-    //Called at the start of the main loop
-    void update()
-    {
-        //Find delta time
-        current_frame = (float)glfwGetTime();
-        delta = current_frame - last_frame;
+    static Time* instance();
+    void update();    //Called at the start of the main loop
 
-        //Update time
-        time = (float)glfwGetTime();
+    float getCurrentFrame() const { return current_frame; }
+    int getFramesPassed() const { return frames_passed; }
+    float getLastFrame() const { return last_frame; }
+    float getSeconds() const { return seconds; }
+    float getDelta() const { return delta; }
+    float getTime() const { return time; }
+    float getFps() const { return fps; }
+};
 
-        //Find FPS
-        fps = 1 / delta;
-
-        //Done
-        frames_passed++;
-        seconds += delta;
-        last_frame = current_frame;
-    }
-
-    //Since all values should be read only they need getters
-    float getCurrentFrame() { return current_frame; }
-    int getFramesPassed() { return frames_passed; }
-    float getLastFrame() { return last_frame; }
-    float getSeconds() { return seconds; }
-    float getDelta() { return delta; }
-    float getTime() { return time; }
-    float getFps() { return fps; }
-
-} Time;
+#define TIME Time::instance()
 
 #endif //OGL3DG_TIME_H

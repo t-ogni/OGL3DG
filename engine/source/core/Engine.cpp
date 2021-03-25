@@ -10,27 +10,27 @@
 Engine::Engine(Game *g, Window *pwindow) :
     game(g), window(pwindow) {
     this->game->setEngine(this);
-    glfwSetErrorCallback(&Log::glfwError);
+    glfwSetErrorCallback(&Logger::glfwError);
 }
 
 auto Engine::run() -> int {
     if (game == nullptr) // if game not added to engine
-        Log.error("game is nullptr. Aborting..");
+        Log->error("game is nullptr. Aborting..");
     else
-        Log.info("Engine started successfully");
+        Log->info("Engine started successfully");
     window->init();
 
 
     game->Init();
 
     while (!window->isCloseRequested()) {
-        Time.update();
+        TIME->update();
 
         window-> update();
         camera->updateMatrices(window->getAspect());
 
-        this->game->ProcessInput(Time.getDelta());
-        this->game->Update(Time.getDelta());
+        this->game->ProcessInput(TIME->getDelta());
+        this->game->Update(TIME->getDelta());
 
         Window::clear();
         this->game->Render();

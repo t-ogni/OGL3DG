@@ -47,14 +47,14 @@ void Renderer::draw(Camera *camera) {
             object->shader->uniformSet("fragColor", object->material->color);
 
             for (auto &mesh : object->meshes) {
-                if(mesh-> material != nullptr) {
-                    glm::vec3 ambient = mesh->material->Ambient * ambientStrength;
+                if(mesh-> surface != nullptr) {
+                    glm::vec3 ambient = mesh->surface->Ambient * ambientStrength;
                     object->shader->uniformSet("material.Ambient", ambient);
-                    object->shader->uniformSet("material.Diffuse", mesh->material->Diffuse);
-                    object->shader->uniformSet("material.Specular", mesh->material->Specular);
-                    object->shader->uniformSet("material.alfa", mesh->material->alfa);
-                    object->shader->uniformSet("material.shine", mesh->material->shine);
-                    object->shader->uniformSet("material.illum", mesh->material->illum);
+                    object->shader->uniformSet("material.Diffuse", mesh->surface->Diffuse);
+                    object->shader->uniformSet("material.Specular", mesh->surface->Specular);
+                    object->shader->uniformSet("material.alfa", mesh->surface->alfa);
+                    object->shader->uniformSet("material.shine", mesh->surface->shine);
+                    object->shader->uniformSet("material.illum", mesh->surface->illum);
                 }
                 mesh->draw();
             }

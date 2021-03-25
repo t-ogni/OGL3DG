@@ -7,16 +7,14 @@
 #include "engine/source/shaders/standardShader.h"
 #include "engine/source/core/Time.h"
 
-
-
 class Striker : public Game {
 private:
     Object *light;
 
 public:
     Striker() : Game(), light() {
-        Log.info("Striker game class created");
-        title = "Striker v1.0";
+        Log->info("Striker game class created");
+        title = "Striker - First Person Shooter";
     };
 
     void Init() override {
@@ -24,7 +22,6 @@ public:
         State = GAME_MENU;
         auto basicShader = new Shader("runtime/standard/basic.vert", "runtime/standard/basic.frag");
         auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
-
 
         auto t_wood = new Texture("res/wood.png");
         auto m_wood = new Material(t_wood, glm::vec4 {1.0f});
@@ -72,7 +69,7 @@ public:
         engine-> window-> mouse-> setCursorType(GLFW_CURSOR_HIDDEN);
 
         engine-> renderer-> setAmbientStrength(0.1f);
-        Log.info("Striker Init function ended");
+        Log->info("Striker Init function ended");
     }
 
     void ProcessInput(float dt) override {
@@ -134,7 +131,6 @@ public:
                 engine->camera->transform->setEulerAngles(
                         {0, viewAngles.y + (PositionDelta.x * dt * 0.1), viewAngles.z + (PositionDelta.y * dt * 0.1)});
             }
-
         } else {
             if (engine->window->mouse->isPressed(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
                 State = GAME_ACTIVE;
@@ -145,7 +141,7 @@ public:
 
 
 int main() {
-    Log.loggingLevel = Log::WARNING;
+    Log->loggingLevel = Logger::DEBUG;
     Striker MainGame;
     Engine MainEng(&MainGame, new Window {MainGame.title, 1600, 900});
     return MainEng.run();

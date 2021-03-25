@@ -25,7 +25,7 @@ __This project's goals to be implemented:__
 -   [x] Textures
 -   [x] Rotation, projection and movement (local Object)
 -   [x] Simple lighting
--   [ ] Object material
+-   [ ] Object surface
 -   [ ] Shadow
 -   [ ] Sound system
 -   [ ] Gameplay

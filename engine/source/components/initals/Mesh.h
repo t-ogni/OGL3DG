@@ -34,15 +34,15 @@ private:
     unsigned int vbo;	// Vertex Buffer Object
     unsigned int size;  // amount of vertices
 
-    MaterialStuct *material = nullptr;
+    SurfaceStruct *surface = nullptr;
 
     void setupMesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
 
 public:
     explicit Mesh(std::vector<Vertex> vertices, int mode = GL_STATIC_DRAW);
+    void setMaterial(SurfaceStruct *mat);
 
     void draw() const;
-    void setMaterial(MaterialStuct *mat);
     ~Mesh();
 
 };

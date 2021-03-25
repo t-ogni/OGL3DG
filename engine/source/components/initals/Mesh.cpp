@@ -12,8 +12,8 @@ Mesh::Mesh(std::vector<Vertex> vertices, int mode) {
     setupMesh(std::move(vertices), mode);
 }
 
-void Mesh::setMaterial(MaterialStuct *mat) {
-    material = mat;
+void Mesh::setMaterial(SurfaceStruct *mat) {
+    surface = mat;
 }
 
 void Mesh::setupMesh(std::vector<Vertex> vertices, int mode) {

@@ -14,6 +14,6 @@ void main()
 {
     gl_Position = matModViewProj * vec4(VertexPosition, 1.0f);
     fragPos = vec3(vec4(VertexPosition, 1.0f) * matModel);
-    fragNormal = vec3(transpose(inverse(matModel)) * vec4(normal, 1.0f)); // if was scaled
+    fragNormal = vec3(vec4(normal, 1.0f) * matModel); // normal was scaled fix: transpose(inverse(matModel))
     fragTextureCoord = vec2(texCoord.x, 1.0f - texCoord.y);
 }

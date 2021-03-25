@@ -20,8 +20,8 @@ void Window::resize(int width, int height) {
 
 void Window::init() {
     if (!glfwInit())
-        Log.error("GLFW cannot be started", ERR::INIT_GLFW);
-    Log.info("GLFW started");
+        Log->error("GLFW cannot be started", ERR::INIT_GLFW);
+    Log->info("GLFW started");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -34,9 +34,9 @@ void Window::init() {
     window = glfwCreateWindow(this->w_width, this->w_height, this->w_title, nullptr, nullptr);
     if (!window) {
         glfwTerminate();
-        Log.error("Window cannot be initialised", ERR::INIT_WINDOW);
+        Log->error("Window cannot be initialised", ERR::INIT_WINDOW);
     }
-    Log.info("Window initialised");
+    Log->info("Window initialised");
 
     // Set Window Position centered relative to the main screen
     GLFWmonitor *glfwMonitor = glfwGetPrimaryMonitor();
@@ -48,13 +48,13 @@ void Window::init() {
     if (!gladLoadGL()) {
         glfwDestroyWindow(window);
         glfwTerminate();
-        Log.error("GLAD cannot be initialised", ERR::INIT_GLAD);
+        Log->error("GLAD cannot be initialised", ERR::INIT_GLAD);
     }
-    Log.info("GLAD initialised");
+    Log->info("GLAD initialised");
 
-    Log.info("OpenGL Version: %i.%i", GLVersion.major, GLVersion.minor);
-    Log.debug("Vendor: %s", glGetString(GL_VENDOR));
-    Log.debug("GLSL Version: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    Log->info("OpenGL Version: %i.%i", GLVersion.major, GLVersion.minor);
+    Log->debug("Vendor: %s", glGetString(GL_VENDOR));
+    Log->debug("GLSL Version: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     glEnable(GL_DEPTH_TEST);
 }
@@ -73,7 +73,7 @@ void Window::initCallbacks() {
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetScrollCallback(window, mouse_scroll_callback);
 
-    Log.info("Input Callbacks Initialized");
+    Log->info("Input Callbacks Initialized");
 }
 
 
@@ -101,7 +101,7 @@ auto Window::isCloseRequested() -> bool {
 void Window::dispose() {
     glfwDestroyWindow(window);
     glfwTerminate();
-    Log.info("Window Terminated");
+    Log->info("Window Terminated");
 }
 
 bool Window::isActive() {

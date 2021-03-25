@@ -31,13 +31,13 @@ void Object::loadObjFromFile(const char *path) {
     std::vector<Vertex> vertices;
     std::ifstream objFile(path);
 
-    auto usingMtl = new MaterialStuct();
+    auto usingMtl = new SurfaceStruct();
 
     if (!objFile) {
-        Log.warning("Object file in %s cannot be opened", path);
+        Log->warning("Object file in %s cannot be opened", path);
         return;
     } else
-        Log.info("Object file in %s was loaded successfully", path);
+        Log->info("Object file in %s was loaded successfully", path);
 
     std::string fileLine;
     while (objFile) {
@@ -88,13 +88,13 @@ void Object::loadObjFromFile(const char *path) {
             std::string title;
             lineStream >> title;
 
-            usingMtl = material->getMaterial(title);
+            usingMtl = material->getSurface(title);
 
         } else if (oper == "mtllib") {
             std::string pathToMtl, pathObj = path;
             if(material == nullptr){
                 material = new Material();
-                Log.debug("No matching material for %s found, created new Material()", label.c_str());
+                Log->debug("No matching material for %s found, created new Material()", label.c_str());
             }
             // use current path for load mtl
             for (auto itChar = pathObj.end() - 1; itChar != pathObj.begin() - 1; --itChar)
@@ -104,7 +104,7 @@ void Object::loadObjFromFile(const char *path) {
                 }
             lineStream >> pathToMtl;
             pathToMtl.insert(0, pathObj);
-            Log.debug("looking for mtl file in %s", pathToMtl.c_str());
+            Log->debug("looking for mtl file in %s", pathToMtl.c_str());
             material->loadMtl(pathToMtl.c_str());
         }
     }

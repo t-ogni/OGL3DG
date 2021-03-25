@@ -7,14 +7,13 @@
 #include "Material.h"
 
 Material::Material(glm::vec4 color1) :
-    color(color1)
-{
+        color(color1) {
 
 }
 
 Material::Material(Texture *texture1, glm::vec4 color1) :
-    texture(texture1),
-    color(color1) {
+        texture(texture1),
+        color(color1) {
 
 }
 
@@ -22,10 +21,10 @@ void Material::loadMtl(const char *path) {
     std::string currentMtl;  // map.rstring() ?
     std::ifstream mtlFile(path);
     if (!mtlFile) {
-        Log.warning("Material file in %s cannot be opened", path);
+        Log->warning("Material file in %s cannot be opened", path);
         return;
     } else
-        Log.info("Material file in %s was loaded successfully", path);
+        Log->info("Material file in %s was loaded successfully", path);
     std::string fileLine;
     while (mtlFile) {
         getline(mtlFile, fileLine);
@@ -34,31 +33,31 @@ void Material::loadMtl(const char *path) {
         lineStream >> oper;
         if (oper == "newmtl") {
             lineStream >> currentMtl;
-            materials[currentMtl] = new MaterialStuct();
+            surfaces[currentMtl] = new SurfaceStruct();
         } else if (oper == "Ka") {
             glm::vec3 Ka;
             lineStream >> Ka.x >> Ka.y >> Ka.z;
-            materials[currentMtl]-> Ambient = Ka;
+            surfaces[currentMtl]->Ambient = Ka;
         } else if (oper == "Kd") {
             glm::vec3 Kd;
             lineStream >> Kd.x >> Kd.y >> Kd.z;
-            materials[currentMtl]-> Diffuse = Kd;
-        }else if (oper == "Ks") {
+            surfaces[currentMtl]->Diffuse = Kd;
+        } else if (oper == "Ks") {
             glm::vec3 Ks;
             lineStream >> Ks.x >> Ks.y >> Ks.z;
-            materials[currentMtl]-> Specular = Ks;
+            surfaces[currentMtl]->Specular = Ks;
         } else if (oper == "d") {
             float d;
             lineStream >> d;
-            materials[currentMtl]-> alfa = d;
+            surfaces[currentMtl]->alfa = d;
         } else if (oper == "Ns") {
             float Ns;
             lineStream >> Ns;
-            materials[currentMtl]-> shine = Ns;
+            surfaces[currentMtl]->shine = Ns;
         } else if (oper == "illum") {
             int n;
             lineStream >> n;
-            materials[currentMtl]-> illum = n;
+            surfaces[currentMtl]->illum = n;
         }
 
     }
@@ -72,8 +71,8 @@ void Material::setColor(glm::vec4 color1) {
     color = color1;
 }
 
-MaterialStuct *Material::getMaterial(const std::string& title) {
-    return materials[title] ? materials[title] : new MaterialStuct();
+SurfaceStruct *Material::getSurface(const std::string &title) {
+    return surfaces[title] ? surfaces[title] : new SurfaceStruct();
 }
 
 Material::~Material() = default;

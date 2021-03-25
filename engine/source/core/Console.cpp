@@ -16,7 +16,7 @@ std::string getTime(){
     return buffer;
 }
 
-void Log::error(const char *text, int errorCode, ...) const {
+void Logger::error(const char *text, int errorCode, ...) const {
     if(loggingLevel > ERROR) return;
 
     va_list ptr;
@@ -32,7 +32,7 @@ void Log::error(const char *text, int errorCode, ...) const {
     exit(errorCode);
 }
 
-void Log::warning(const char *text, ...) const {
+void Logger::warning(const char *text, ...) const {
     if(loggingLevel > WARNING) return;
 
     va_list ptr;
@@ -45,7 +45,7 @@ void Log::warning(const char *text, ...) const {
     std::cout << "Warning: " << coutOut << '\a' << std::endl;
 }
 
-void Log::info(const char *text, ...) const {
+void Logger::info(const char *text, ...) const {
     if(loggingLevel > INFO) return;
 
     va_list ptr;
@@ -58,7 +58,7 @@ void Log::info(const char *text, ...) const {
     std::cout << "Info   : " << coutOut << std::endl;
 }
 
-void Log::debug(const char *text, ...) const {
+void Logger::debug(const char *text, ...) const {
     if(loggingLevel > DEBUG) return;
 
     va_list ptr;
@@ -73,8 +73,13 @@ void Log::debug(const char *text, ...) const {
 
 
 
-void Log::glfwError(int id, const char *description) {
+void Logger::glfwError(int id, const char *description) {
     std::cout << "[" << id << "] GLFW error: " << description << std::endl;
+}
+
+Logger *Logger::instance() {
+    static Logger instance_ptr;
+    return &instance_ptr;
 }
 
 

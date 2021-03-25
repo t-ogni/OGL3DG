@@ -15,7 +15,7 @@ Game::Game() {
 }
 
 void Game::setEngine(Engine *eng) {
-    Log.debug("Game class linked for Engine", eng);
+    Log->debug("Game class linked for Engine", eng);
     this->engine = eng;
 }
 
@@ -37,5 +37,5 @@ void Game::Destroy() {
 
 Game::~Game() {
     Destroy();
-    Log.debug("Game Destroyed");
+    Log->debug("Game Destroyed");
 }

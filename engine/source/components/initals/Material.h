@@ -15,7 +15,7 @@
 
 class Renderer;
 
-struct MaterialStuct {
+struct SurfaceStruct {
     glm::vec3 Ambient = glm::vec3(0.2f);  // background color
     glm::vec3 Diffuse = glm::vec3(0.8f);  // light object
     glm::vec3 Specular = glm::vec3(1.0f); // reflection
@@ -29,7 +29,7 @@ class Material {
 private:
     glm::vec4 color {1.0f};
     Texture *texture = nullptr;
-    std::map <std::string, MaterialStuct *> materials;
+    std::map <std::string, SurfaceStruct *> surfaces;
 
 public:
     Material() = default;
@@ -41,7 +41,7 @@ public:
     void setColor(glm::vec3 color);
     void setColor(glm::vec4 color);
 
-    MaterialStuct *getMaterial(const std::string& title);
+    SurfaceStruct *getSurface(const std::string& title);
 
     ~Material();
 };
