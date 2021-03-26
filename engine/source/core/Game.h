@@ -31,13 +31,12 @@ public:
 
     virtual void Update(float deltaTime); // move
     virtual void Render();  //draw
-    virtual void Destroy();
 
     virtual void keyPressed(int key, int mods) {};
-
     virtual void keyReleased(int key, int mods) {};
+    virtual void Destroy();
 
-    ~Game();
+    virtual ~Game();
 };
 
 

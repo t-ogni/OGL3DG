@@ -29,7 +29,7 @@ public:
     Shader(const char *vertexPath, const char *fragmentPath);
 
     void bind() const;
-    void unbind() const;
+    static void unbind() ;
 
     void loadShaders(const char *vertexPath, const char *fragmentPath);
 

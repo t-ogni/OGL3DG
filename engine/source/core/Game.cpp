@@ -36,6 +36,5 @@ void Game::Destroy() {
 }
 
 Game::~Game() {
-    Destroy();
     Log->debug("Game Destroyed");
 }

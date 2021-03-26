@@ -14,7 +14,7 @@ void Shader::bind() const {
     glUseProgram(this->Program);
 }
 
-void Shader::unbind() const {
+void Shader::unbind() {
     glUseProgram(0);
 }
 
@@ -44,8 +44,9 @@ auto Shader::compileShader(const std::string &s_code, int type) -> GLuint {
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
         Log->error("Shader cannot be compiled: %s", ERR::COMPILE_SHADER, infoLog);
     } else {
-        Log->info("Shader compiled (type: %i)", type);
+        Log->debug("Shader compiled (type: %i)", type);
     }
+
     return shader;
 }
 
@@ -60,8 +61,9 @@ void Shader::linkProgram(GLuint vertex, GLuint fragment) {
     if (!success) {
         glGetProgramInfoLog(Program, 512, nullptr, infoLog);
         Log->error(infoLog, ERR::LINK_PROGRAM_SHADER);
-    } else
-        Log->info("Shaders linked to Program (ID: %i)", Program);
+    } else {
+        Log->debug("Shaders linked to Program (ID: %i)", Program);
+    }
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
@@ -86,10 +88,6 @@ void Shader::uniformSet(const char *name, int value) const {
 void Shader::uniformSet(const char *name, float value) const {
     glUniform1f(glGetUniformLocation(this->Program, name), int(value));
 }
-//
-//void Shader::uniformSet(const char *name, glm::vec2 &value) const {
-//    glUniform2fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
-//}
 
 void Shader::uniformSet(const char *name, glm::vec2 value) const {
     glUniform2fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
@@ -98,11 +96,6 @@ void Shader::uniformSet(const char *name, glm::vec2 value) const {
 void Shader::uniformSet(const char *name, float x, float y) const {
     glUniform2f(glGetUniformLocation(this->Program, name), x, y);
 }
-
-//
-//void Shader::uniformSet(const char *name, glm::vec3 &value) const {
-//    glUniform3fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
-//}
 
 void Shader::uniformSet(const char *name, glm::vec3 value) const {
     glUniform3fv(glGetUniformLocation(this->Program, name), 1, &value[0]);
@@ -124,9 +117,8 @@ void Shader::uniformSet(const char *name, float x, float y, float z, float w) co
 }
 
 void Shader::uniformSet(const char *name, glm::mat2 &value) const {
-    glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE,
-                       &value[0][0]); // idk what doing 3rd argument (transpose)
-}
+    glUniformMatrix2fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);
+} // idk what doing 3rd argument (transpose)
 
 void Shader::uniformSet(const char *name, glm::mat3 &value) const {
     glUniformMatrix3fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, &value[0][0]);

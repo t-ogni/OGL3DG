@@ -9,7 +9,8 @@
 
 #include "components/initals/Mesh.h"
 #include "components/initals/Transform.h"
-#include "shaders/standardShader.h"
+#include "components/loaders/ObjLoader.h"
+#include "shaders/Shader.h"
 
 #include <vector>
 

@@ -6,17 +6,8 @@
 
 #include "Mesh.h"
 
-#include <utility>
-
-Mesh::Mesh(std::vector<Vertex> vertices, int mode) {
-    setupMesh(std::move(vertices), mode);
-}
-
-void Mesh::setMaterial(SurfaceStruct *mat) {
-    surface = mat;
-}
-
-void Mesh::setupMesh(std::vector<Vertex> vertices, int mode) {
+Mesh::Mesh(std::vector<Vertex> vertices, SurfaceStruct *surface, int mode) {
+    this-> surface = surface;
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
 
@@ -24,11 +15,11 @@ void Mesh::setupMesh(std::vector<Vertex> vertices, int mode) {
     size = vertices.size();
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], mode);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(Vertex), &vertices[0], mode);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) nullptr);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoord));
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, textureCoord));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, normal));
     // offsetof returns byte pos in struct
     // enable attribute arrays
     glEnableVertexAttribArray(0);
@@ -36,6 +27,10 @@ void Mesh::setupMesh(std::vector<Vertex> vertices, int mode) {
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
+}
+
+void Mesh::setMaterial(SurfaceStruct *mat) {
+    surface = mat;
 }
 
 void Mesh::draw() const {

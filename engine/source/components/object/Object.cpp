@@ -22,7 +22,6 @@ void Object::addMesh(Mesh *mesh) {
     meshes.push_back(mesh);
 }
 
-
 void Object::loadObjFromFile(const char *path) {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec2> texCoords;
@@ -31,7 +30,7 @@ void Object::loadObjFromFile(const char *path) {
     std::vector<Vertex> vertices;
     std::ifstream objFile(path);
 
-    auto usingMtl = new SurfaceStruct();
+    auto currentSurface = new SurfaceStruct();
 
     if (!objFile) {
         Log->warning("Object file in %s cannot be opened", path);
@@ -80,22 +79,20 @@ void Object::loadObjFromFile(const char *path) {
                 vertices.push_back(vertex);
             } //todo: split by meshes
         } else if (oper == "s") {
-            auto tmpMesh = new Mesh(vertices);
-            tmpMesh->setMaterial(usingMtl);
+            auto tmpMesh = new Mesh(vertices, currentSurface);
+            tmpMesh->setMaterial(currentSurface);
             meshes.push_back(tmpMesh);
             vertices.clear();
         } else if (oper == "usemtl") {
             std::string title;
             lineStream >> title;
 
-            usingMtl = material->getSurface(title);
+            currentSurface = material->getSurface(title);
 
         } else if (oper == "mtllib") {
+            if(material != nullptr) continue;
+            Log->debug("No matching material for %s found, trying to find using 'mtllib ...'", label.c_str());
             std::string pathToMtl, pathObj = path;
-            if(material == nullptr){
-                material = new Material();
-                Log->debug("No matching material for %s found, created new Material()", label.c_str());
-            }
             // use current path for load mtl
             for (auto itChar = pathObj.end() - 1; itChar != pathObj.begin() - 1; --itChar)
                 if (*itChar == '/' or *itChar == '\\') {
@@ -105,12 +102,13 @@ void Object::loadObjFromFile(const char *path) {
             lineStream >> pathToMtl;
             pathToMtl.insert(0, pathObj);
             Log->debug("looking for mtl file in %s", pathToMtl.c_str());
+            material = new Material();
             material->loadMtl(pathToMtl.c_str());
         }
     }
 
     if(meshes.empty())
-        meshes.push_back(new Mesh(vertices));
+        meshes.push_back(new Mesh(vertices, currentSurface));
 
 }
 

@@ -67,7 +67,10 @@ void Mouse::position_callback(double xpos, double ypos) {
 }
 
 void Mouse::button_callback(int button, int action, int mods) {
-    mouseButtons[button] = action;
+    if(mouseButtons[button] == BTN_PRESS && action == BTN_PRESS)
+        mouseButtons[button] = BTN_HOLD;
+    else
+        mouseButtons[button] = action;
 }
 
 void Mouse::scroll_callback(double xoffset, double yoffset) {

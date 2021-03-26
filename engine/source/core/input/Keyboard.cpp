@@ -16,7 +16,10 @@ char Keyboard::getKeyStatus(int key) {
 
 
 void Keyboard::key_callback(int key, int scancode, int action, int mods) {
-    keyboardButtons[key] = action;
+    if(keyboardButtons[key] == BTN_PRESS && action == BTN_PRESS)
+        keyboardButtons[key] = BTN_HOLD;
+    else
+        keyboardButtons[key] = action;
 }
 
 void Keyboard::update() {

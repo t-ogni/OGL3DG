@@ -21,7 +21,7 @@ void Window::resize(int width, int height) {
 void Window::init() {
     if (!glfwInit())
         Log->error("GLFW cannot be started", ERR::INIT_GLFW);
-    Log->info("GLFW started");
+    Log->debug("GLFW started");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -36,7 +36,7 @@ void Window::init() {
         glfwTerminate();
         Log->error("Window cannot be initialised", ERR::INIT_WINDOW);
     }
-    Log->info("Window initialised");
+    Log->info("Window manager initialised");
 
     // Set Window Position centered relative to the main screen
     GLFWmonitor *glfwMonitor = glfwGetPrimaryMonitor();
@@ -50,7 +50,7 @@ void Window::init() {
         glfwTerminate();
         Log->error("GLAD cannot be initialised", ERR::INIT_GLAD);
     }
-    Log->info("GLAD initialised");
+    Log->debug("GLAD initialised");
 
     Log->info("OpenGL Version: %i.%i", GLVersion.major, GLVersion.minor);
     Log->debug("Vendor: %s", glGetString(GL_VENDOR));
@@ -73,7 +73,7 @@ void Window::initCallbacks() {
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetScrollCallback(window, mouse_scroll_callback);
 
-    Log->info("Input Callbacks Initialized");
+    Log->info("input Callbacks Initialized");
 }
 
 

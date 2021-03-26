@@ -8,6 +8,11 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#define BTN_RELEASE 0
+#define BTN_PRESS 1
+#define BTN_HOLD 2
+#define BTN_REPEAT 3
+
 class Window;
 
 class Mouse {

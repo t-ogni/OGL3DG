@@ -5,6 +5,12 @@
 #ifndef OGL3DG_KEYBOARD_H
 #define OGL3DG_KEYBOARD_H
 
+#define BTN_RELEASE 0
+#define BTN_PRESS 1
+#define BTN_HOLD 2
+#define BTN_REPEAT 3
+
+
 #include <GLFW/glfw3.h>
 class Window;
 

@@ -17,15 +17,17 @@ private:
     std::vector <Object *> objects;
     std::vector <Object *> lights;
     float ambientStrength = 0.1f;
+    Material *defaultMaterial = nullptr;
+
 public:
     float getAmbientStrength() const;
     void setAmbientStrength(float ambientStrength);
 
-public:
     Renderer();
-    void addToScene(Object &object);
-    void removeFromScene(Object &object); // todo delete objects from scene
+    void addObject(Object &object);
+    void removeObject(Object &object); // todo delete objects from scene
     void addLight(Object &object);
+    void removeLight(Object &object);
     void draw(Camera *camera);
     static void drawMode(int mode);
     ~Renderer();

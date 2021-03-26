@@ -1,11 +1,11 @@
 // #include <cmath>
 #include <string>
 
-#include "engine/source/core/Console.h"
-#include "engine/source/core/Game.h"
-#include "engine/source/core/Engine.h"
-#include "engine/source/shaders/standardShader.h"
-#include "engine/source/core/Time.h"
+#include "core/Console.h"
+#include "core/Game.h"
+#include "core/Engine.h"
+#include "shaders/standardShader.h"
+#include "core/Time.h"
 
 class Striker : public Game {
 private:
@@ -13,8 +13,9 @@ private:
 
 public:
     Striker() : Game(), light() {
-        Log->info("Striker game class created");
-        title = "Striker - First Person Shooter";
+        Log->loggingLevel = Logger::DEBUG;
+        Log->info("OGL3DG game class created");
+        title = "OGL3DG - First Person Shooter";
     };
 
     void Init() override {
@@ -24,7 +25,7 @@ public:
         auto lightShader = new Shader("runtime/light/basic.vert", "runtime/light/basic.frag");
 
         auto t_wood = new Texture("res/wood.png");
-        auto m_wood = new Material(t_wood, glm::vec4 {1.0f});
+        auto m_wood = new Material(t_wood, glm::vec4 {1.0f}); // fixme surface is belongs to object, not to material
         auto t_uvm = new Texture("res/uv_map.jpg");
         auto m_uvm = new Material(t_uvm, glm::vec4 {1.0f});
 //        int dist = 10;
@@ -41,17 +42,17 @@ public:
 
         auto map = new Object("map");
         map-> setShader(basicShader);
-        map-> setMaterial(m_uvm);
         map-> loadObjFromFile("res/gameMap.obj");
+        map-> setMaterial(m_uvm);
         map-> transform-> setPosition({0, 0, 1});
-        engine-> renderer-> addToScene(*map);
+        engine->renderer->addObject(*map);
 
         auto cube = new Object("cube");
         cube-> setShader(basicShader);
         cube->setMaterial(m_wood);
         cube->loadObjFromFile("res/cube.obj");
         cube-> transform-> setPosition({1.0f, 1.0f, 9.0f});
-        engine-> renderer-> addToScene(*cube);
+        engine->renderer->addObject(*cube);
 
         light = new Object("light");
         light-> setMaterial(new Material(glm::vec4 {1.0f}));
@@ -59,7 +60,7 @@ public:
         light->loadObjFromFile("res/cube.obj");
         light-> transform-> setScale(0.1f);
         light-> transform-> setPosition({2.0f, 2.0f, 0});
-        engine-> renderer-> addToScene(*light);
+        engine->renderer->addObject(*light);
         engine-> renderer-> addLight(*light);
 
         engine->camera->setSpeed(5.0f);
@@ -69,7 +70,8 @@ public:
         engine-> window-> mouse-> setCursorType(GLFW_CURSOR_HIDDEN);
 
         engine-> renderer-> setAmbientStrength(0.1f);
-        Log->info("Striker Init function ended");
+
+        Log->info("OGL3DG Init function ended");
     }
 
     void ProcessInput(float dt) override {
@@ -80,7 +82,13 @@ public:
             else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_O))
                 engine-> camera-> type = Camera::Orthographic;
 
-            if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_SPACE)){
+            if(engine->window->keyboard-> getKeyStatus(GLFW_KEY_0) == BTN_PRESS){
+                engine-> renderer-> removeObject(*light);
+            } else if(engine->window->keyboard-> getKeyStatus(GLFW_KEY_MINUS) == BTN_PRESS) {
+                engine->renderer->addObject(*light);
+            }
+
+                if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_SPACE)){
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_W))
                     light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {1, 0, 0});
 
@@ -119,9 +127,9 @@ public:
                     engine->camera->down(dt);
             }
 
-            if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q) == GLFW_PRESS)
+            if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q) == BTN_PRESS)
                 Renderer::drawMode(GL_LINE);
-            else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q) == GLFW_RELEASE)
+            else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q) == BTN_RELEASE)
                 Renderer::drawMode(GL_FILL);
 
             if(engine-> window-> mouse-> isMoved()) {
@@ -132,7 +140,7 @@ public:
                         {0, viewAngles.y + (PositionDelta.x * dt * 0.1), viewAngles.z + (PositionDelta.y * dt * 0.1)});
             }
         } else {
-            if (engine->window->mouse->isPressed(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+            if (engine->window->mouse->isPressed(GLFW_MOUSE_BUTTON_LEFT) == BTN_PRESS) {
                 State = GAME_ACTIVE;
             }
         }
@@ -141,9 +149,9 @@ public:
 
 
 int main() {
-    Log->loggingLevel = Logger::DEBUG;
     Striker MainGame;
-    Engine MainEng(&MainGame, new Window {MainGame.title, 1600, 900});
+    auto window = new Window {MainGame.title, 1600, 900};
+    Engine MainEng(&MainGame, window);
     return MainEng.run();
 }
 

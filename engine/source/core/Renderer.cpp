@@ -17,12 +17,20 @@ void Renderer::setAmbientStrength(float ambientStrength1) {
     ambientStrength = ambientStrength1;
 }
 
-void Renderer::addToScene(Object &object) {
+void Renderer::addObject(Object &object) { // todo unique checker (lights too)
     objects.push_back(&object);
 }
 
-void Renderer::removeFromScene(Object &object) {
-    //todo remove from scene
+void Renderer::removeObject(Object &object) {
+    std::erase(objects, &object);  // since c++20 !!!
+}
+
+void Renderer::addLight(Object &light){
+    lights.push_back(&light);
+}
+
+void Renderer::removeLight(Object &object) {
+    std::erase(lights, &object);  // since c++20 !!!
 }
 
 void Renderer::draw(Camera *camera) {
@@ -43,13 +51,12 @@ void Renderer::draw(Camera *camera) {
             glm::vec3 lightPos = lights[0]-> transform-> getPosition();
             object->shader->uniformSet("light.position", lightPos);
             object->shader->uniformSet("light.color", glm::vec3(lights[0]->material->color));
+
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
             object->shader->uniformSet("fragColor", object->material->color);
 
             for (auto &mesh : object->meshes) {
                 if(mesh-> surface != nullptr) {
-                    glm::vec3 ambient = mesh->surface->Ambient * ambientStrength;
-                    object->shader->uniformSet("material.Ambient", ambient);
                     object->shader->uniformSet("material.Diffuse", mesh->surface->Diffuse);
                     object->shader->uniformSet("material.Specular", mesh->surface->Specular);
                     object->shader->uniformSet("material.alfa", mesh->surface->alfa);
@@ -74,10 +81,6 @@ void Renderer::draw(Camera *camera) {
         if(object-> material-> texture != nullptr)
             Texture::unbind();
     }
-}
-
-void Renderer::addLight(Object &light){
-    lights.push_back(&light);
 }
 
 void Renderer::drawMode(int mode) {

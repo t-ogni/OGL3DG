@@ -18,7 +18,7 @@ Material::Material(Texture *texture1, glm::vec4 color1) :
 }
 
 void Material::loadMtl(const char *path) {
-    std::string currentMtl;  // map.rstring() ?
+    std::string currentMtl;
     std::ifstream mtlFile(path);
     if (!mtlFile) {
         Log->warning("Material file in %s cannot be opened", path);

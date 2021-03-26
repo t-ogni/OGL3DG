@@ -7,21 +7,20 @@
 #include "Engine.h"
 
 
-Engine::Engine(Game *g, Window *pwindow) :
-    game(g), window(pwindow) {
+Engine::Engine(Game *gamePtr, Window *windowPtr) :
+    game(gamePtr),
+    window(windowPtr) {
     this->game->setEngine(this);
     glfwSetErrorCallback(&Logger::glfwError);
 }
 
 auto Engine::run() -> int {
     if (game == nullptr) // if game not added to engine
-        Log->error("game is nullptr. Aborting..");
-    else
-        Log->info("Engine started successfully");
+        Log->error("child class not set. Aborting..");
+
     window->init();
-
-
     game->Init();
+    Log->info("Engine started successfully");
 
     while (!window->isCloseRequested()) {
         TIME->update();
