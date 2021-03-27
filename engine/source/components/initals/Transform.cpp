@@ -93,12 +93,7 @@ void Transform::updateMat() {
     model = glm::rotate(model, roll, glm::vec3(1.0, 0.0, 0.0));
     model = glm::rotate(model, yaw, glm::vec3(0.0, 1.0, 0.0));
     model = glm::rotate(model, pitch, glm::vec3(0.0, 0.0, 1.0));
-//
-//    rotation = glm::vec3(
-//            glm::cos(pitch) * glm::cos(yaw),
-//            glm::sin(pitch),
-//            glm::cos(pitch) * glm::cos(yaw)
-//    );
+
 }
 
 

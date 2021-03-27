@@ -1,6 +1,5 @@
 #version 330 core
 #define LIGHTS_MAX 10
-//dont fogot delete posbuild shader path
 
 in vec2 fragTextureCoord;
 in vec3 fragNormal;
@@ -29,7 +28,7 @@ uniform Material material;
 
 void main()
 {
-    vec4 texture = texture(TextureSample, fragTextureCoord) * fragColor;
+    vec4 texture = texture(TextureSample, fragTextureCoord);
 
     vec3 lightDir = normalize(light.position - fragPos);
     vec3 viewDir = normalize(viewPos - fragPos);

@@ -1,4 +1,3 @@
-// #include <cmath>
 #include <string>
 
 #include "core/Console.h"
@@ -6,6 +5,8 @@
 #include "core/Engine.h"
 #include "shaders/standardShader.h"
 #include "core/Time.h"
+
+// ! directory tree must be refactored ! //
 
 class Striker : public Game {
 private:
@@ -40,36 +41,52 @@ public:
 //            }
 //        }
 
-        auto map = new Object("map");
+        auto map = new Object("terrain");
         map-> setShader(basicShader);
         map-> loadObjFromFile("res/gameMap.obj");
         map-> setMaterial(m_uvm);
-        map-> transform-> setPosition({0, 0, 1});
         engine->renderer->addObject(*map);
 
         auto cube = new Object("cube");
         cube-> setShader(basicShader);
         cube->setMaterial(m_wood);
         cube->loadObjFromFile("res/cube.obj");
-        cube-> transform-> setPosition({1.0f, 1.0f, 9.0f});
+        cube-> transform-> setPosition({1.0f, 1.0f, 0.0f});
         engine->renderer->addObject(*cube);
 
-        light = new Object("light");
-        light-> setMaterial(new Material(glm::vec4 {1.0f}));
+        auto cube1 = new Object("cube1");
+        cube1-> setShader(basicShader);
+        cube1->setMaterial(m_wood);
+        cube1->loadObjFromFile("res/cube.obj");
+        engine->renderer->addObject(*cube1);
+
+        light = new Object("light1");
+        light-> setMaterial(m_uvm);
         light-> setShader(lightShader);
         light->loadObjFromFile("res/cube.obj");
-        light-> transform-> setScale(0.1f);
-        light-> transform-> setPosition({2.0f, 2.0f, 0});
+        light-> transform-> setScale(0.1);
+        light-> transform->setPosition({0, 3, 4});
         engine->renderer->addObject(*light);
         engine-> renderer-> addLight(*light);
 
+
+        auto light2 = new Object("light2");
+        light2-> setMaterial(m_uvm);
+        light2-> setShader(lightShader);
+        light2->loadObjFromFile("res/cube.obj");
+        light2-> transform-> setScale(0.1);
+        light2-> transform->setPosition({-10, -5, 6});
+        engine->renderer->addObject(*light2);
+        engine-> renderer-> addLight(*light2);
+
+
+        engine->camera->transform->setPosition({0, 1, -4});
+        engine->camera->transform->setPitch(glm::radians(-15.0f));
         engine->camera->setSpeed(5.0f);
 
         engine-> window-> mouse-> setLockedPosition(double(engine-> window-> getWidth()) / 2, double(engine-> window-> getHeight()) / 2);
         engine-> window-> mouse-> setLockStatus(true);
         engine-> window-> mouse-> setCursorType(GLFW_CURSOR_HIDDEN);
-
-        engine-> renderer-> setAmbientStrength(0.1f);
 
         Log->info("OGL3DG Init function ended");
     }
@@ -78,9 +95,9 @@ public:
         if(engine-> window-> isActive() && State == GAME_ACTIVE) {
 
             if(engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_P))
-                engine-> camera-> type = Camera::Perspective;
+                engine->renderer->getObjectPtr("terrain")->transform->setPosition({0, 0, -3});
             else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_O))
-                engine-> camera-> type = Camera::Orthographic;
+                engine->renderer->getObjectPtr("terrain")->transform->setPosition({0, 0, 0});
 
             if(engine->window->keyboard-> getKeyStatus(GLFW_KEY_0) == BTN_PRESS){
                 engine-> renderer-> removeObject(*light);
@@ -90,22 +107,22 @@ public:
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_SPACE)){
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_W))
-                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {1, 0, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {1, 0, 0} * dt * 100.0f);
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_S))
-                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {-1, 0, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {-1, 0, 0} * dt * 100.0f);
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_A))
-                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 0, -1});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 0, -1} * dt * 100.0f);
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_D))
-                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 0, 1});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 0, 1} * dt * 100.0f);
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_LEFT_SHIFT))
-                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 1, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, 1, 0} * dt * 100.0f);
 
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_LEFT_CONTROL))
-                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, -1, 0});
+                    light-> transform-> setPosition(light-> transform-> getPosition() + glm::vec3 {0, -1, 0} * dt * 100.0f);
 
             } else {
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_W))
@@ -159,7 +176,6 @@ int main() {
 
 
 //    void Update(float dt) override {
-//
 //        light-> transform-> setPitch((light->transform->getPitch() * 0.1f + 1) * std::cos(dt));
 //        light-> transform-> setYaw((light->transform->getYaw() * 0.1f + 1) * std::sin(dt) );
 //        glm::vec3 pos = light-> transform-> getPosition();

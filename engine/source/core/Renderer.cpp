@@ -37,18 +37,18 @@ void Renderer::draw(Camera *camera) {
     glm::mat4 ViewProjectionMatrix = camera-> getProjViewMat();
     for (auto &object : objects) {
         object-> transform-> updateMat();
+        lights[0]->transform->updateMat();
         glm::mat4 ModelMatrix = object-> transform-> getModel();
         glm::mat4 ResultMatrix = ViewProjectionMatrix * ModelMatrix;
 
-        if(object-> material-> texture != nullptr)
-            object -> material-> texture-> bind();
-
+        if(object-> material-> DiffuseTexture != nullptr)
+            object -> material-> DiffuseTexture-> bind();
         if(object->shader != nullptr) {
             object->shader->bind();
-            object->shader->uniformSet("matModViewProj", ResultMatrix);
-            object->shader->uniformSet("matModel", ModelMatrix);
+            object->shader->uniformSet("ResultMatrix", ResultMatrix);
+            object->shader->uniformSet("ModelMatrix", ModelMatrix);
 
-            glm::vec3 lightPos = lights[0]-> transform-> getPosition();
+            glm::vec3 lightPos = lights[0]->transform->getPosition();  // lights[0]-> transform-> getPosition();
             object->shader->uniformSet("light.position", lightPos);
             object->shader->uniformSet("light.color", glm::vec3(lights[0]->material->color));
 
@@ -56,16 +56,14 @@ void Renderer::draw(Camera *camera) {
             object->shader->uniformSet("fragColor", object->material->color);
 
             for (auto &mesh : object->meshes) {
-                if(mesh-> surface != nullptr) {
-                    object->shader->uniformSet("material.Diffuse", mesh->surface->Diffuse);
-                    object->shader->uniformSet("material.Specular", mesh->surface->Specular);
-                    object->shader->uniformSet("material.alfa", mesh->surface->alfa);
-                    object->shader->uniformSet("material.shine", mesh->surface->shine);
-                    object->shader->uniformSet("material.illum", mesh->surface->illum);
-                }
+                object->shader->uniformSet("material.diffuse", mesh->surface->diffuse);
+                object->shader->uniformSet("material.specular", mesh->surface->specular);
+                object->shader->uniformSet("material.alfa", mesh->surface->alfa);
+                object->shader->uniformSet("material.shine", mesh->surface->shine);
+                object->shader->uniformSet("material.illum", mesh->surface->illumination);
                 mesh->draw();
             }
-            object->shader->bind();
+            Shader::unbind();
 
            // lights
 
@@ -78,13 +76,20 @@ void Renderer::draw(Camera *camera) {
 //            }
         }
 
-        if(object-> material-> texture != nullptr)
+        if(object-> material-> DiffuseTexture != nullptr)
             Texture::unbind();
     }
 }
 
 void Renderer::drawMode(int mode) {
     glPolygonMode(GL_FRONT_AND_BACK, mode);
+}
+
+Object *Renderer::getObjectPtr(const std::string& label) {
+    for (auto &object : objects)
+        if(object->label == label)
+            return object;
+    return new Object((std::string("undefined_")+label).c_str());
 }
 
 Renderer::~Renderer() = default;

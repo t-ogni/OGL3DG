@@ -16,19 +16,19 @@
 class Renderer;
 
 struct SurfaceStruct {
-    glm::vec3 Ambient = glm::vec3(0.2f);  // background color
-    glm::vec3 Diffuse = glm::vec3(0.8f);  // light object
-    glm::vec3 Specular = glm::vec3(1.0f); // reflection
+    glm::vec3 ambient = glm::vec3(0.2f);  // background color
+    glm::vec3 diffuse = glm::vec3(0.8f);  // light object
+    glm::vec3 specular = glm::vec3(1.0f); // reflection
     float alfa = 1.0f;
-    float shine = 1.0f;
-    int illum = 1;
+    float shine = 128.0f;
+    int illumination = 1;
 };
 
 class Material {
     friend Renderer;
 private:
     glm::vec4 color {1.0f};
-    Texture *texture = nullptr;
+    Texture *DiffuseTexture = nullptr;
     std::map <std::string, SurfaceStruct *> surfaces;
 
 public:

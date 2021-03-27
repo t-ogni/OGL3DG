@@ -29,7 +29,7 @@ uniform Material material;
 
 void main()
 {
-    vec4 texture = texture(TextureSample, fragTextureCoord) * fragColor;
+    vec4 texture = texture(TextureSample, fragTextureCoord);
 
     vec3 lightDir = normalize(light.position - fragPos);
     vec3 viewDir = normalize(viewPos - fragPos);
@@ -38,7 +38,7 @@ void main()
     vec4 ambient = texture * 0.3f;
 
     float diffuseAngle = max(dot(fragNormal, lightDir), 0.0);
-    vec4 diffuse = diffuseAngle * texture ;
+    vec4 diffuse = diffuseAngle * texture;
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shine);
     vec4 specular = vec4(material.specular * spec, 1.0f);

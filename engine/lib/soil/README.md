@@ -20,8 +20,8 @@ Writeable Image Formats:
   *   TGA - Greyscale or RGB or RGBA, uncompressed 
   *   BMP - RGB, uncompressed 
   *   DDS - RGB as DXT1, or RGBA as DXT5
-  *   Can load an image file directly into a 2D OpenGL texture, optionally performing the following functions: 
-  *   Can generate a new texture handle, or reuse one specified 
+  *   Can load an image file directly into a 2D OpenGL DiffuseTexture, optionally performing the following functions: 
+  *   Can generate a new DiffuseTexture handle, or reuse one specified 
   *   Can automatically rescale the image to the next largest power-of-two size 
   *   Can automatically create MIPmaps 
   *   Can scale (not simply clamp) the RGB values into the "safe range" for NTSC displays (16 to 235, as recommended [here][1]) 
@@ -29,13 +29,13 @@ Writeable Image Formats:
   *   Can flip the image vertically 
   *   Can compress and upload any image as DXT1 or DXT5 (if EXT\_texture\_compression_s3tc is available), using an internal (very fast!) compressor 
   *   Can convert the RGB to YCoCg color space (useful with DXT5 compression: see [this link][2] from NVIDIA) 
-  *   Will automatically downsize a texture if it is larger than GL\_MAX\_TEXTURE_SIZE 
+  *   Will automatically downsize a DiffuseTexture if it is larger than GL\_MAX\_TEXTURE_SIZE 
   *   Can directly upload DDS files (DXT1/3/5/uncompressed/cubemap, with or without MIPmaps). Note: directly uploading the compressed DDS image will disable the other options (no flipping, no pre-multiplying alpha, no rescaling, no creation of MIPmaps, no auto-downsizing) 
   *   Can load rectangluar textures for GUI elements or splash screens (requires GL\_ARB/EXT/NV\_texture_rectangle) 
-  *   Can decompress images from RAM (e.g. via [PhysicsFS][3] or similar) into an OpenGL texture (same features as regular 2D textures, above) 
-  *   Can load light maps directly into an OpenGL texture (same features as regular 2D textures, above) 
-  *   Can take six image files directly into an OpenGL light map texture 
-  *   Can take a single image file where width = 6*height (or vice versa), split it into an OpenGL light map texture 
+  *   Can decompress images from RAM (e.g. via [PhysicsFS][3] or similar) into an OpenGL DiffuseTexture (same features as regular 2D textures, above) 
+  *   Can load light maps directly into an OpenGL DiffuseTexture (same features as regular 2D textures, above) 
+  *   Can take six image files directly into an OpenGL light map DiffuseTexture 
+  *   Can take a single image file where width = 6*height (or vice versa), split it into an OpenGL light map DiffuseTexture 
   *   No external dependencies 
   *   Tiny 
   *   Cross platform (Windows, *nix, Mac OS X) 

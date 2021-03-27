@@ -26,3 +26,4 @@ file(COPY ${PROJECT_SOURCE_DIR}/res DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 add_subdirectory(engine)
 add_executable(${PROJ_EXE_NAME} OGL3DG/main.cpp)
 target_link_libraries(${PROJ_EXE_NAME} PhonEngine)
+

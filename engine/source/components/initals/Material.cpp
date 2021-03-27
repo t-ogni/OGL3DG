@@ -12,7 +12,7 @@ Material::Material(glm::vec4 color1) :
 }
 
 Material::Material(Texture *texture1, glm::vec4 color1) :
-        texture(texture1),
+        DiffuseTexture(texture1),
         color(color1) {
 
 }
@@ -37,15 +37,15 @@ void Material::loadMtl(const char *path) {
         } else if (oper == "Ka") {
             glm::vec3 Ka;
             lineStream >> Ka.x >> Ka.y >> Ka.z;
-            surfaces[currentMtl]->Ambient = Ka;
+            surfaces[currentMtl]->ambient = Ka;
         } else if (oper == "Kd") {
             glm::vec3 Kd;
             lineStream >> Kd.x >> Kd.y >> Kd.z;
-            surfaces[currentMtl]->Diffuse = Kd;
+            surfaces[currentMtl]->diffuse = Kd;
         } else if (oper == "Ks") {
             glm::vec3 Ks;
             lineStream >> Ks.x >> Ks.y >> Ks.z;
-            surfaces[currentMtl]->Specular = Ks;
+            surfaces[currentMtl]->specular = Ks;
         } else if (oper == "d") {
             float d;
             lineStream >> d;
@@ -57,7 +57,7 @@ void Material::loadMtl(const char *path) {
         } else if (oper == "illum") {
             int n;
             lineStream >> n;
-            surfaces[currentMtl]->illum = n;
+            surfaces[currentMtl]->illumination = n;
         }
 
     }

@@ -28,6 +28,7 @@ public:
     void removeObject(Object &object); // todo delete objects from scene
     void addLight(Object &object);
     void removeLight(Object &object);
+    Object * getObjectPtr(const std::string& label);
     void draw(Camera *camera);
     static void drawMode(int mode);
     ~Renderer();

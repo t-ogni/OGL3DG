@@ -1,10 +1,7 @@
 # OGL3DG
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b58f6c8d3cd744bb9de3e4706068996f)](https://app.codacy.com/gh/Dark-Shield-Team/OGL3DG?utm_source=github.com&utm_medium=referral&utm_content=Dark-Shield-Team/OGL3DG&utm_campaign=Badge_Grade)
-
-3d game that uses OpenGL. project started in september.
-
-![example](doc/test.04.01.png)
+_3d game that uses OpenGL. example:_
+![example](doc/test.21.03.png)
 
 ---
 
@@ -14,6 +11,7 @@ The following dependencies are used:
 2.  [`GLFW`](https://github.com/glfw/glfw) - For creating the window and handling OS-specific operations
 3.  [`GLAD`](https://github.com/Dav1dde/glad) - The OpenGL Loader-Generator based on the official specs.
 4.  [`GLM`](https://github.com/Groovounet/glm) - Math Extensions for transformations
+5.  `SOIL` - Image loader for textures 
 
 ---
 
