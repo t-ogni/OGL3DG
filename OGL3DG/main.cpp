@@ -3,14 +3,15 @@
 #include "core/Console.h"
 #include "core/Game.h"
 #include "core/Engine.h"
-#include "shaders/standardShader.h"
+#include "shaders/Shader.h"
+#include "components/light/PointLight.h"
 #include "core/Time.h"
 
 // ! directory tree must be refactored ! //
 
 class Striker : public Game {
 private:
-    Object *light;
+    BaseLight *light;
 
 public:
     Striker() : Game(), light() {
@@ -60,7 +61,7 @@ public:
         cube1->loadObjFromFile("res/cube.obj");
         engine->renderer->addObject(*cube1);
 
-        light = new Object("light1");
+        light = new PointLight("light1");
         light-> setMaterial(m_uvm);
         light-> setShader(lightShader);
         light->loadObjFromFile("res/cube.obj");
@@ -70,14 +71,15 @@ public:
         engine-> renderer-> addLight(*light);
 
 
-        auto light2 = new Object("light2");
+        auto light2 = new PointLight("light2");
         light2-> setMaterial(m_uvm);
         light2-> setShader(lightShader);
         light2->loadObjFromFile("res/cube.obj");
         light2-> transform-> setScale(0.1);
         light2-> transform->setPosition({-10, -5, 6});
         engine->renderer->addObject(*light2);
-        engine-> renderer-> addLight(*light2);
+        Log-> warning("1st: %b", engine-> renderer-> addLight(*light2));
+        Log-> warning("2ndt: %b", engine-> renderer-> addLight(*light2)); // fixme: unique test failed
 
 
         engine->camera->transform->setPosition({0, 1, -4});
@@ -161,6 +163,9 @@ public:
                 State = GAME_ACTIVE;
             }
         }
+    }
+    void Update(float dt) override {
+        engine-> renderer-> getObjectPtr("cube")-> transform-> setEulerAngles(engine->camera->transform->getEulerAngles());
     }
 };
 

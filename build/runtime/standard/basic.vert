@@ -13,7 +13,7 @@ out vec3 fragPos;
 void main()
 {
     gl_Position = ResultMatrix * vec4(VertexPosition, 1.0f);
-    fragPos = vec3(ModelMatrix * vec4(VertexPosition, 1.0f));
+    fragPos = vec3(ModelMatrix * vec4(VertexPosition, 1.0f)); // FUCK this matrices I lost 3 days to find a bug >:(
     fragNormal = normal * mat3(transpose(inverse(ModelMatrix)));
     fragTextureCoord = vec2(texCoord.x, 1.0f - texCoord.y);
 }

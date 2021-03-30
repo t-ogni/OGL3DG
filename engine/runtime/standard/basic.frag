@@ -23,26 +23,30 @@ struct Material {
 uniform sampler2D TextureSample;
 uniform vec3 viewPos;
 uniform vec4 fragColor;
-uniform Light light;  //s[LIGHTS_MAX];
+uniform int lightsAmount;
+uniform Light lights[LIGHTS_MAX];
 uniform Material material;
 
 void main()
 {
     vec4 texture = texture(TextureSample, fragTextureCoord);
+    color = vec4(0.0f);
 
-    vec3 lightDir = normalize(light.position - fragPos);
-    vec3 viewDir = normalize(viewPos - fragPos);
-    vec3 reflectDir = reflect(-lightDir, fragNormal);
+    for(int i = 0; i < lightsAmount; i++){
+        vec3 lightDir = normalize(lights[i].position - fragPos);
+        vec3 viewDir = normalize(viewPos - fragPos);
+        vec3 reflectDir = reflect(-lightDir, fragNormal);
 
-    vec4 ambient = texture * 0.3f;
+        vec4 ambient = texture * 0.3f;
 
-    float diffuseAngle = max(dot(fragNormal, lightDir), 0.0);
-    vec4 diffuse = diffuseAngle * texture;
+        float diffuseAngle = max(dot(fragNormal, lightDir), 0.0);
+        vec4 diffuse = diffuseAngle * texture;
 
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shine);
-    vec4 specular = vec4(material.specular * spec, 1.0f);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shine);
+        vec4 specular = vec4(material.specular * spec, 1.0f);
 
-    color = (ambient + diffuse + specular) * vec4(light.color, 1.0f);
+        color += ((ambient + diffuse + specular) * vec4(lights[i].color, 1.0f));
+    }
 }
 
 

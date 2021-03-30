@@ -8,29 +8,30 @@
 
 Renderer::Renderer() = default;
 
-
-float Renderer::getAmbientStrength() const {
-    return ambientStrength;
+bool Renderer::addObject(Object &object) {
+    if(std::find(objects.begin(), objects.end(), &object) == objects.end())
+        objects.push_back(&object);
+    else
+        return false;
+    return true;
 }
 
-void Renderer::setAmbientStrength(float ambientStrength1) {
-    ambientStrength = ambientStrength1;
-}
-
-void Renderer::addObject(Object &object) { // todo unique checker (lights too)
-    objects.push_back(&object);
-}
-
-void Renderer::removeObject(Object &object) {
+bool Renderer::removeObject(Object &object) {
     std::erase(objects, &object);  // since c++20 !!!
+    return true;
 }
 
-void Renderer::addLight(Object &light){
-    lights.push_back(&light);
+bool Renderer::addLight(BaseLight &object){
+    lights.push_back(&object);
+    return true;
 }
 
-void Renderer::removeLight(Object &object) {
-    std::erase(lights, &object);  // since c++20 !!!
+bool Renderer::removeLight(BaseLight &object) {
+    if(std::find(objects.begin(), objects.end(), &object) == objects.end())
+        std::erase(lights, &object);  // since c++20 !!!
+    else
+        return false;
+    return true;
 }
 
 void Renderer::draw(Camera *camera) {
@@ -63,17 +64,21 @@ void Renderer::draw(Camera *camera) {
                 object->shader->uniformSet("material.illum", mesh->surface->illumination);
                 mesh->draw();
             }
-            Shader::unbind();
 
            // lights
+           object->shader->uniformSet("lightsAmount", int(lights.size()));
+            for(int lightIndex = 0; lightIndex < lights.size(); lightIndex++){
+                auto pos = lights[lightIndex]->transform->getPosition();
+                auto direction = lights[lightIndex]->transform->getDirection();
+                auto color = lights[lightIndex]->material->color;
+                std::string uniformName = "lights[";
+                uniformName += std::to_string(lightIndex);
+                uniformName += "]";
+                object->shader->uniformSet((uniformName + ".position").c_str(), pos);
+                object->shader->uniformSet((uniformName + ".color").c_str(), glm::vec3(color));
+            }
 
-//            for(int lightIndex = 0; lightIndex < lights.size(); lightIndex++){
-//                std::string Name = "lights[";
-//                Name += std::to_string(lightIndex);
-//                Name += "]";
-//                object->shader->uniformSet(Name, lights[lightIndex]->);
-//
-//            }
+            Shader::unbind();
         }
 
         if(object-> material-> DiffuseTexture != nullptr)

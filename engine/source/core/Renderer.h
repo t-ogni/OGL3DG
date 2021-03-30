@@ -9,26 +9,25 @@
 
 #include <vector>
 #include "components/object/Object.h"
+#include "components/light/BaseLight.h"
 #include "components/camera/Camera.h"
 #include "core/Window.h"
 
 class Renderer {
 private:
     std::vector <Object *> objects;
-    std::vector <Object *> lights;
-    float ambientStrength = 0.1f;
+    std::vector <BaseLight *> lights;
     Material *defaultMaterial = nullptr;
 
 public:
-    float getAmbientStrength() const;
-    void setAmbientStrength(float ambientStrength);
-
     Renderer();
-    void addObject(Object &object);
-    void removeObject(Object &object); // todo delete objects from scene
-    void addLight(Object &object);
-    void removeLight(Object &object);
+    bool addObject(Object &object);
+    bool removeObject(Object &object); // todo delete objects from scene
+    bool addLight(BaseLight &object);
+    bool removeLight(BaseLight &object);
+
     Object * getObjectPtr(const std::string& label);
+
     void draw(Camera *camera);
     static void drawMode(int mode);
     ~Renderer();
