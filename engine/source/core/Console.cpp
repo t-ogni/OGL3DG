@@ -42,7 +42,7 @@ void Logger::warning(const char *text, ...) const {
 
     if(showTime)
         std::cout << getTime();
-    std::cout << "Warning: " << coutOut << '\a' << std::endl;
+    std::cout << "Warning: " << coutOut << " \a" << std::endl;
 }
 
 void Logger::info(const char *text, ...) const {
@@ -106,6 +106,10 @@ std::string generateOut(const char *text, va_list ptr){
                     coutOut << va_arg(ptr, char *);
                     break;
                 }
+                case 'b': {
+                    coutOut  << std::oct << (va_arg(ptr, int) ? "true" : "false") << std::dec;
+                    break;
+                }
                 case 'x': {
                     coutOut << "0x" << std::hex << va_arg(ptr, int) << std::dec;
                     break;
@@ -129,7 +133,7 @@ std::string generateOut(const char *text, va_list ptr){
         }
     }
     if(ErrTip)
-        coutOut << "\n unknown console output type ([%i, %fd, %c, %s, %xo, %%] only)";
+        coutOut << "\n unknown console output type ([%i, %fd, %c, %s, %b, %xo, %%] only)";
 
     return coutOut.str();
 
