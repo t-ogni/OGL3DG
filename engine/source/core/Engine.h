@@ -22,8 +22,8 @@ public:
     Renderer *renderer = new Renderer();
     Camera *camera = new Camera();
 
-    explicit Engine(Game *windowParam,
-                    Window *pwindow = new Window);
+    explicit Engine(Game *gamePtr,
+                    Window *windowPtr = new Window("untitled"));
 
     auto run() -> int;
 };

@@ -48,11 +48,12 @@ public:
         map-> setMaterial(m_uvm);
         engine->renderer->addObject(*map);
 
-        auto cube = new Object("cube");
+        auto cube = new Object("camera");
         cube-> setShader(basicShader);
-        cube->setMaterial(m_wood);
-        cube->loadObjFromFile("res/cube.obj");
-        cube-> transform-> setPosition({1.0f, 1.0f, 0.0f});
+        cube->setMaterial(m_uvm);
+        cube->loadObjFromFile("res/filmCamera.obj");
+        cube-> transform-> setScale(0.1f);
+        cube-> transform-> setPosition({0.0f, -1.0f, 10.0f});
         engine->renderer->addObject(*cube);
 
         auto cube1 = new Object("cube1");
@@ -145,10 +146,15 @@ public:
                 if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_LEFT_CONTROL))
                     engine->camera->down(dt);
             }
+            if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q)){
+                engine->camera->transform->setRoll(glm::radians(-30.f));
+            } else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_E)) {
+                engine->camera->transform->setRoll(glm::radians(30.f));
+            }
 
-            if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q) == BTN_PRESS)
+            if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_GRAVE_ACCENT) == BTN_PRESS) // Tilda ~
                 Renderer::drawMode(GL_LINE);
-            else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_Q) == BTN_RELEASE)
+            else if (engine-> window-> keyboard-> getKeyStatus(GLFW_KEY_GRAVE_ACCENT) == BTN_RELEASE)
                 Renderer::drawMode(GL_FILL);
 
             if(engine-> window-> mouse-> isMoved()) {
@@ -165,7 +171,7 @@ public:
         }
     }
     void Update(float dt) override {
-        engine-> renderer-> getObjectPtr("cube")-> transform-> setEulerAngles(engine->camera->transform->getEulerAngles());
+        engine-> renderer-> getObjectPtr("camera")-> transform-> setEulerAngles(engine->camera->transform->getEulerAngles());
     }
 };
 

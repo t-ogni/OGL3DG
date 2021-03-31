@@ -27,3 +27,7 @@ add_subdirectory(engine)
 add_executable(${PROJ_EXE_NAME} OGL3DG/main.cpp)
 target_link_libraries(${PROJ_EXE_NAME} PhonEngine)
 
+
+add_executable(unitsTest Unit_test.cpp)
+target_link_libraries(unitsTest PhonEngine)
+

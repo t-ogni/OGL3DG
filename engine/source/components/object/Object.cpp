@@ -39,7 +39,7 @@ void Object::loadObjFromFile(const char *path) {
         Log->info("Object file in %s was loaded successfully", path);
 
     std::string fileLine;
-    while (objFile) {
+    while (!objFile.eof()) {
         getline(objFile, fileLine);
         std::istringstream lineStream(fileLine);
         std::string oper;
@@ -63,8 +63,15 @@ void Object::loadObjFromFile(const char *path) {
             normals.push_back(normal);
 
         } else if (oper == "f") {
-            std::string points[3];
+            std::vector<std::string> points(3);
             lineStream >> points[0] >> points[1] >> points[2];
+
+            std::string rectPoint; //// todo remake this
+            if(lineStream >> rectPoint){
+                points.push_back(points[0]);
+                points.push_back(points[2]);
+                points.push_back(rectPoint);
+            }
 
             for (auto &point : points) {
                 std::stringstream pStream(point);
@@ -77,13 +84,15 @@ void Object::loadObjFromFile(const char *path) {
                 vertex.textureCoord = (vt.empty()) ? glm::vec2(0.f) : texCoords[stoi(vt) - 1];
                 vertex.normal = (vn.empty()) ? glm::vec3(0.f) : normals[stoi(vn) - 1];
                 vertices.push_back(vertex);
-            } //todo: split by meshes
+            }
+
         } else if (oper == "s") {
             auto tmpMesh = new Mesh(vertices, currentSurface);
             tmpMesh->setMaterial(currentSurface);
             meshes.push_back(tmpMesh);
             vertices.clear();
         } else if (oper == "usemtl") {
+            if(material == nullptr) continue;
             std::string title;
             lineStream >> title;
 

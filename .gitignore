@@ -49,3 +49,4 @@ Makefile
 #Staic files
 */Trumps.db
 .idea/
+/cmake-build*/
