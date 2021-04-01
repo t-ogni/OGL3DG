@@ -21,18 +21,19 @@ bool Renderer::removeObject(Object &object) {
     return true;
 }
 
-bool Renderer::addLight(BaseLight &object){
-    lights.push_back(&object);
-    return true;
-}
-
-bool Renderer::removeLight(BaseLight &object) {
-    if(std::find(objects.begin(), objects.end(), &object) == objects.end())
-        std::erase(lights, &object);  // since c++20 !!!
+bool Renderer::addLight(BaseLight &object) {
+    if(std::find(lights.begin(), lights.end(), &object) == lights.end())
+        lights.push_back(&object);  // since c++20 !!!
     else
         return false;
     return true;
 }
+
+bool Renderer::removeLight(BaseLight &object) {
+    lights.push_back(&object);
+    return true;
+}
+
 
 void Renderer::draw(Camera *camera) {
     glm::mat4 ViewProjectionMatrix = camera-> getProjViewMat();
@@ -48,10 +49,6 @@ void Renderer::draw(Camera *camera) {
             object->shader->bind();
             object->shader->uniformSet("ResultMatrix", ResultMatrix);
             object->shader->uniformSet("ModelMatrix", ModelMatrix);
-
-            glm::vec3 lightPos = lights[0]->transform->getPosition();  // lights[0]-> transform-> getPosition();
-            object->shader->uniformSet("light.position", lightPos);
-            object->shader->uniformSet("light.color", glm::vec3(lights[0]->material->color));
 
             object->shader->uniformSet("viewPos", camera->transform->getPosition());
             object->shader->uniformSet("fragColor", object->material->color);

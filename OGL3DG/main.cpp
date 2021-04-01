@@ -48,13 +48,13 @@ public:
         map-> setMaterial(m_uvm);
         engine->renderer->addObject(*map);
 
-        auto cube = new Object("camera");
-        cube-> setShader(basicShader);
-        cube->setMaterial(m_uvm);
-        cube->loadObjFromFile("res/filmCamera.obj");
-        cube-> transform-> setScale(0.1f);
-        cube-> transform-> setPosition({0.0f, -1.0f, 10.0f});
-        engine->renderer->addObject(*cube);
+        auto camera = new Object("camera");
+        camera-> setShader(basicShader);
+        camera->setMaterial(m_uvm);
+        camera->loadObjFromFile("res/filmCamera.obj");
+        camera-> transform-> setScale(0.1f);
+        camera-> transform-> setPosition({0.0f, -1.0f, 10.0f});
+        engine->renderer->addObject(*camera);
 
         auto cube1 = new Object("cube1");
         cube1-> setShader(basicShader);
@@ -68,7 +68,7 @@ public:
         light->loadObjFromFile("res/cube.obj");
         light-> transform-> setScale(0.1);
         light-> transform->setPosition({0, 3, 4});
-        engine->renderer->addObject(*light);
+        engine-> renderer->addObject(*light);
         engine-> renderer-> addLight(*light);
 
 
@@ -80,7 +80,7 @@ public:
         light2-> transform->setPosition({-10, -5, 6});
         engine->renderer->addObject(*light2);
         Log-> warning("1st: %b", engine-> renderer-> addLight(*light2));
-        Log-> warning("2ndt: %b", engine-> renderer-> addLight(*light2)); // fixme: unique test failed
+        Log-> warning("2nd: %b", engine-> renderer-> addLight(*light2));
 
 
         engine->camera->transform->setPosition({0, 1, -4});
